@@ -3000,16 +3000,16 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "they fixed ddos whaaaaaaaat",
+        title: "LMB Champion",
         theme: {
           name: "LOUX",
           colors: {
             panelBackground: "rgb(0,0,0)",
             componentBackground: "rgb(3, 16, 34)",
-            componentForeground: "rgb(62, 125, 215)",
-            textPrimary: "rgb(0, 255, 255)",
-            textSecondary: "rgb(255,255,255)",
-            textHover: "rgb(43, 16, 159)",
+            componentForeground: "rgb(0, 255, 38)",
+            textPrimary: "rgb(0, 255, 38)",
+            textSecondary: "rgb(0, 255, 38)",
+            textHover: "rgb(255, 0, 0)",
           },
           font: { fontFamily: "Baloo Paaji", fontSize: "20px", fontWeight: "1" },
         },
@@ -3030,6 +3030,7 @@
       gui.Register({ type: "folder", label: "AutoSpike", open: false });
       gui.Register({ type: "folder", label: "AutoCraft&Recycle", open: false });
       gui.Register({ type: "folder", label: "Token", open: false });
+      gui.Register({ type: "folder", label: "PvP", open: false });
       gui.Register(
         [
           {
