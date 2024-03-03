@@ -90892,7 +90892,7 @@
         }
         if (Settings.AutoFollow.e) {
             let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
-            if (true) {
+            if (Enemy) {
                 let Coors = {
                     x: myPlayer.x - Enemy.x,
                     y: myPlayer.y - Enemy.y,
@@ -90902,8 +90902,8 @@
                 if (RangeBetweenMeAndEnemy >= Settings.AutoFollow.d) {
                     if (Coors.x > 0) velocity += 1;
                     if (Coors.x < 0) velocity += 2;
-                    if (Coors.y > 0) velocity += 4;
-                    if (Coors.y < 0) velocity += 8;
+                    if (Coors.y > 0) velocity += 8;
+                    if (Coors.y < 0) velocity += 4;
                 }
                 vw.uOQ_w(velocity);
             }
