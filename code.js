@@ -90996,7 +90996,7 @@
             var spikeid = CurrentSpike;
             break;
           }
-          if (spikeid || true) {
+          if (spikeid) {
             let playerX = document.getElementById("game_canvas").clientWidth / 2;
             let playerY = document.getElementById("game_canvas").clientHeight / 2;
             let angleMouse = Math.atan2(Settings.mouse.y - playerY, Settings.mouse.x - playerX);
