@@ -3019,7 +3019,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 1.5 Huy diet",
+        title: "LMB Champion 1.6 Huy diet",
         theme: {
           name: "LOUX",
           colors: {
@@ -4211,7 +4211,7 @@
       };
       script.src = "https://unpkg.com/guify@0.12.0/lib/guify.min.js";
       document.body.appendChild(script);
-      document.addEventListener("pointermove", (event) => {
+      document.getElementById("game_canvas").addEventListener("mousemove", (event) => {
         Settings.mouse.x = event.clientX;
         Settings.mouse.y = event.clientY;
       });
@@ -90996,11 +90996,10 @@
             var spikeid = CurrentSpike;
             break;
           }
-          if (spikeid) {
-            let playerX = document.getElementById("game_canvas").width / 2;
-            let playerY = document.getElementById("game_canvas").height / 2;
+          if (spikeid || true) {
+            let playerX = document.getElementById("game_canvas").clientWidth / 2;
+            let playerY = document.getElementById("game_canvas").clientHeight / 2;
             let angleMouse = Math.atan2(Settings.mouse.y - playerY, Settings.mouse.x - playerX);
-            
             let PInumb = 2 * Math.PI;
             let MYPLAYERANGLE = Math.floor(
               (((angleMouse + PInumb) % PInumb) * 255) / PInumb,
