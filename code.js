@@ -3018,7 +3018,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 1.0",
+        title: "LMB Champion 1.1",
         theme: {
           name: "LOUX",
           colors: {
@@ -4147,17 +4147,18 @@
                   Utils.controls.setKeyBind("AutoFollow");
                 },
             },
-            // {
-            //     type: "range",
-            //     label: "Distance Stop Follow",
-            //     min: 0,
-            //     max: 1e3,
-            //     step: 1,
-            //     object: Settings.AutoFollow.d,
-            //     onChange: (data) => {
-            //       Utils.saveSettings();
-            //     },
-            // },
+            {
+                type: "range",
+                label: "Distance Stop Follow",
+                min: 0,
+                max: 1e3,
+                step: 1,
+                object: Settings.AutoFollow,
+                property: "d",
+                onChange: (data) => {
+                  Utils.saveSettings();
+                },
+            },
             {
                 type: "display",
                 label: "AutoWall Key: ",
