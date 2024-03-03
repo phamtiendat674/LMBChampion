@@ -3019,7 +3019,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 1.3",
+        title: "LMB Champion 1.5 Huy diet",
         theme: {
           name: "LOUX",
           colors: {
