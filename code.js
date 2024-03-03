@@ -1995,7 +1995,7 @@
     "https://raw.githubusercontent.com/XmreLoux/images/main/blizzard.png";
   let AutoRespawnInterval;
   let Settings = {
-    AutoFollow: { e: false, k: "ShiftLeft", d: 0 },
+    AutoFollow: { e: false, k: "ShiftLeft" },
     AutoWall: { e: false, k: "KeyC" },
     Fly: { o: 0.5, e: false },
     Hitbox: false,
@@ -4145,18 +4145,6 @@
                 label: "Set AutoFollow Key",
                 action: (data) => {
                   Utils.controls.setKeyBind("AutoFollow");
-                },
-            },
-            {
-                type: "range",
-                label: "Distance Stop Follow",
-                min: 0,
-                max: 1e3,
-                step: 1,
-                object: Settings.AutoFollow,
-                property: "d",
-                onChange: (data) => {
-                  Utils.saveSettings();
                 },
             },
             {
@@ -90900,11 +90888,20 @@
                 };
                 let velocity = 0;
                 let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
-                if (RangeBetweenMeAndEnemy >= Settings.AutoFollow.d) {
+                if (RangeBetweenMeAndEnemy >= 100) {
+                  if (Math.abs(Coors.x) > 75) {
                     if (Coors.x > 0) velocity += 1;
                     if (Coors.x < 0) velocity += 2;
+                  }  
+                  if (Math.abs(Coors.y) > 75) {
                     if (Coors.y > 0) velocity += 8;
                     if (Coors.y < 0) velocity += 4;
+                  }
+                } else {
+                  if (Coors.x > 0) velocity += 1;
+                  if (Coors.x < 0) velocity += 2;
+                  if (Coors.y > 0) velocity += 8;
+                  if (Coors.y < 0) velocity += 4;
                 }
                 vw.uOQ_w(velocity);
             }
