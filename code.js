@@ -1995,6 +1995,7 @@
     "https://raw.githubusercontent.com/XmreLoux/images/main/blizzard.png";
   let AutoRespawnInterval;
   let Settings = {
+    mouse: { x: 0, y: 0 },
     AutoFollow: { e: false, k: "ShiftLeft" },
     AutoWall: { e: false, k: "KeyC" },
     Fly: { o: 0.5, e: false },
@@ -3018,7 +3019,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 1.1",
+        title: "LMB Champion 1.3",
         theme: {
           name: "LOUX",
           colors: {
@@ -4210,6 +4211,10 @@
       };
       script.src = "https://unpkg.com/guify@0.12.0/lib/guify.min.js";
       document.body.appendChild(script);
+      document.addEventListener("pointermove", (event) => {
+        Settings.mouse.x = event.clientX;
+        Settings.mouse.y = event.clientY;
+      });
       setTimeout(() => {
         let mainFlakes = document.getElementById("snowflakeContainer");
         if (mainFlakes) {
@@ -90992,9 +90997,13 @@
             break;
           }
           if (spikeid) {
+            let playerX = document.getElementById("game_canvas").width / 2;
+            let playerY = document.getElementById("game_canvas").height / 2;
+            let angleMouse = Math.atan2(Settings.mouse.y - playerY, Settings.mouse.x - playerX);
+            
             let PInumb = 2 * Math.PI;
             let MYPLAYERANGLE = Math.floor(
-              (((myPlayer.angle + PInumb) % PInumb) * 255) / PInumb,
+              (((angleMouse + PInumb) % PInumb) * 255) / PInumb,
             );
             if (Settings.AutoSpike.m) {
               for (let ang = 1; ang < 31; ang++) {
