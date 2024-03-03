@@ -1995,6 +1995,8 @@
     "https://raw.githubusercontent.com/XmreLoux/images/main/blizzard.png";
   let AutoRespawnInterval;
   let Settings = {
+    AutoFollow: { e: false, k: "ShiftLeft", d: 0 },
+    AutoWall: { e: false, k: "KeyC" },
     Fly: { o: 0.5, e: false },
     Hitbox: false,
     Debug: false,
@@ -2285,6 +2287,22 @@
           nearest = obj;
         }
       }
+    }
+    return nearest;
+  }
+  function EnemyNearest(myPlayer, PlayerList) {
+    let nearest = null;
+    let distSqrd = -1;
+    for (var i = 0, len = PlayerList.length, obj = null, d = null; i < len; ++i) {
+        obj = PlayerList[i];
+        if (obj.VOo === myPlayer.VOo) continue;
+        if (!obj.ally && myPlayer.OO$ === obj.OO$ && !obj.$$V) {
+            d = (myPlayer.x - obj.x) ** 2 + (myPlayer.y - obj.y) ** 2;
+            if (distSqrd === -1 || d < distSqrd) {
+                distSqrd = d;
+                nearest = obj;
+            }
+        }
     }
     return nearest;
   }
@@ -3000,7 +3018,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion",
+        title: "LMB Champion 1.0",
         theme: {
           name: "LOUX",
           colors: {
@@ -4113,6 +4131,48 @@
           },
         ],
         { folder: "Token" },
+      );
+      gui.Register(
+        [
+            {
+                type: "display",
+                label: "AutoFollow Key:",
+                object: Settings.AutoFollow,
+                property: "k",
+            },
+            {
+                type: "button",
+                label: "Set AutoFollow Key",
+                action: (data) => {
+                  Utils.controls.setKeyBind("AutoFollow");
+                },
+            },
+            // {
+            //     type: "range",
+            //     label: "Distance Stop Follow",
+            //     min: 0,
+            //     max: 1e3,
+            //     step: 1,
+            //     object: Settings.AutoFollow.d,
+            //     onChange: (data) => {
+            //       Utils.saveSettings();
+            //     },
+            // },
+            {
+                type: "display",
+                label: "AutoWall Key: ",
+                object: Settings.AutoWall,
+                property: "k",
+            },
+            {
+                type: "button",
+                label: "Set AutoWall Key",
+                action: (data) => {
+                    Utils.controls.setKeyBind("AutoWall");
+                },
+            },
+        ],
+        { folder: "PvP" },
       );
     },
     controls: null,
@@ -61293,6 +61353,8 @@
         if (a.code === Settings.AutoSteal.k) Settings.AutoSteal.e = false;
         if (a.code === Settings.AutoSpike.k) Settings.AutoSpike.e = false;
         if (a.code === Settings.SwordInChest.k) Settings.SwordInChest.e = false;
+        if (a.code === Settings.AutoFollow.k) Settings.AutoFollow.e = false;
+        if (a.code === Settings.AutoWall.k) Settings.AutoWall.e = false;
       }
       if (m.QO_.open && 27 === a.keyCode) m.QO_.vwo();
       else if (m.uWv.open && 27 === a.keyCode) m.uWv.vwo();
@@ -61323,6 +61385,8 @@
         if (a.code === Settings.AutoSteal.k) Settings.AutoSteal.e = true;
         if (a.code === Settings.AutoSpike.k) Settings.AutoSpike.e = true;
         if (a.code === Settings.SwordInChest.k) Settings.SwordInChest.e = true;
+        if (a.code === Settings.AutoFollow.k) Settings.AutoFollow.e = true;
+        if (a.code === Settings.AutoWall.k) Settings.AutoWall.e = true;
         if (a.code === Settings.DropSword.k) {
           let myPlayer = p.$Vu[m.vUU];
           if (myPlayer) {
@@ -90825,6 +90889,44 @@
               Math.max(0, Math.floor(myPlayer.r.y - 538)),
             ]),
           );
+        }
+        if (Settings.AutoFollow.e) {
+            let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
+            if (true) {
+                let Coors = {
+                    x: myPlayer.x - Enemy.x,
+                    y: myPlayer.y - Enemy.y,
+                };
+                let velocity = 0;
+                let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
+                if (RangeBetweenMeAndEnemy >= Settings.AutoFollow.d) {
+                    if (Coors.x > 0) velocity += 1;
+                    if (Coors.x < 0) velocity += 2;
+                    if (Coors.y > 0) velocity += 4;
+                    if (Coors.y < 0) velocity += 8;
+                }
+                vw.uOQ_w(velocity);
+            }
+        }
+        if (Settings.AutoWall.e) {
+            let spikeid = 156;
+            let PInumb = 2 * Math.PI;
+            let MYPLAYERANGLE = Math.floor(
+              (((myPlayer.angle + PInumb) % PInumb) * 255) / PInumb,
+            );
+            for (let ang = 1; ang < 31; ang++) {
+                vw.oOW.send(
+                  JSON.stringify([10, spikeid, (ang + MYPLAYERANGLE) % 255, 0]),
+                );
+                vw.oOW.send(
+                  JSON.stringify([
+                    10,
+                    spikeid,
+                    (MYPLAYERANGLE - ang + 255) % 255,
+                    0,
+                  ]),
+                );
+            }
         }
         if (Settings.AutoTame.e) {
           let isNearOne = false;
