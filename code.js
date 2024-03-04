@@ -91030,11 +91030,16 @@
                 }
                 vw.uOQ_w(velocity);
 
+                let anglePut;
+                if (!isPvP) {
+                  anglePut = myPlayer.angle;
+                } else {
+                  let anglePut = Math.atan2(dirEnemy.y, dirEnemy.x);
+                }
                 dirEnemy = {
                   x: Enemy.x - preEnemyCoors.x,
                   y: Enemy.y - preEnemyCoors.y
                 };
-                let anglePut = Math.atan2(dirEnemy.y, dirEnemy.x);
                 let PInumb = 2 * Math.PI;
                 let MYPLAYERANGLE = Math.floor(
                   (((anglePut + PInumb) % PInumb) * 255) / PInumb,
