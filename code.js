@@ -1994,6 +1994,28 @@
   BlizzardImage.src =
     "https://raw.githubusercontent.com/XmreLoux/images/main/blizzard.png";
   let AutoRespawnInterval;
+
+  window.client = {}
+  window.user = {}
+  window.world = {}
+  window.currentSkin = 0;
+  window.currentAccessory = 0;
+  window.currentBag = 0;
+  window.currentBook = 0;
+  
+  window.skins = ["Starver", "Angry", "Sad", "Happy 1", "What?", "Suspicious", "Scar", "In Trouble", "Cute", "Bored 1", "Happy 2", "Crazy", "Happy 3", "Very Cute", "Curious", "Bored 2", "Happy 4", "Scar 2", "Sick", "Somnambule", "Feel Bad", "Mmmh.", "Panic", "Hypnotic", "Stars in the eyes", "Scared at night", "Vampire", "Zombie", "Devaster", "Dead Devaster", "Cactus", "Bee", "Camo Skin", "Blue Limax Skin", "Red Limax Skin", "Mr. Pumpkin", "Wood", "Zebra", "Tiger", "Day or Night", "Square Starver", "Voodoo Doll", "Frankenstein", "Old Mummy", "Werewolf", "Old Cthulhu", "Sea Man", "Old Pumpkin", "Old Snowman", "Old Christmas Tree Man", "Old Mrs Bell", "Old Elfy", "Old Mr Present", "My Dear Old Deer", "Mr Angel", "Mr Ice Cube", "Mr Snowman", "Crystal Sky Skin", "Radioactive Starver", "Eaten Cookie", "Blob Thing", "Machine Mask", "Lollipop 1", "Lollipop 2", "Lollipop 3", "Lollipop 4", "Yellow Bird", "Red Bird", "Blue Bird", "Owl", "Nemo", "Mr. Bread", "Mr. Bread 2", "Mr. Bread 3", "Red Berry", "Old Berry", "Cake", "Christmas Cake", "Mr. Pancake", "Mr. Taco", "Mr. Bottle", "Mr. Bottle 2", "Pink Rabbit", "Marshmallow", "Fox", "Raccoon", "Cloud", "Moon", "Mr. Panda", "Mr. Strawberry", "Mummy", "Dino", "Mr. Koala", "Bottle Protection", "Leaf Man", "Bubble", "Potato", "Axolotl", "Test Dummy", "Star-ver", "Starver Chest", "Starver Workbench", "Fish", "Crab", "Piranha", "Winter Fox", "Baby Foxy", "Winter Bear", "Hawk", "Nice Little Yuki", "Baby Yuki", "Mr. Carrot", "Bat Limax", "Mr. Crate", "Mr. Spider", "Mr. Spider 2", "Mr. Blue Starfish", "Mr. Orange Starfish", "Mr. Pink Starfish", "Mr. ShellMauve", "Mr. Shell Bead", "Angry Crab", "Penguin", "Mr. Boar", "I saw you", "It was funny", "You can scream", "Mr. Book", "Mr. Mammoth", "Mr. Mammoth 2", "Nightmare", "Shiny Crystal", "Water skin", "Will-O'-The-Wisp", "Flame", "Be a Tree", "Toxic Mutant", "Mr. Tomato", "Mr. Mauve, the Lapa", "Golden Fish", "LapaMauve", "LapaMauve ", "Mr. Burger", "Tropical Starver", "Mr. ShellPink", "Mr. OranShell", "Pepe", "Mr. Ant", "Mr. Watermelon", "Mr. Thornbush", "Cthulhu", "Mr. Cactus", "Momo", "Mr. Garlic", "Robot Dragon", "Lava Dragon Version 1", "Lava Dragon Version 2", "Lava Dragon Version 3", "Ice Dragon Version 1", "Ice Dragon Version 2", "Ice Dragon Version 3", "Baby Dragon Version 1", "Baby Dragon Version 2", "Baby Lava", "Kraken", "Sandworm", "Mr. Golden Bread", "Starver Ores", "Poo", "Volcano Starver", "Lava Starver", "Robot", "Blue Butterfly", "Yrifox", "Blob Skin"]
+  window.accessories = ["Nothing", "Pink Cheeks", "Heart", "Bandage 1", "Flower 1", "Bow 1", "Bandage 2", "Flower 2", "Bandage 3", "Foliage", "Peaceful", "Sparkles", "Luxury", "Snow Flakes Crown", "Glasses 1", "Bow 2", "Little Stars", "Pirate Eye Patch 1", "Pirate Eye Patch 2", "Clown nose", "Eye Patch", "Flower 3", "False Nose", "Red Cloth", "Blue Cloth", "Transparent Mask", "Starve.io Anime", "Hero Mask", "Star Glasses", "Great-aunt's Glasses", "Little Starver", "Little Glasses", "Flower Chain", "Horns", "Golden Flower", "Sleeping Mask", "Fish on your head", "Rose", "Grey Scarf", "Black Scarf", "Skull Mask", "Fancy Glasses", "Medecin Mask", "Mr. Mayor", "Sunglasses 2", "Starfish", "Berry", "Flake", "Leaf ", "A sword in your head", "Winter Scarf", "Winter Scarf 2", "Winter Scarf 3", "Mask with animal tracks", "Spring Mask", "Pink Mask", "Blue Mask", "Military Mask", "Orange Mask", "White and Red Points Mask", "Stick out your tongue Mask", "Two Teeth Mask", "Make-up Mask", "Sad Mask", "Happy Mask", "Blood", "Clown Face", "Sunglasses 3", "Engineer's Glasses", "Engineer's Monocle", "Mauve's butt", "Lapa Head", "Lapa Head ", "Mask and Glasses", "Jason", "Devil Horns", "Big Boss", "Baby Kraken", "Deer Antlers", "Baby Dragon on your head", "Gaz Mask and Glasses", "Pink Gaz Mask and Glasses", "Engineer Glasses", "More than Level 5", "More than Level 10", "More than Level 15", "More than Level 20", "More than Level 25", "More than Level 30", "More than Level 35", "More than Level 40", "More than Level 45", "More than Level 50", "More than Level 55", "More than Level 60"]
+  window.books = ["Book 1", "Book 2", "Book 3", "Book 4", "Damaged Book 1", "Damaged Book 2", "Scroll", "Clipboard", "Seed Book", "Camo Book", "Stone Tablet", "Star Book", "Gold Book", "Old Mysterious Paper", "Gold Engraving", "Ant Book", "Mummy Book", "Garlic Book", "Pumpkin Book", "Christmas Tree Book", "Diamond Book", "Obscure Book", "Rolled Parchment", "Cake Book", "Christmas Cake Book", "Fish Book", "Once upon a time", "Amethyst Book", "Paint Pallet", "Watermelon Book", "Thornbush Book", "Menu", "Lover Letter", "Fresh-Baked Cookies", "Inside, there is just a book.", "Winter Book", "Autumn Book", "Reidite Book", "Lava Book", "Lava Book 2", "Ocean Mystery", "Dragon Book", "Engineer Book", "Nightmare Book", "Mystery Book"]
+  window.bags = ["Bag 1", "Old Bag", "Bag 2", "Bag 3", "Bag 4", "Bag 5", "Wood Pickaxe Bag", "Wood Carrier", "Bag 6", "Bag with Wooden Swords", "Big Bag", "Bag 6", "Easter Bag", "Star Bag", "Winter Bag", "Stone Carrier", "Stone Pickaxe Bag", "Bag Camouflage", "Bag with Stone Swords", "Cow Bag", "Starver Bag", "Crystal Sky Bag", "Honey Pot", "Gold Carrier", "Gold Pickaxe Bag", "Mr and Mrs Bakers", "Bag with Golden Swords", "Explorer Bag", "Bamboo Bag", "Mummy Bag", "Watermelon Bag", "Garlic Bag", "Pumpkin Bag", "Oil Barel bag", "Tree Bag", "a Rabbit in my Bag", "Bird's nest", "a Fish on your Back", "a Squirrel in my Bag", "Diamond Carrier", "Resources Bag", "Diamond Pickaxe Bag", "Bag with Diamond Swords", "My Cake Bag", "My Christmas Cake Bag", "Fish Bag", "Cloud Bag", "Bee Bag", "Natural Bag", "Amethyst Carrier", "Amethyst Pickaxe Bag", "Your Baby", "Tropical Bag", "Bag with Amethyst Swords", "Ice Bag", "Thornbush Bag", "Autumn Bag", "Dino Egg Bag", "Magic Cloud Bag", "Chest Bag", "Reidite Carrier", "Lava Bag", "Lava Bag 2", "Dragon Bag", "Winter Ice Bag", "Reidite Pickaxe Bag", "Octopus Bowl", "Cave Bag", "Bag with Reidite Swords", "Engineer Bag"]
+  
+  document.getElementById("sure_delete").style.opacity = 0.6;
+  document.getElementById("cancel_sure_delete").style.opacity = 0.6;
+  document.getElementById("chronoquest").style.opacity = 0.6;
+  document.getElementById("option_in_game").style.opacity = 0.6;
+  document.getElementById("shop_market").style.opacity = 0.6;
+  document.getElementById("home_craft").style.opacity = 0.6;
+  document.querySelector(".grecaptcha-badge").style.display = "none";
+  
   let Settings = {
     mouse: { x: 0, y: 0 },
     AutoFollow: { e: false, k: "ShiftLeft" },
@@ -2290,6 +2312,32 @@
       }
     }
     return nearest;
+  }
+  function setSkin() {
+    if (user._u_ && world.U$[0][0]) {
+        world.U$[0].forEach(p => {
+            if (p.VOo == user.id) {
+                if (currentSkin) {
+                    p['wv']['ouo'] = currentSkin
+                    p['ouo'] = currentSkin
+                }
+                if (currentAccessory) {
+                    p['wv']['oUw'] = currentAccessory
+                    p['oUw'] = currentAccessory
+                }
+                if (currentBook) {
+                    p['wv']['WuW'] = currentBook
+                    p['WuW'] = currentBook
+                }
+                if (currentBag) {
+                    p['wv']['Wvu'] = currentBag
+                    p['Wvu'] = currentBag
+                }
+            }
+        }
+        )
+    }
+    requestAnimationFrame(setSkin)
   }
   function EnemyNearest(myPlayer, PlayerList) {
     let nearest = null;
@@ -3019,7 +3067,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 1.6 Huy diet",
+        title: "LMB Champion 1.7(add Skin) Huy diet",
         theme: {
           name: "LOUX",
           colors: {
@@ -3050,6 +3098,7 @@
       gui.Register({ type: "folder", label: "AutoCraft&Recycle", open: false });
       gui.Register({ type: "folder", label: "Token", open: false });
       gui.Register({ type: "folder", label: "PvP", open: false });
+      gui.Register({ type: "folder", label: "Skin", open: false });
       gui.Register(
         [
           {
@@ -4133,6 +4182,50 @@
         ],
         { folder: "Token" },
       );
+      gui.Register(
+        [
+          {
+            type: "select",
+            label: "Skin",
+            options: skins,
+            onChange: e => {
+              world.U$[0][0]['ouo'] = skins.indexOf(e);
+              world.U$[0][0]['wv']['ouo'] = skins.indexOf(e);
+              window.currentSkin = skins.indexOf(e);
+            }
+          },
+          {
+            type: "select",
+            label: "Accessory",
+            options: accessories,
+            onChange: e => {
+              world.U$[0][0]['oUw'] = accessories.indexOf(e);
+              world.U$[0][0]['wv']['oUw'] = accessories.indexOf(e);
+            }
+          },
+          {
+            type: "select",
+            label: "Book",
+            options: books,
+            onChange: e => {
+              world.U$[0][0]['WuW'] = books.indexOf(e);
+              world.U$[0][0]['wv']['WuW'] = books.indexOf(e);
+              window.currentBook = books.indexOf(e);
+            }
+          },
+          {
+            type: "select",
+            label: "Bag",
+            options: bags,
+            onChange: e => {
+              world.U$[0][0]['Wvu'] = bags.indexOf(e);
+              world.U$[0][0]['wv']['Wvu'] = bags.indexOf(e);
+              window.currentBag = bags.indexOf(e);
+            }
+          }
+        ],
+        { folder: "Skin" },
+      )
       gui.Register(
         [
             {
@@ -90743,7 +90836,9 @@
       E.wQV0u();
       Lb = new Nj(wa, l);
       p = new Aj();
+      window.world = p;
       m = new Cj();
+      window.user = m;
       qc.vwo(function () {
         qc.v_$.style.display = "none";
         E.ow0();
@@ -90893,7 +90988,7 @@
                 };
                 let velocity = 0;
                 let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
-                if (RangeBetweenMeAndEnemy >= 100) {
+                if (RangeBetweenMeAndEnemy >= 200) {
                   if (Math.abs(Coors.x) > 75) {
                     if (Coors.x > 0) velocity += 1;
                     if (Coors.x < 0) velocity += 2;
@@ -91428,4 +91523,4 @@
     }
   }
   Utils.LoadHack();
-  
+  setSkin();
