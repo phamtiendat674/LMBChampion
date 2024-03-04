@@ -2020,7 +2020,8 @@
   const helms=[60, 59, 44, 43, 61, 27, 26, 25, 58];
   let preEnemyCoors = { x: 0, y: 0 };
   let mouse = { x: 0, y: 0 };
-  
+  let isPvP = false;
+
   let Settings = {
     AutoPvP: { e: false, k: "NONE" },
     AutoFollow: { e: false, k: "ShiftLeft" },
@@ -3072,7 +3073,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 2.0(add AutoPvP) Ban Do Dap Thien",
+        title: "LMB Champion 2.1(add AutoPvP) Ban Do Dap Thien",
         theme: {
           name: "LOUX",
           colors: {
@@ -91000,9 +91001,9 @@
           );
         }
         if (Settings.AutoPvP.e) {
-          for (let i = swords.length - 1; i >= 0; --i)
+          if (!isPvP) for (let i = swords.length - 1; i >= 0; --i)
             vw.oOW.send(JSON.stringify([5, swords[i]]));
-          for (let i = helms.length - 1; i >= 0; --i)
+          if (!isPvP) for (let i = helms.length - 1; i >= 0; --i)
             vw.oOW.send(JSON.stringify([5, helms[i]]));
           let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
             if (Enemy) {
@@ -91097,7 +91098,8 @@
                 preEnemyCoors.x = Enemy.x;
                 preEnemyCoors.y = Enemy.y;
             }
-        }
+            if (isPvP === false) isPvP = true;
+        } else if (isPvP === true) isPvP = false;
         if (Settings.AutoFollow.e) {
             let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
             if (Enemy) {
