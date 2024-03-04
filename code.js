@@ -2015,9 +2015,14 @@
   document.getElementById("shop_market").style.opacity = 0.6;
   document.getElementById("home_craft").style.opacity = 0.6;
   document.querySelector(".grecaptcha-badge").style.display = "none";
+
+  const swords=[57,0,5,6,30,19,9,62,63];
+  const helms=[60, 59, 44, 43, 61, 27, 26, 25, 58];
+  let preEnemyCoors = { x: 0, y: 0 };
+  let mouse = { x: 0, y: 0 };
   
   let Settings = {
-    mouse: { x: 0, y: 0 },
+    AutoPvP: { e: false, k: "NONE" },
     AutoFollow: { e: false, k: "ShiftLeft" },
     AutoWall: { e: false, k: "KeyC" },
     Fly: { o: 0.5, e: false },
@@ -3067,7 +3072,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 1.7(add Skin) Huy diet",
+        title: "LMB Champion 2.0(add AutoPvP) Ban Do Dap Thien",
         theme: {
           name: "LOUX",
           colors: {
@@ -4229,6 +4234,19 @@
       gui.Register(
         [
             {
+              type: "display",
+              label: "AutoPvP",
+              object: Settings.AutoPvP,
+              property: "k",
+            },
+            {
+              type: "button",
+              label: "Set AutoPvP Key",
+              action: (data) => {
+                Utils.controls.setKeyBind("AutoPvP");
+              }
+            },
+            {
                 type: "display",
                 label: "AutoFollow Key:",
                 object: Settings.AutoFollow,
@@ -4305,8 +4323,8 @@
       script.src = "https://unpkg.com/guify@0.12.0/lib/guify.min.js";
       document.body.appendChild(script);
       document.getElementById("game_canvas").addEventListener("mousemove", (event) => {
-        Settings.mouse.x = event.clientX;
-        Settings.mouse.y = event.clientY;
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
       });
       setTimeout(() => {
         let mainFlakes = document.getElementById("snowflakeContainer");
@@ -61442,6 +61460,7 @@
         if (a.code === Settings.SwordInChest.k) Settings.SwordInChest.e = false;
         if (a.code === Settings.AutoFollow.k) Settings.AutoFollow.e = false;
         if (a.code === Settings.AutoWall.k) Settings.AutoWall.e = false;
+        if (a.code === Settings.AutoPvP.k) Settings.AutoPvP.e = false;
       }
       if (m.QO_.open && 27 === a.keyCode) m.QO_.vwo();
       else if (m.uWv.open && 27 === a.keyCode) m.uWv.vwo();
@@ -61474,6 +61493,7 @@
         if (a.code === Settings.SwordInChest.k) Settings.SwordInChest.e = true;
         if (a.code === Settings.AutoFollow.k) Settings.AutoFollow.e = true;
         if (a.code === Settings.AutoWall.k) Settings.AutoWall.e = true;
+        if (a.code === Settings.AutoPvP.k) Settings.AutoPvP.e = true;
         if (a.code === Settings.DropSword.k) {
           let myPlayer = p.$Vu[m.vUU];
           if (myPlayer) {
@@ -90979,6 +90999,108 @@
             ]),
           );
         }
+        if (Settings.AutoPvP.e) {
+          for (let i = swords.length - 1; i >= 0; --i)
+            vw.oOW.send(JSON.stringify([5, swords[i]]));
+          for (let i = helms.length - 1; i >= 0; --i)
+            vw.oOW.send(JSON.stringify([5, helms[i]]));
+          let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
+            if (Enemy) {
+                let Coors = {
+                    x: myPlayer.x - Enemy.x,
+                    y: myPlayer.y - Enemy.y,
+                };
+                let velocity = 0;
+                let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
+                if (RangeBetweenMeAndEnemy >= 200) {
+                  if (Math.abs(Coors.x) > 100) {
+                    if (Coors.x > 0) velocity += 1;
+                    if (Coors.x < 0) velocity += 2;
+                  }  
+                  if (Math.abs(Coors.y) > 100) {
+                    if (Coors.y > 0) velocity += 8;
+                    if (Coors.y < 0) velocity += 4;
+                  }
+                } else {
+                  if (Coors.x > 0) velocity += 1;
+                  if (Coors.x < 0) velocity += 2;
+                  if (Coors.y > 0) velocity += 8;
+                  if (Coors.y < 0) velocity += 4;
+                }
+                vw.uOQ_w(velocity);
+
+                dirEnemy = {
+                  x: Enemy.x - preEnemyCoors.x,
+                  y: Enemy.y - preEnemyCoors.y
+                };
+                let anglePut = Math.atan2(dirEnemy.y, dirEnemy.x);
+                let PInumb = 2 * Math.PI;
+                let MYPLAYERANGLE = Math.floor(
+                  (((anglePut + PInumb) % PInumb) * 255) / PInumb,
+                );
+                let spikeid = 156 //woodWall
+                for (let ang = 1; ang < 31; ang++) {
+                  vw.oOW.send(
+                    JSON.stringify([10, spikeid, (ang + MYPLAYERANGLE) % 255, 0]),
+                  );
+                  vw.oOW.send(
+                    JSON.stringify([
+                      10,
+                      spikeid,
+                      (MYPLAYERANGLE - ang + 255) % 255,
+                        0,
+                      ]),
+                  );
+                }
+                vw.oOW.send(JSON.stringify([10, spikeid, MYPLAYERANGLE, 0]));
+                
+                switch (HoldWeapon(myPlayer.right, true)) {
+                  case 1:
+                    var myRange = myPlayer.OO$ ? 196.8 : 157.6;
+                    break;
+                  case 2:
+                    var myRange = myPlayer.OO$ ? 291.8 : 227.6;
+                    break;
+                  case 3:
+                    var myRange = 620;
+                    break;
+                  case 4:
+                    var myRange = myPlayer.OO$ ? 140 : 125;
+                    break;
+                  case 5:
+                    if (myPlayer.QWO == e.wo$ || myPlayer.QWO == e.Qv$)
+                      var myRange = myPlayer.OO$ ? 120.8 : 97.6;
+                    else Settings.Aimbot.a = null;
+                    break;
+                  default:
+                    Settings.Aimbot.a = null;
+                    break;
+                }
+                if (myRange) {
+                    let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
+                    if (RangeBetweenMeAndEnemy <= myRange) {
+                      Settings.Aimbot.a = calcAngle(myPlayer, Enemy, true);
+                      let e = 2 * Math.PI;
+                      let Angle255 = Math.floor(
+                        (((Settings.Aimbot.a + e) % e) * 255) / e,
+                      );
+                      vw.oOW.send(JSON.stringify([3, Angle255]));
+                      if (Settings.Aimbot.a && RangeBetweenMeAndEnemy <= myRange - 22) {
+                        vw.oOW.send(JSON.stringify([4, Angle255]));
+                        vw.oOW.send(JSON.stringify([14]));
+                      }
+                    } else {
+                      Settings.Aimbot.a = null;
+                    }
+                  } else {
+                    Settings.Aimbot.a = null;
+                  }
+                }
+                
+                preEnemyCoors.x = Enemy.x;
+                preEnemyCoors.y = Enemy.y;
+            }
+        }
         if (Settings.AutoFollow.e) {
             let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
             if (Enemy) {
@@ -91094,7 +91216,7 @@
           if (spikeid) {
             let playerX = document.getElementById("game_canvas").clientWidth / 2;
             let playerY = document.getElementById("game_canvas").clientHeight / 2;
-            let angleMouse = Math.atan2(Settings.mouse.y - playerY, Settings.mouse.x - playerX);
+            let angleMouse = Math.atan2(mouse.y - playerY, mouse.x - playerX);
             let PInumb = 2 * Math.PI;
             let MYPLAYERANGLE = Math.floor(
               (((angleMouse + PInumb) % PInumb) * 255) / PInumb,
