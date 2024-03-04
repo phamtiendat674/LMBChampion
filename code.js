@@ -90989,11 +90989,11 @@
                 let velocity = 0;
                 let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
                 if (RangeBetweenMeAndEnemy >= 200) {
-                  if (Math.abs(Coors.x) > 75) {
+                  if (Math.abs(Coors.x) > 100) {
                     if (Coors.x > 0) velocity += 1;
                     if (Coors.x < 0) velocity += 2;
                   }  
-                  if (Math.abs(Coors.y) > 75) {
+                  if (Math.abs(Coors.y) > 100) {
                     if (Coors.y > 0) velocity += 8;
                     if (Coors.y < 0) velocity += 4;
                   }
