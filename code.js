@@ -91079,7 +91079,7 @@
                 if (myRange) {
                     let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
                     if (RangeBetweenMeAndEnemy <= myRange) {
-                      Settings.Aimbot.a = calcAngle(myPlayer, EnemyToAim, true);
+                      Settings.Aimbot.a = calcAngle(myPlayer, Enemy, true);
                       let e = 2 * Math.PI;
                       let Angle255 = Math.floor(
                         (((Settings.Aimbot.a + e) % e) * 255) / e,
