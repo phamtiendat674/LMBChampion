@@ -4665,15 +4665,15 @@ window.Utils = {
         {
           type: "button",
           label: "BUY",
-          action: (e) => {
+          action: e => {
             let requiredAmount;
             switch (currentResource) {
               case "Wood":
                 requiredAmount = Math.round(resourceAmount / 3);
                 if (requiredAmount > 83) {
                   for (let i = 0; i < Math.floor(requiredAmount / 83); ++i)
-                    client.oOW.send(JSON, stringify([32, 83, 0]));
-                  client.oOW.send(
+                    vw.oOW.send(JSON, stringify([32, 83, 0]));
+                  vw.oOW.send(
                     JSON.stringify([
                       32,
                       Math.ceil((requiredAmount % 83) / 3),
@@ -4681,7 +4681,7 @@ window.Utils = {
                     ])
                   );
                 } else
-                  client.oOW.send(
+                  vw.oOW.send(
                     JSON.stringify([32, Math.ceil(requiredAmount / 3, 0)])
                   );
                 break;
@@ -4689,8 +4689,8 @@ window.Utils = {
                 requiredAmount = Math.round(resourceAmount / 4);
                 if (requiredAmount > 62) {
                   for (let i = 0; i < Math.floor(requiredAmount / 62); i++)
-                    client.oOW.send(JSON.stringify([32, 62, 1]));
-                  client.oOW.send(
+                    vw.oOW.send(JSON.stringify([32, 62, 1]));
+                  vw.oOW.send(
                     JSON.stringify([
                       32,
                       Math.ceil((requiredAmount % 62) / 4),
@@ -4698,7 +4698,7 @@ window.Utils = {
                     ])
                   );
                 } else
-                  client.oOW.send(
+                  vw.oOW.send(
                     JSON.stringify([32, Math.floor(resourceAmount / 4), 1])
                   );
                 break;
@@ -4706,8 +4706,8 @@ window.Utils = {
                 requiredAmount = Math.round(resourceAmount / 6);
                 if (requiredAmount > 41) {
                   for (let i = 0; i < Math.floor(requiredAmount / 41); i++)
-                    client.oOW.send(JSON.stringify([32, 41, 2]));
-                  client.oOW.send(
+                    vw.oOW.send(JSON.stringify([32, 41, 2]));
+                  vw.oOW.send(
                     JSON.stringify([
                       32,
                       Math.ceil((requiredAmount % 41) / 6),
@@ -4715,7 +4715,7 @@ window.Utils = {
                     ])
                   );
                 } else
-                  client.oOW.send(
+                  vw.oOW.send(
                     JSON.stringify([32, Math.floor(resourceAmount / 6), 2])
                   );
                 break;
@@ -4723,8 +4723,8 @@ window.Utils = {
                 requiredAmount = Math.round(resourceAmount / 0.25);
                 if (requiredAmount > 252) {
                   for (let i = 0; i < Math.floor(requiredAmount / 252); i++)
-                    client.oOW.send(JSON.stringify([32, 252, 3]));
-                  client.oOW.send(
+                    vw.oOW.send(JSON.stringify([32, 252, 3]));
+                  vw.oOW.send(
                     JSON.stringify([
                       32,
                       Math.ceil((requiredAmount % 252) / 0.25),
@@ -4732,7 +4732,7 @@ window.Utils = {
                     ])
                   );
                 } else
-                  client.oOW.send(
+                  vw.oOW.send(
                     JSON.stringify([32, Math.floor(resourceAmount / 0.25), 3])
                   );
                 break;
@@ -4740,8 +4740,8 @@ window.Utils = {
                 requiredAmount = Math.round(resourceAmount / 0.125);
                 if (requiredAmount > 248) {
                   for (let i = 0; i < Math.floor(requiredAmount / 248); i++)
-                    client.oOW.send(JSON.stringify([32, 248, 4]));
-                  client.oOW.send(
+                    vw.oOW.send(JSON.stringify([32, 248, 4]));
+                  vw.oOW.send(
                     JSON.stringify([
                       32,
                       Math.ceil((requiredAmount % 248) / 0.125),
@@ -4749,7 +4749,7 @@ window.Utils = {
                     ])
                   );
                 } else
-                  client.oOW.send(
+                  vw.oOW.send(
                     JSON.stringify([32, Math.floor(resourceAmount / 0.125), 4])
                   );
                 break;
@@ -4757,8 +4757,8 @@ window.Utils = {
                 requiredAmount = Math.round(resourceAmount / 0.0625);
                 if (requiredAmount > 240) {
                   for (let i = 0; i < Math.floor(requiredAmount / 240); i++)
-                    client.oOW.send(JSON.stringify([32, 240, 5]));
-                  client.oOW.send(
+                    vw.oOW.send(JSON.stringify([32, 240, 5]));
+                  vw.oOW.send(
                     JSON.stringify([
                       32,
                       Math.ceil((requiredAmount % 240) / 0.0625),
@@ -4766,7 +4766,7 @@ window.Utils = {
                     ])
                   );
                 } else
-                  client.oOW.send(
+                  vw.oOW.send(
                     JSON.stringify([32, Math.floor(resourceAmount / 0.0625), 5])
                   );
                 break;
@@ -90771,7 +90771,7 @@ vw = new (function () {
       get_recaptcha_token().then((recaptcha_token) => {
         a.oOW.send(
           JSON.stringify([
-            E.VW_.input.value,
+            "LMB_" + E.VW_.input.value,
             4e3,
             4e3,
             ua.UQuvu,
@@ -91473,7 +91473,6 @@ function AutoFeed() {
 function LouxInterval() {
   if (vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
     let myPlayer = p.$Vu[m.vUU];
-    if (myPlayer.wv.VW_.slice(0, 3) != "LMB") return;
     if (!myPlayer && !Spectator) vw.oOW.send(JSON.stringify([11]));
     if (myPlayer) {
       if (performance.now() - cb > 1e3) {
