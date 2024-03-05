@@ -3463,7 +3463,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 2.2 Ban Do Dap Thien",
+      title: "LMB Champion 2.3 Dung Ten Dung Mon Phai",
       theme: {
         name: "LOUX",
         colors: {
