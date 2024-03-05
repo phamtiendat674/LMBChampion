@@ -2021,6 +2021,7 @@
   let preEnemyCoors = { x: 0, y: 0 };
   let mouse = { x: 0, y: 0 };
   let isPvP = false;
+  let velMove = 225;
 
   let Settings = {
     AutoPvP: { e: false, k: "NONE" },
@@ -3073,7 +3074,7 @@
     initUI: () => {
       let container = document.body;
       let gui = new guify({
-        title: "LMB Champion 2.1(add AutoPvP) Ban Do Dap Thien",
+        title: "LMB Champion 2.2 Ban Do Dap Thien",
         theme: {
           name: "LOUX",
           colors: {
@@ -4316,6 +4317,7 @@
       Settings.AutoTame.e = false;
       Settings.Autofarm.e = false;
       Settings.AutoEme.e = false;
+      Settings.AutoCraft.e = false;
       Utils.controls = new Utils.controller();
       let script = document.createElement("script");
       script.onload = function () {
