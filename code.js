@@ -91469,9 +91469,15 @@ function LouxInterval() {
       }
       if (Settings.AutoWall.e) {
         let spikeid = 156;
+        let playerX = document.getElementById("game_canvas").clientWidth / 2;
+        let playerY = document.getElementById("game_canvas").clientHeight / 2;
+        let angleMouse = Math.atan2(mouse.y - playerY, mouse.x - playerX);
         let PInumb = 2 * Math.PI;
+        // let MYPLAYERANGLE = Math.floor(
+        //   (((myPlayer.angle + PInumb) % PInumb) * 255) / PInumb
+        // );
         let MYPLAYERANGLE = Math.floor(
-          (((myPlayer.angle + PInumb) % PInumb) * 255) / PInumb
+          (((angleMouse + PInumb) % PInumb) * 255) / PInumb
         );
         for (let ang = 1; ang < 31; ang++) {
           vw.oOW.send(
