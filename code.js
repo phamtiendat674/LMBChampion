@@ -2002,6 +2002,8 @@ window.currentSkin = 0;
 window.currentAccessory = 0;
 window.currentBag = 0;
 window.currentBook = 0;
+window.currentResource = "Wood";
+window.resourceAmount = 1000;
 
 window.skins = [
   "Starver",
@@ -3463,7 +3465,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 2.4 Dung Ten Dung Mon Phai",
+      title: "LMB Champion 2.5 Dung Ten Dung Mon Phai",
       theme: {
         name: "LOUX",
         colors: {
@@ -3495,6 +3497,7 @@ window.Utils = {
     gui.Register({ type: "folder", label: "Token", open: false });
     gui.Register({ type: "folder", label: "PvP", open: false });
     gui.Register({ type: "folder", label: "Skin", open: false });
+    gui.Register({ type: "folder", label: "Resources", open: false });
     gui.Register(
       [
         {
@@ -4621,6 +4624,138 @@ window.Utils = {
         },
       ],
       { folder: "Skin" }
+    );
+    gui.Register(
+      [
+        {
+          type: "select",
+          label: "Resource Type:",
+          options: ["Wood", "Stone", "Gold", "Diamond", "Amethyst", "Reidite"],
+          onChange: (e) => (currentResource = e),
+        },
+        {
+          type: "range",
+          label: "Amount",
+          min: 1,
+          max: 20000,
+          step: 1,
+          onChange: (e) => {
+            resourceAmount = e;
+          },
+        },
+        {
+          type: "button",
+          label: "BUY",
+          action: (e) => {
+            let requiredAmount;
+            switch (currentResource) {
+              case "Wood":
+                requiredAmount = Math.round(resourceAmount / 3);
+                if (requiredAmount > 83) {
+                  for (let i = 0; i < Math.floor(requiredAmount / 83); ++i)
+                    client.oOW.send(JSON, stringify([32, 83, 0]));
+                  client.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 83) / 3),
+                      0,
+                    ])
+                  );
+                } else
+                  client.oOW.send(
+                    JSON.stringify([32, Math.ceil(requiredAmount / 3, 0)])
+                  );
+                break;
+              case "Stone":
+                requiredAmount = Math.round(resourceAmount / 4);
+                if (requiredAmount > 62) {
+                  for (let i = 0; i < Math.floor(requiredAmount / 62); i++)
+                    client.oOW.send(JSON.stringify([32, 62, 1]));
+                  client.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 62) / 4),
+                      1,
+                    ])
+                  );
+                } else
+                  client.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 4), 1])
+                  );
+                break;
+              case "Gold":
+                requiredAmount = Math.round(resourceAmount / 6);
+                if (requiredAmount > 41) {
+                  for (let i = 0; i < Math.floor(requiredAmount / 41); i++)
+                    client.oOW.send(JSON.stringify([32, 41, 2]));
+                  client.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 41) / 6),
+                      2,
+                    ])
+                  );
+                } else
+                  client.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 6), 2])
+                  );
+                break;
+              case "Diamond":
+                requiredAmount = Math.round(resourceAmount / 0.25);
+                if (requiredAmount > 252) {
+                  for (let i = 0; i < Math.floor(requiredAmount / 252); i++)
+                    client.oOW.send(JSON.stringify([32, 252, 3]));
+                  client.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 252) / 0.25),
+                      3,
+                    ])
+                  );
+                } else
+                  client.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 0.25), 3])
+                  );
+                break;
+              case "Amethyst":
+                requiredAmount = Math.round(resourceAmount / 0.125);
+                if (requiredAmount > 248) {
+                  for (let i = 0; i < Math.floor(requiredAmount / 248); i++)
+                    client.oOW.send(JSON.stringify([32, 248, 4]));
+                  client.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 248) / 0.125),
+                      4,
+                    ])
+                  );
+                } else
+                  client.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 0.125), 4])
+                  );
+                break;
+              case "Reidite":
+                requiredAmount = Math.round(resourceAmount / 0.0625);
+                if (requiredAmount > 240) {
+                  for (let i = 0; i < Math.floor(requiredAmount / 240); i++)
+                    client.oOW.send(JSON.stringify([32, 240, 5]));
+                  client.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 240) / 0.0625),
+                      5,
+                    ])
+                  );
+                } else
+                  client.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 0.0625), 5])
+                  );
+                break;
+            }
+          },
+        },
+      ],
+      { folder: "Resources" }
     );
     gui.Register(
       [
@@ -91319,7 +91454,7 @@ function AutoFeed() {
 function LouxInterval() {
   if (vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
     let myPlayer = p.$Vu[m.vUU];
-    if (myPlayer.wv.VW_.slice(0,3) != "LMB") return;
+    if (myPlayer.wv.VW_.slice(0, 3) != "LMB") return;
     if (!myPlayer && !Spectator) vw.oOW.send(JSON.stringify([11]));
     if (myPlayer) {
       if (performance.now() - cb > 1e3) {
