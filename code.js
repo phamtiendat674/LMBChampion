@@ -4578,6 +4578,25 @@ window.Utils = {
             window.prompt("Press CTRL C", str);
           },
         },
+        {
+          type: "text",
+          label: "Token",
+          onChange: e => window.newToken = e,
+        },
+        {
+          type: "text",
+          label: "Token ID",
+          onChange: e => window.newTokenId = e,
+        },
+        {
+          type: "button",
+          label: "Set Token and TokenID",
+          action: e => {
+            m.token = newToken;
+            m.token_id = newTokenId;
+            alert("Set new token and token id");
+          },
+        },
       ],
       { folder: "Token" }
     );
