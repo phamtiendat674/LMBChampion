@@ -4673,102 +4673,55 @@ window.Utils = {
                 if (requiredAmount > 83) {
                   for (let i = 0; i < Math.floor(requiredAmount / 83); ++i)
                     vw.oOW.send(JSON, stringify([32, 83, 0]));
-                  vw.oOW.send(
-                    JSON.stringify([
-                      32,
-                      Math.ceil((requiredAmount % 83) / 3),
-                      0,
-                    ])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 83) / 3), 0]));
                 } else
-                  vw.oOW.send(
-                    JSON.stringify([32, Math.ceil(requiredAmount / 3, 0)])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.ceil(requiredAmount / 3), 0]));
                 break;
               case "Stone":
                 requiredAmount = Math.round(resourceAmount / 4);
                 if (requiredAmount > 62) {
                   for (let i = 0; i < Math.floor(requiredAmount / 62); i++)
                     vw.oOW.send(JSON.stringify([32, 62, 1]));
-                  vw.oOW.send(
-                    JSON.stringify([
-                      32,
-                      Math.ceil((requiredAmount % 62) / 4),
-                      1,
-                    ])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 62) / 4), 1]));
                 } else
-                  vw.oOW.send(
-                    JSON.stringify([32, Math.floor(resourceAmount / 4), 1])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 4), 1]));
                 break;
               case "Gold":
                 requiredAmount = Math.round(resourceAmount / 6);
                 if (requiredAmount > 41) {
                   for (let i = 0; i < Math.floor(requiredAmount / 41); i++)
                     vw.oOW.send(JSON.stringify([32, 41, 2]));
-                  vw.oOW.send(
-                    JSON.stringify([
-                      32,
-                      Math.ceil((requiredAmount % 41) / 6),
-                      2,
-                    ])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 41) / 6), 2]));
                 } else
-                  vw.oOW.send(
-                    JSON.stringify([32, Math.floor(resourceAmount / 6), 2])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 6), 2]));
                 break;
               case "Diamond":
                 requiredAmount = Math.round(resourceAmount / 0.25);
                 if (requiredAmount > 252) {
                   for (let i = 0; i < Math.floor(requiredAmount / 252); i++)
                     vw.oOW.send(JSON.stringify([32, 252, 3]));
-                  vw.oOW.send(
-                    JSON.stringify([
-                      32,
-                      Math.ceil((requiredAmount % 252) / 0.25),
-                      3,
-                    ])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 252) / 0.25), 3]));
                 } else
-                  vw.oOW.send(
-                    JSON.stringify([32, Math.floor(resourceAmount / 0.25), 3])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 0.25), 3]));
                 break;
               case "Amethyst":
                 requiredAmount = Math.round(resourceAmount / 0.125);
                 if (requiredAmount > 248) {
                   for (let i = 0; i < Math.floor(requiredAmount / 248); i++)
                     vw.oOW.send(JSON.stringify([32, 248, 4]));
-                  vw.oOW.send(
-                    JSON.stringify([
-                      32,
-                      Math.ceil((requiredAmount % 248) / 0.125),
-                      4,
-                    ])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 248) / 0.125), 4]));
                 } else
                   vw.oOW.send(
-                    JSON.stringify([32, Math.floor(resourceAmount / 0.125), 4])
-                  );
+                    JSON.stringify([32, Math.floor(resourceAmount / 0.125), 4]));
                 break;
               case "Reidite":
                 requiredAmount = Math.round(resourceAmount / 0.0625);
                 if (requiredAmount > 240) {
                   for (let i = 0; i < Math.floor(requiredAmount / 240); i++)
                     vw.oOW.send(JSON.stringify([32, 240, 5]));
-                  vw.oOW.send(
-                    JSON.stringify([
-                      32,
-                      Math.ceil((requiredAmount % 240) / 0.0625),
-                      5,
-                    ])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 240) / 0.0625), 5]));
                 } else
-                  vw.oOW.send(
-                    JSON.stringify([32, Math.floor(resourceAmount / 0.0625), 5])
-                  );
+                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 0.0625), 5]));
                 break;
             }
           },
