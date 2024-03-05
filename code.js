@@ -4672,10 +4672,10 @@ window.Utils = {
                 requiredAmount = Math.round(resourceAmount / 3);
                 if (requiredAmount > 83) {
                   for (let i = 0; i < Math.floor(requiredAmount / 83); ++i)
-                    vw.oOW.send(JSON, stringify([32, 83, 0]));
+                    vw.oOW.send(JSON.stringify([32, 83, 0]));
                   vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 83) / 3), 0]));
                 } else
-                  vw.oOW.send(JSON.stringify([32, Math.ceil(requiredAmount / 3), 0]));
+                  vw.oOW.send(JSON.stringify([32, Math.ceil(resourceAmount / 3), 0]));
                 break;
               case "Stone":
                 requiredAmount = Math.round(resourceAmount / 4);
