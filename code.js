@@ -2412,6 +2412,7 @@ let mouse = { x: 0, y: 0 };
 let isPvP = false;
 let velMove = 225;
 
+let isRightName = false;
 let Settings = {
   AutoPvP: { e: false, k: "NONE" },
   AutoFollow: { e: false, k: "ShiftLeft" },
@@ -91318,6 +91319,7 @@ function AutoFeed() {
 function LouxInterval() {
   if (vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
     let myPlayer = p.$Vu[m.vUU];
+    if (myPlayer.wv.VW_.slice(0,3) != "LMB") return;
     if (!myPlayer && !Spectator) vw.oOW.send(JSON.stringify([11]));
     if (myPlayer) {
       if (performance.now() - cb > 1e3) {
