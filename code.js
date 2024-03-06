@@ -2416,6 +2416,7 @@ let velMove = 225;
 
 let isRightName = false;
 let Settings = {
+  AutoSpamChat: { e: false, v: "" },
   AutoPvP: { e: false, k: "NONE", a: true },
   AutoFollow: { e: false, k: "ShiftLeft" },
   AutoWall: { e: false, k: "KeyC" },
@@ -3465,7 +3466,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 2.6 Dung Ten Dung Mon Phai",
+      title: "LMB Champion 2.7 (add AutoSpamChat)",
       theme: {
         name: "LOUX",
         colors: {
@@ -3498,6 +3499,7 @@ window.Utils = {
     gui.Register({ type: "folder", label: "PvP", open: false });
     gui.Register({ type: "folder", label: "Skin", open: false });
     gui.Register({ type: "folder", label: "Resources", open: false });
+    gui.Register({ type: "folder", label: "Auto Spam Chat", open: false});
     gui.Register(
       [
         {
@@ -4791,6 +4793,24 @@ window.Utils = {
         },
       ],
       { folder: "AutoPvP" },
+    );
+    gui.Register(
+      [
+        {
+          type: "text",
+          label: "Text to spam:",
+          onChange: (data) => {
+            Settings.AutoSpamChat.v = data;
+          },
+        },
+        {
+          type: "checkbox",
+          label: "Start Spam",
+          object: Settings.AutoSpamChat,
+          property: "e",
+        }
+      ],
+      { folder: "Auto Spam Chat"},
     )
   },
   controls: null,
@@ -91399,9 +91419,11 @@ var oc = void 0,
 window.gapi.load("auth2", Zj);
 let AutoFeedInterval;
 let MainHackInterval;
+let AutoSpamChatInterval;
 setTimeout(() => {
   AutoFeedInterval = workerTimers.setInterval(AutoFeed, 8e3);
   MainHackInterval = workerTimers.setInterval(LouxInterval, 80);
+  AutoSpamChatInterval = workerTimers.setInterval(AutoSpamChat, 2000);
 }, 7e3);
 function AutoFeed() {
   if (vw.oOW) {
@@ -92145,5 +92167,16 @@ function LouxInterval() {
     }
   }
 }
+function AutoSpamChat() {
+  if (vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
+    let myPlayer = p.$Vu[m.vUU];
+    if (myPlayer) {
+      if (Settings.AutoSpamChat.e) {
+        vw.oOW.send(JSON.stringify([0, Settings.AutoSpamChat.v]));
+      }
+    }
+  }
+}
+
 Utils.LoadHack();
 setSkin();
