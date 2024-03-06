@@ -2416,7 +2416,7 @@ let velMove = 225;
 
 let isRightName = false;
 let Settings = {
-  AutoPvP: { e: false, k: "NONE" },
+  AutoPvP: { e: false, k: "NONE", a: true },
   AutoFollow: { e: false, k: "ShiftLeft" },
   AutoWall: { e: false, k: "KeyC" },
   Fly: { o: 0.5, e: false },
@@ -3465,7 +3465,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 2.5 Dung Ten Dung Mon Phai",
+      title: "LMB Champion 2.6 Dung Ten Dung Mon Phai",
       theme: {
         name: "LOUX",
         colors: {
@@ -4732,17 +4732,9 @@ window.Utils = {
     gui.Register(
       [
         {
-          type: "display",
+          type: "folder",
           label: "AutoPvP",
-          object: Settings.AutoPvP,
-          property: "k",
-        },
-        {
-          type: "button",
-          label: "Set AutoPvP Key",
-          action: (data) => {
-            Utils.controls.setKeyBind("AutoPvP");
-          },
+          open: false
         },
         {
           type: "display",
@@ -4773,6 +4765,33 @@ window.Utils = {
       ],
       { folder: "PvP" }
     );
+    gui.Register(
+      [
+        {
+          type: "display",
+          label: "AutoPvP",
+          object: Settings.AutoPvP,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "Set AutoPvP Key",
+          action: (data) => {
+            Utils.controls.setKeyBind("AutoPvP");
+          },
+        },
+        {
+          type: "checkbox",
+          label: "AutoSpamSpike",
+          object: Settings.AutoPvP,
+          property: "a",
+          onChange: (data) => {
+            Utils.saveSettings();
+          }
+        },
+      ],
+      { folder: "AutoPvP" },
+    )
   },
   controls: null,
   controller: class {
@@ -4799,6 +4818,7 @@ window.Utils = {
     }
   },
   loadSettings: () => {
+    localStorage.removeItem("AutoPvPlouxlegacy");
     for (let HACK in Settings) {
       let data = localStorage.getItem(HACK + "louxlegacy");
       if (data) Settings[HACK] = JSON.parse(data);
@@ -91471,35 +91491,70 @@ function LouxInterval() {
           }
           vw.uOQ_w(velocity);
 
-          let anglePut;
-          if (!isPvP) {
-            anglePut = myPlayer.angle;
-          } else {
-            let anglePut = Math.atan2(dirEnemy.y, dirEnemy.x);
+          if (Settings.AutoPvP.a && RangeBetweenMeAndEnemy <= 150) {
+            for (let i = 0, SpikeP = Settings.AutoSpike.p; i < SpikeP.length; i++) {
+              var CurrentSpike = SpikeP[i];
+              switch (CurrentSpike) {
+                case "Reidite Spike":
+                  CurrentSpike = 213;
+                  break;
+                case "Amethyst Spike":
+                  CurrentSpike = 117;
+                  break;
+                case "Diamond Spike":
+                  CurrentSpike = 164;
+                  break;
+                case "Gold Spike":
+                  CurrentSpike = 163;
+                  break;
+                case "Stone Spike":
+                  CurrentSpike = 162;
+                  break;
+                case "Wood Spike":
+                  CurrentSpike = 154;
+                  break;
+                case "Wood Wall":
+                  CurrentSpike = 156;
+                  break;
+                case "Nothing":
+                  CurrentSpike = -1;
+                  break;
+              }
+              if (CurrentSpike === -1 || !m.UQ.oV[CurrentSpike]) continue;
+              var spikeid = CurrentSpike;
+              break;
+            }
+            if (spikeid) {
+              let anglePut;
+              if (!isPvP) {
+                anglePut = myPlayer.angle;
+              } else {
+                let anglePut = Math.atan2(dirEnemy.y, dirEnemy.x);
+              }
+              dirEnemy = {
+                x: Enemy.x - preEnemyCoors.x,
+                y: Enemy.y - preEnemyCoors.y,
+              };
+              let PInumb = 2 * Math.PI;
+              let MYPLAYERANGLE = Math.floor(
+                (((anglePut + PInumb) % PInumb) * 255) / PInumb
+              );
+              for (let ang = 1; ang < 31; ang++) {
+                vw.oOW.send(
+                  JSON.stringify([10, spikeid, (ang + MYPLAYERANGLE) % 255, 0])
+                );
+                vw.oOW.send(
+                  JSON.stringify([
+                    10,
+                    spikeid,
+                    (MYPLAYERANGLE - ang + 255) % 255,
+                    0,
+                  ])
+                );
+              }
+              vw.oOW.send(JSON.stringify([10, spikeid, MYPLAYERANGLE, 0]));
+            }
           }
-          dirEnemy = {
-            x: Enemy.x - preEnemyCoors.x,
-            y: Enemy.y - preEnemyCoors.y,
-          };
-          let PInumb = 2 * Math.PI;
-          let MYPLAYERANGLE = Math.floor(
-            (((anglePut + PInumb) % PInumb) * 255) / PInumb
-          );
-          let spikeid = 156; //woodWall
-          for (let ang = 1; ang < 31; ang++) {
-            vw.oOW.send(
-              JSON.stringify([10, spikeid, (ang + MYPLAYERANGLE) % 255, 0])
-            );
-            vw.oOW.send(
-              JSON.stringify([
-                10,
-                spikeid,
-                (MYPLAYERANGLE - ang + 255) % 255,
-                0,
-              ])
-            );
-          }
-          vw.oOW.send(JSON.stringify([10, spikeid, MYPLAYERANGLE, 0]));
 
           switch (HoldWeapon(myPlayer.right, true)) {
             case 1:
