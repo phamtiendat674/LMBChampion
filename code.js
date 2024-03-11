@@ -2480,7 +2480,7 @@ let Settings = {
   AutoBreadTake: { e: false, k: "NONE" },
   AutoBreadPut: { e: false, k: "NONE" },
   SwordInChest: { e: false, k: "KeyE" },
-  Aimbot: { e: false, k: "KeyF", a: null },
+  Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
   AutoTame: { e: false, k: "KeyJ", a: null },
   AutoEme: { e: false, k: "Numpad2", a: null },
   Autofarm: {
@@ -3466,7 +3466,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 2.7 (add AutoSpamChat)",
+      title: "LMB Champion 2.8 (add feature for Aimbot)",
       theme: {
         name: "LOUX",
         colors: {
@@ -3896,19 +3896,6 @@ window.Utils = {
           type: "display",
           label: "AutoBread Put Key:",
           object: Settings.AutoBreadPut,
-          property: "k",
-        },
-        {
-          type: "button",
-          label: "Set Aimbot Key",
-          action: (data) => {
-            Utils.controls.setKeyBind("Aimbot");
-          },
-        },
-        {
-          type: "display",
-          label: "Aimbot Key:",
-          object: Settings.Aimbot,
           property: "k",
         },
         {
@@ -4735,6 +4722,11 @@ window.Utils = {
       [
         {
           type: "folder",
+          label: "Aimbot",
+          open:false,
+        },
+        {
+          type: "folder",
           label: "AutoPvP",
           open: false
         },
@@ -4767,6 +4759,30 @@ window.Utils = {
       ],
       { folder: "PvP" }
     );
+    gui.Register(
+      [
+        {
+          type: "checkbox",
+          label: "Auto Hit",
+          object: Settings.Aimbot,
+          property: "autoHit",
+        },
+        {
+          type: "display",
+          label: "Aimbot Key:",
+          object: Settings.Aimbot,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "Set Aimbot Key",
+          action: (data) => {
+            Utils.controls.setKeyBind("Aimbot");
+          },
+        },
+      ],
+      { folder: "Aimbot"},
+    )
     gui.Register(
       [
         {
@@ -4834,13 +4850,13 @@ window.Utils = {
   },
   saveSettings: () => {
     for (let HACK in Settings) {
-      localStorage.setItem(HACK + "louxlegacy", JSON.stringify(Settings[HACK]));
+      localStorage.setItem(HACK + "lmb1", JSON.stringify(Settings[HACK]));
     }
   },
   loadSettings: () => {
     localStorage.removeItem("AutoPvPlouxlegacy");
     for (let HACK in Settings) {
-      let data = localStorage.getItem(HACK + "louxlegacy");
+      let data = localStorage.getItem(HACK + "lmb1");
       if (data) Settings[HACK] = JSON.parse(data);
     }
   },
@@ -91906,8 +91922,10 @@ function LouxInterval() {
               );
               vw.oOW.send(JSON.stringify([3, Angle255]));
               if (Settings.Aimbot.a && RangeBetweenMeAndEnemy <= myRange - 22) {
-                vw.oOW.send(JSON.stringify([4, Angle255]));
-                vw.oOW.send(JSON.stringify([14]));
+                if (Settings.Aimbot.autoHit) {
+                  vw.oOW.send(JSON.stringify([4, Angle255]));
+                  vw.oOW.send(JSON.stringify([14]));
+                }
               }
             } else {
               Settings.Aimbot.a = null;
