@@ -91701,7 +91701,7 @@ function LouxInterval() {
         }
       } else if (isPvP === true) isPvP = false;
       if (Settings.AutoFollow.e) {
-        let Enemy = PersonNearest(myPlayer, p.U$[u.O$Q]);
+        let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
         if (Enemy) {
           if (dist2dSQRT(myPlayer, Enemy) < 600) {
             let velocity = Pathfinde(myPlayer, Enemy);
