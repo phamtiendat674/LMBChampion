@@ -2416,6 +2416,7 @@ let velMove = 225;
 
 let isRightName = false;
 let Settings = {
+  AutoFeedRange: .5,
   AimAlly: { e: false },
   AutoSpamChat: { e: false, v: "" },
   AutoPvP: { e: false, k: "NONE", a: true },
@@ -4215,6 +4216,18 @@ window.Utils = {
             Utils.saveSettings();
           },
         },
+        {
+          type: "range",
+          label: "AutoFeed Range",
+          min: 0,
+          max: 1,
+          step: .05,
+          object: Settings,
+          property: "AutoFeedRange",
+          onChange: (data) => {
+            Utils.saveSettings();
+          }
+        }
       ],
       { folder: "Misc" }
     );
@@ -91536,7 +91549,7 @@ function AutoFeed() {
     if (vw.oOW.readyState === 1) {
       vw.ping();
       0.4 > m.uUw.$w && m.UQ.oV[f.o$u] && vw._$0(f.o$u);
-      0.38 > m.uUw.o$ &&
+      Settings.AutoFeedRange > m.uUw.o$ &&
         (m.UQ.oV[f.wUW]
           ? vw._$0(f.wUW)
           : m.UQ.oV[f.wU0]
