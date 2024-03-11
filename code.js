@@ -2416,6 +2416,7 @@ let velMove = 225;
 
 let isRightName = false;
 let Settings = {
+  AimAlly: { e: false },
   AutoSpamChat: { e: false, v: "" },
   AutoPvP: { e: false, k: "NONE", a: true },
   AutoFollow: { e: false, k: "ShiftLeft" },
@@ -2702,7 +2703,7 @@ function EnemyToAttack(myPlayer, PlayerList) {
   for (var i = 0, len = PlayerList.length, obj = null, d = null; i < len; ++i) {
     obj = PlayerList[i];
     if (obj.VOo === myPlayer.VOo) continue;
-    if (!obj.ally && myPlayer.OO$ === obj.OO$ && !obj.$$V) {
+    if ((!obj.ally || Settings.AimAlly.e) && myPlayer.OO$ === obj.OO$ && !obj.$$V) {
       d = (myPlayer.x - obj.x) ** 2 + (myPlayer.y - obj.y) ** 2;
       if (HoldingSpear && d < 330) continue;
       if (distSqrd === -1 || d < distSqrd) {
@@ -3466,7 +3467,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 2.8 (add feature for Aimbot)",
+      title: "LMB Champion 2.9 (add Aim Ally for Aimbot)",
       theme: {
         name: "LOUX",
         colors: {
@@ -4766,6 +4767,12 @@ window.Utils = {
           label: "Auto Hit",
           object: Settings.Aimbot,
           property: "autoHit",
+        },
+        {
+          type: "checkbox",
+          label: "Aim Ally",
+          object: Settings.AimAlly,
+          property: "e",
         },
         {
           type: "display",
