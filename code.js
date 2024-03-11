@@ -2703,7 +2703,11 @@ function EnemyToAttack(myPlayer, PlayerList) {
   for (var i = 0, len = PlayerList.length, obj = null, d = null; i < len; ++i) {
     obj = PlayerList[i];
     if (obj.VOo === myPlayer.VOo) continue;
-    if ((!obj.ally || Settings.AimAlly.e) && myPlayer.OO$ === obj.OO$ && !obj.$$V) {
+    if (
+      (!obj.ally || Settings.AimAlly.e) &&
+      myPlayer.OO$ === obj.OO$ &&
+      !obj.$$V
+    ) {
       d = (myPlayer.x - obj.x) ** 2 + (myPlayer.y - obj.y) ** 2;
       if (HoldingSpear && d < 330) continue;
       if (distSqrd === -1 || d < distSqrd) {
@@ -2755,6 +2759,36 @@ function EnemyNearest(myPlayer, PlayerList) {
   }
   return nearest;
 }
+function PersonNearest(myPlayer, PlayerList) {
+  let nearest = null;
+  let distSqrd = -1;
+  for (var i = 0, len = PlayerList.length, obj = null, d = null; i < len; ++i) {
+    obj = PlayerList[i];
+    if (obj.VOo === myPlayer.VOo) continue;
+    if (myPlayer.OO$ === obj.OO$ && !obj.$$V) {
+      d = (myPlayer.x - obj.x) ** 2 + (myPlayer.y - obj.y) ** 2;
+      if (distSqrd === -1 || d < distSqrd) {
+        distSqrd = d;
+        nearest = obj;
+      }
+    }
+  }
+  return nearest;
+}
+let Pathfinde = (e, t) => {
+  var i = e.y,
+    e = e.x,
+    r = t ? t.x : x,
+    a = t ? t.y : 0;
+  let o = 0;
+  return (
+    i < a - 25 && t && (o += 4),
+    a + 25 < i && t && (o += 8),
+    e < r - 25 && (o += 2),
+    r + 25 < e && (o += 1),
+    o
+  );
+};
 const images = { first: {}, second: {} };
 images.first[0] = {};
 images.first[1] = {};
@@ -3467,7 +3501,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 2.9 (add Aim Ally for Aimbot)",
+      title: "LMB Champion 3.0 (update AutoPvp)",
       theme: {
         name: "LOUX",
         colors: {
@@ -3500,7 +3534,7 @@ window.Utils = {
     gui.Register({ type: "folder", label: "PvP", open: false });
     gui.Register({ type: "folder", label: "Skin", open: false });
     gui.Register({ type: "folder", label: "Resources", open: false });
-    gui.Register({ type: "folder", label: "Auto Spam Chat", open: false});
+    gui.Register({ type: "folder", label: "Auto Spam Chat", open: false });
     gui.Register(
       [
         {
@@ -4571,17 +4605,17 @@ window.Utils = {
         {
           type: "text",
           label: "Token",
-          onChange: e => window.newToken = e,
+          onChange: (e) => (window.newToken = e),
         },
         {
           type: "text",
           label: "Token ID",
-          onChange: e => window.newTokenId = e,
+          onChange: (e) => (window.newTokenId = e),
         },
         {
           type: "button",
           label: "Set Token and TokenID",
-          action: e => {
+          action: (e) => {
             m.token = newToken;
             m.token_id = newTokenId;
             alert("Set new token and token id");
@@ -4655,7 +4689,7 @@ window.Utils = {
         {
           type: "button",
           label: "BUY",
-          action: e => {
+          action: (e) => {
             let requiredAmount;
             switch (currentResource) {
               case "Wood":
@@ -4663,55 +4697,102 @@ window.Utils = {
                 if (requiredAmount > 83) {
                   for (let i = 0; i < Math.floor(requiredAmount / 83); ++i)
                     vw.oOW.send(JSON.stringify([32, 83, 0]));
-                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 83) / 3), 0]));
+                  vw.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 83) / 3),
+                      0,
+                    ])
+                  );
                 } else
-                  vw.oOW.send(JSON.stringify([32, Math.ceil(resourceAmount / 3), 0]));
+                  vw.oOW.send(
+                    JSON.stringify([32, Math.ceil(resourceAmount / 3), 0])
+                  );
                 break;
               case "Stone":
                 requiredAmount = Math.round(resourceAmount / 4);
                 if (requiredAmount > 62) {
                   for (let i = 0; i < Math.floor(requiredAmount / 62); i++)
                     vw.oOW.send(JSON.stringify([32, 62, 1]));
-                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 62) / 4), 1]));
+                  vw.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 62) / 4),
+                      1,
+                    ])
+                  );
                 } else
-                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 4), 1]));
+                  vw.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 4), 1])
+                  );
                 break;
               case "Gold":
                 requiredAmount = Math.round(resourceAmount / 6);
                 if (requiredAmount > 41) {
                   for (let i = 0; i < Math.floor(requiredAmount / 41); i++)
                     vw.oOW.send(JSON.stringify([32, 41, 2]));
-                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 41) / 6), 2]));
+                  vw.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 41) / 6),
+                      2,
+                    ])
+                  );
                 } else
-                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 6), 2]));
+                  vw.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 6), 2])
+                  );
                 break;
               case "Diamond":
                 requiredAmount = Math.round(resourceAmount / 0.25);
                 if (requiredAmount > 252) {
                   for (let i = 0; i < Math.floor(requiredAmount / 252); i++)
                     vw.oOW.send(JSON.stringify([32, 252, 3]));
-                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 252) / 0.25), 3]));
+                  vw.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 252) / 0.25),
+                      3,
+                    ])
+                  );
                 } else
-                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 0.25), 3]));
+                  vw.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 0.25), 3])
+                  );
                 break;
               case "Amethyst":
                 requiredAmount = Math.round(resourceAmount / 0.125);
                 if (requiredAmount > 248) {
                   for (let i = 0; i < Math.floor(requiredAmount / 248); i++)
                     vw.oOW.send(JSON.stringify([32, 248, 4]));
-                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 248) / 0.125), 4]));
+                  vw.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 248) / 0.125),
+                      4,
+                    ])
+                  );
                 } else
                   vw.oOW.send(
-                    JSON.stringify([32, Math.floor(resourceAmount / 0.125), 4]));
+                    JSON.stringify([32, Math.floor(resourceAmount / 0.125), 4])
+                  );
                 break;
               case "Reidite":
                 requiredAmount = Math.round(resourceAmount / 0.0625);
                 if (requiredAmount > 240) {
                   for (let i = 0; i < Math.floor(requiredAmount / 240); i++)
                     vw.oOW.send(JSON.stringify([32, 240, 5]));
-                  vw.oOW.send(JSON.stringify([32, Math.ceil((requiredAmount % 240) / 0.0625), 5]));
+                  vw.oOW.send(
+                    JSON.stringify([
+                      32,
+                      Math.ceil((requiredAmount % 240) / 0.0625),
+                      5,
+                    ])
+                  );
                 } else
-                  vw.oOW.send(JSON.stringify([32, Math.floor(resourceAmount / 0.0625), 5]));
+                  vw.oOW.send(
+                    JSON.stringify([32, Math.floor(resourceAmount / 0.0625), 5])
+                  );
                 break;
             }
           },
@@ -4724,12 +4805,12 @@ window.Utils = {
         {
           type: "folder",
           label: "Aimbot",
-          open:false,
+          open: false,
         },
         {
           type: "folder",
           label: "AutoPvP",
-          open: false
+          open: false,
         },
         {
           type: "display",
@@ -4788,8 +4869,8 @@ window.Utils = {
           },
         },
       ],
-      { folder: "Aimbot"},
-    )
+      { folder: "Aimbot" }
+    );
     gui.Register(
       [
         {
@@ -4812,10 +4893,10 @@ window.Utils = {
           property: "a",
           onChange: (data) => {
             Utils.saveSettings();
-          }
+          },
         },
       ],
-      { folder: "AutoPvP" },
+      { folder: "AutoPvP" }
     );
     gui.Register(
       [
@@ -4831,10 +4912,10 @@ window.Utils = {
           label: "Start Spam",
           object: Settings.AutoSpamChat,
           property: "e",
-        }
+        },
       ],
-      { folder: "Auto Spam Chat"},
-    )
+      { folder: "Auto Spam Chat" }
+    );
   },
   controls: null,
   controller: class {
@@ -51459,6 +51540,8 @@ function Cj() {
         e = false;
       if (Settings.Aimbot.e && Settings.Aimbot.a != null) {
         c = Settings.Aimbot.a;
+      } else if (Settings.AutoPvP.e && Settings.Aimbot.a != null) {
+        c = Settings.Aimbot.a;
       } else if (Settings.Autofarm.e && Settings.Autofarm.a != null) {
         c = Settings.Autofarm.a;
       } else if (Settings.AutoEme.e && Settings.AutoEme.a != null) {
@@ -91445,7 +91528,7 @@ let MainHackInterval;
 let AutoSpamChatInterval;
 setTimeout(() => {
   AutoFeedInterval = workerTimers.setInterval(AutoFeed, 8e3);
-  MainHackInterval = workerTimers.setInterval(LouxInterval, 80);
+  MainHackInterval = workerTimers.setInterval(LouxInterval, 1e3 / 30);
   AutoSpamChatInterval = workerTimers.setInterval(AutoSpamChat, 2000);
 }, 7e3);
 function AutoFeed() {
@@ -91505,39 +91588,64 @@ function LouxInterval() {
         );
       }
       if (Settings.AutoPvP.e) {
-        if (!isPvP)
-          for (let i = swords.length - 1; i >= 0; --i)
-            vw.oOW.send(JSON.stringify([5, swords[i]]));
-        if (!isPvP)
-          for (let i = helms.length - 1; i >= 0; --i)
-            vw.oOW.send(JSON.stringify([5, helms[i]]));
         let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
         if (Enemy) {
-          let Coors = {
-            x: myPlayer.x - Enemy.x,
-            y: myPlayer.y - Enemy.y,
-          };
-          let velocity = 0;
           let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
-          if (RangeBetweenMeAndEnemy >= 200) {
-            if (Math.abs(Coors.x) > 100) {
-              if (Coors.x > 0) velocity += 1;
-              if (Coors.x < 0) velocity += 2;
+          if ( RangeBetweenMeAndEnemy < 600) {
+            if (!isPvP && RangeBetweenMeAndEnemy < 160) {
+              for (let i = swords.length - 1; i >= 0; --i)
+                vw.oOW.send(JSON.stringify([5, swords[i]]));
+              for (let i = helms.length - 1; i >= 0; --i)
+                vw.oOW.send(JSON.stringify([5, helms[i]]));
+              isPvp = true;
             }
-            if (Math.abs(Coors.y) > 100) {
-              if (Coors.y > 0) velocity += 8;
-              if (Coors.y < 0) velocity += 4;
-            }
-          } else {
-            if (Coors.x > 0) velocity += 1;
-            if (Coors.x < 0) velocity += 2;
-            if (Coors.y > 0) velocity += 8;
-            if (Coors.y < 0) velocity += 4;
+            let velocity = Pathfinde(myPlayer, Enemy);
+            vw.uOQ_w(velocity);
           }
-          vw.uOQ_w(velocity);
-
-          if (Settings.AutoPvP.a && RangeBetweenMeAndEnemy <= 150) {
-            for (let i = 0, SpikeP = Settings.AutoSpike.p; i < SpikeP.length; i++) {
+          switch (HoldWeapon(myPlayer.right, true)) {
+            case 1:
+              var myRange = myPlayer.OO$ ? 196.8 : 157.6;
+              break;
+            case 2:
+              var myRange = myPlayer.OO$ ? 291.8 : 227.6;
+              break;
+            case 3:
+              var myRange = 620;
+              break;
+            case 4:
+              var myRange = myPlayer.OO$ ? 140 : 125;
+              break;
+            case 5:
+              if (myPlayer.QWO == e.wo$ || myPlayer.QWO == e.Qv$)
+                var myRange = myPlayer.OO$ ? 120.8 : 97.6;
+              else Settings.Aimbot.a = null;
+              break;
+            default:
+              Settings.Aimbot.a = null;
+              break;
+          }
+          if (myRange) {
+            if (RangeBetweenMeAndEnemy <= myRange) {
+              Settings.Aimbot.a = calcAngle(myPlayer, Enemy, true);
+              let e = 2 * Math.PI;
+              let Angle255 = Math.floor(
+                (((Settings.Aimbot.a + e) % e) * 255) / e
+              );
+              vw.oOW.send(JSON.stringify([3, Angle255]));
+              if (Settings.Aimbot.a && RangeBetweenMeAndEnemy <= myRange - 22) {
+                vw.oOW.send(JSON.stringify([4, Angle255]));
+                vw.oOW.send(JSON.stringify([14]));
+              }
+            } else {
+              Settings.Aimbot.a = null;
+            }
+          }
+          if (Settings.AutoPvP.a && RangeBetweenMeAndEnemy <= 160) {
+            for (
+              let i = 0, SpikeP = Settings.AutoSpike.p;
+              i < SpikeP.length;
+              i++
+            ) {
               var CurrentSpike = SpikeP[i];
               switch (CurrentSpike) {
                 case "Reidite Spike":
@@ -91570,19 +91678,9 @@ function LouxInterval() {
               break;
             }
             if (spikeid) {
-              let anglePut;
-              if (!isPvP) {
-                anglePut = myPlayer.angle;
-              } else {
-                let anglePut = Math.atan2(dirEnemy.y, dirEnemy.x);
-              }
-              dirEnemy = {
-                x: Enemy.x - preEnemyCoors.x,
-                y: Enemy.y - preEnemyCoors.y,
-              };
               let PInumb = 2 * Math.PI;
               let MYPLAYERANGLE = Math.floor(
-                (((anglePut + PInumb) % PInumb) * 255) / PInumb
+                (((myPlayer.angle + PInumb) % PInumb) * 255) / PInumb
               );
               for (let ang = 1; ang < 31; ang++) {
                 vw.oOW.send(
@@ -91600,77 +91698,15 @@ function LouxInterval() {
               vw.oOW.send(JSON.stringify([10, spikeid, MYPLAYERANGLE, 0]));
             }
           }
-
-          switch (HoldWeapon(myPlayer.right, true)) {
-            case 1:
-              var myRange = myPlayer.OO$ ? 196.8 : 157.6;
-              break;
-            case 2:
-              var myRange = myPlayer.OO$ ? 291.8 : 227.6;
-              break;
-            case 3:
-              var myRange = 620;
-              break;
-            case 4:
-              var myRange = myPlayer.OO$ ? 140 : 125;
-              break;
-            case 5:
-              if (myPlayer.QWO == e.wo$ || myPlayer.QWO == e.Qv$)
-                var myRange = myPlayer.OO$ ? 120.8 : 97.6;
-              else Settings.Aimbot.a = null;
-              break;
-            default:
-              Settings.Aimbot.a = null;
-              break;
-          }
-          if (myRange) {
-            let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
-            if (RangeBetweenMeAndEnemy <= myRange) {
-              Settings.Aimbot.a = calcAngle(myPlayer, Enemy, true);
-              let e = 2 * Math.PI;
-              let Angle255 = Math.floor(
-                (((Settings.Aimbot.a + e) % e) * 255) / e
-              );
-              vw.oOW.send(JSON.stringify([3, Angle255]));
-              if (Settings.Aimbot.a && RangeBetweenMeAndEnemy <= myRange - 22) {
-                vw.oOW.send(JSON.stringify([4, Angle255]));
-                vw.oOW.send(JSON.stringify([14]));
-              }
-            } else {
-              Settings.Aimbot.a = null;
-            }
-          }
-
-          preEnemyCoors.x = Enemy.x;
-          preEnemyCoors.y = Enemy.y;
         }
-        if (isPvP === false) isPvP = true;
       } else if (isPvP === true) isPvP = false;
       if (Settings.AutoFollow.e) {
-        let Enemy = EnemyNearest(myPlayer, p.U$[u.O$Q]);
+        let Enemy = PersonNearest(myPlayer, p.U$[u.O$Q]);
         if (Enemy) {
-          let Coors = {
-            x: myPlayer.x - Enemy.x,
-            y: myPlayer.y - Enemy.y,
-          };
-          let velocity = 0;
-          let RangeBetweenMeAndEnemy = dist2dSQRT(myPlayer, Enemy);
-          if (RangeBetweenMeAndEnemy >= 200) {
-            if (Math.abs(Coors.x) > 100) {
-              if (Coors.x > 0) velocity += 1;
-              if (Coors.x < 0) velocity += 2;
-            }
-            if (Math.abs(Coors.y) > 100) {
-              if (Coors.y > 0) velocity += 8;
-              if (Coors.y < 0) velocity += 4;
-            }
-          } else {
-            if (Coors.x > 0) velocity += 1;
-            if (Coors.x < 0) velocity += 2;
-            if (Coors.y > 0) velocity += 8;
-            if (Coors.y < 0) velocity += 4;
+          if (dist2dSQRT(myPlayer, Enemy) < 600) {
+            let velocity = Pathfinde(myPlayer, Enemy);
+            vw.uOQ_w(velocity);
           }
-          vw.uOQ_w(velocity);
         }
       }
       if (Settings.AutoWall.e) {
