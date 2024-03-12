@@ -2416,6 +2416,7 @@ let velMove = 225;
 
 let isRightName = false;
 let Settings = {
+  Bot: { AutoChatBerriHold: false },
   AutoFeedRange: .5,
   AimAlly: { e: false },
   AutoSpamChat: { e: false, v: "" },
@@ -3502,7 +3503,7 @@ window.Utils = {
   initUI: () => {
     let container = document.body;
     let gui = new guify({
-      title: "LMB Champion 3.0 (update AutoPvp)",
+      title: "LMB Champion 3.1 (add Bot folder)",
       theme: {
         name: "LOUX",
         colors: {
@@ -3536,6 +3537,7 @@ window.Utils = {
     gui.Register({ type: "folder", label: "Skin", open: false });
     gui.Register({ type: "folder", label: "Resources", open: false });
     gui.Register({ type: "folder", label: "Auto Spam Chat", open: false });
+    gui.Register({ type: "folder", label: "Bot", open: false });
     gui.Register(
       [
         {
@@ -4928,6 +4930,17 @@ window.Utils = {
         },
       ],
       { folder: "Auto Spam Chat" }
+    );
+    gui.Register(
+      [
+        {
+          type: "checkbox",
+          label: "AutoChat Beri Hold",
+          object: Settings.Bot,
+          property: "AutoChatBerriHold",
+        }
+      ],
+      { folder: "Bot" }
     );
   },
   controls: null,
@@ -91539,10 +91552,12 @@ window.gapi.load("auth2", Zj);
 let AutoFeedInterval;
 let MainHackInterval;
 let AutoSpamChatInterval;
+let AutoChatBerriHoldInterval;
 setTimeout(() => {
   AutoFeedInterval = workerTimers.setInterval(AutoFeed, 8e3);
   MainHackInterval = workerTimers.setInterval(LouxInterval, 1e3 / 30);
   AutoSpamChatInterval = workerTimers.setInterval(AutoSpamChat, 2000);
+  AutoChatBerriHoldInterval = workerTimers.setInterval(AutoChatBerriHold, 8e3);
 }, 7e3);
 function AutoFeed() {
   if (vw.oOW) {
@@ -92249,6 +92264,12 @@ function AutoSpamChat() {
         vw.oOW.send(JSON.stringify([0, Settings.AutoSpamChat.v]));
       }
     }
+  }
+}
+function AutoChatBerriHold() {
+  if (Settings.Bot.AutoChatBerriHold && vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
+    let beriHold = m.UQ.oV[104];
+    vw.U$u$_("Berries: " + beriHold);
   }
 }
 
