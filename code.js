@@ -3538,6 +3538,7 @@ window.Utils = {
     gui.Register({ type: "folder", label: "Resources", open: false });
     gui.Register({ type: "folder", label: "Auto Spam Chat", open: false });
     gui.Register({ type: "folder", label: "Bot", open: false });
+    gui.Register({ type: "folder", label: "Craft", open: false });
     gui.Register(
       [
         {
@@ -4631,8 +4632,8 @@ window.Utils = {
           type: "button",
           label: "Set Token and TokenID",
           action: (e) => {
-            m.token = newToken;
-            m.token_id = newTokenId;
+            m.Vw_ = newToken;
+            m.$UQ_0 = newTokenId;
             alert("Set new token and token id");
           },
         },
@@ -91471,6 +91472,7 @@ var E,
     window.world = p;
     m = new Cj();
     window.user = m;
+    window.client = vw;
     qc.vwo(function () {
       qc.v_$.style.display = "none";
       E.ow0();
@@ -92261,15 +92263,16 @@ function AutoSpamChat() {
     let myPlayer = p.$Vu[m.vUU];
     if (myPlayer) {
       if (Settings.AutoSpamChat.e) {
-        vw.oOW.send(JSON.stringify([0, Settings.AutoSpamChat.v]));
+        vw.U$u$_(Settings.AutoSpamChat.v);
       }
     }
   }
 }
 function AutoChatBerriHold() {
   if (Settings.Bot.AutoChatBerriHold && vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
-    let beriHold = m.UQ.oV[104];
-    vw.U$u$_("Berries: " + beriHold);
+    let beriHolding = 0;
+    if (m.UQ.oV[104] != "undefined") beriHolding = m.UQ.oV[104];
+    vw.U$u$_("Berries: " + beriHolding);
   }
 }
 
