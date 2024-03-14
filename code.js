@@ -2004,7 +2004,10 @@ window.abcd = [
   "CuTo",
   "LMB_CuTo",
   "Cer",
-  "LMB_ez"
+  "LMB_ez",
+  "ez",
+  " ",
+  "unnamed"
 ]
 window.client = {};
 window.user = {};
