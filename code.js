@@ -1994,7 +1994,18 @@ SandStormImage.src =
 BlizzardImage.src =
   "https://raw.githubusercontent.com/XmreLoux/images/main/blizzard.png";
 let AutoRespawnInterval;
-
+window.abcd = [
+  "DatOneFeed",
+  "LMB_DatOneFeed",
+  "unname#104",
+  "PHONG",
+  "LMB_PHONG",
+  "unname#306",
+  "CuTo",
+  "LMB_CuTo",
+  "Cer",
+  "LMB_ez"
+]
 window.client = {};
 window.user = {};
 window.world = {};
@@ -90897,7 +90908,7 @@ vw = new (function () {
       get_recaptcha_token().then((recaptcha_token) => {
         a.oOW.send(
           JSON.stringify([
-            "LMB_" + E.VW_.input.value,
+            E.VW_.input.value,
             4e3,
             4e3,
             ua.UQuvu,
@@ -91604,8 +91615,17 @@ function AutoFeed() {
 function LouxInterval() {
   if (vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
     let myPlayer = p.$Vu[m.vUU];
-    if (!myPlayer && !Spectator) vw.oOW.send(JSON.stringify([11]));
+    let canUse = false;
     if (myPlayer) {
+      let namePlayer = myPlayer.wv.VW_;
+      for (i of abcd)
+        if (namePlayer === i) {
+          canUse = true;
+          break;
+        }
+    } 
+    if (!myPlayer && !Spectator) vw.oOW.send(JSON.stringify([11]));
+    if (myPlayer && canUse) {
       if (performance.now() - cb > 1e3) {
         myPlayer.x = myPlayer.r.x;
         myPlayer.y = myPlayer.r.y;
@@ -92261,7 +92281,17 @@ function LouxInterval() {
 function AutoSpamChat() {
   if (vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
     let myPlayer = p.$Vu[m.vUU];
+    let canUse = false;
     if (myPlayer) {
+      let namePlayer = myPlayer.wv.VW_;
+      for (i of abcd)
+        if (namePlayer === i) {
+          console.log(i);
+          canUse = true;
+          break;
+        }
+    }
+    if (myPlayer && canUse) {
       if (Settings.AutoSpamChat.e) {
         vw.U$u$_(Settings.AutoSpamChat.v);
       }
@@ -92269,6 +92299,7 @@ function AutoSpamChat() {
   }
 }
 function AutoChatBerriHold() {
+  let myPlayer = p.$Vu[m.vUU];
   if (Settings.Bot.AutoChatBerriHold && vw.oOW && vw.oOW.readyState === 1 && m && m._u_) {
     let beriHolding = 0;
     if (m.UQ.oV[104] != "undefined") beriHolding = m.UQ.oV[104];
