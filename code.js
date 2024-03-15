@@ -2008,7 +2008,8 @@ window.abcd = [
   "ez",
   " ",
   "unnamed",
-  "meomeo"
+  "meomeo",
+  "(っ °Д °;)っ"
 ]
 window.client = {};
 window.user = {};
