@@ -123468,11 +123468,9 @@ function NetworkClient() {
             break;
           case 55:
             _.gauges_warm(dataReceived[1]);
-            console.log(dataReceived);
             break;
           case 56:
             _.gauges_cold(dataReceived[1]);
-            console.log(dataReceived);
             break;
           case 57:
             _.new_version();
@@ -142463,7 +142461,7 @@ function Game(n, t) {
     audio.quit();
     _0x1dc84b = -1;
     _0x15faaa();
-    refreshAds();
+    //refreshAds();
   };
   var _0x4241c4,
     _0x1dc84b = -1,
@@ -143715,7 +143713,7 @@ function Scoreboard(e, t) {
       _0x290942 = _0x4da77d;
       _0x2d55f2 = -1;
       _0x2a4515();
-      refreshAds();
+      //refreshAds();
     }
   };
   var _0x290942;
@@ -147804,7 +147802,7 @@ window.UtilsUI = {
           object: Settings,
           property: "AutoFoodRange",
           onChange: (e) => {
-            UtilsUI.saveSettings;
+            UtilsUI.saveSettings();
           }
         }
       ],
