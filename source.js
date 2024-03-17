@@ -143061,10 +143061,17 @@ function Game(n, t) {
     }
     keyboard.up(_0x14e190);
   };
-  this.trigger_keydown = function (_0x378d7b) {
-    keyboard.down(_0x378d7b);
-    if (_0x378d7b.keyCode == 8 && !user.chat.open && !user.terminal.open) {
-      _0x378d7b.preventDefault();
+  this.trigger_keydown = function (e) {
+    keyboard.down(e);
+    if (e.keyCode == 8 && !user.chat.open && !user.terminal.open) {
+      e.preventDefault();
+    }
+    var t;
+    if (e.code === Settings.DropSword.k &&
+      (t = world.fast_units[user.uid]) &&
+      HoldWeapon(t.right)
+    ) {
+      client.socket.send(JSON.stringify([6, t.right]));
     }
   };
   this.trigger_mousedown = function (_0x50c9c9) {
@@ -147893,6 +147900,44 @@ function getLeaderboard(_0x4c49e1, _0x51dd70, _0x1934e0, _0x3b45bf) {
   _0x32b93f.send();
 }
 
+function HoldWeapon(e, t) {
+  switch (e) {
+    case 34:
+    case 18:
+    case 33:
+    case 15:
+    case 14:
+    case 13:
+    case 12:
+    case 16:
+    case 17:
+      return 2;
+    case 57:
+    case 5:
+    case 6:
+    case 30:
+    case 62:
+    case 9:
+    case 0:
+    case 63:
+    case 19:
+      return 1;
+    case 64:
+    case 65:
+    case 66:
+    case 67:
+    case 68:
+    case 70:
+    case 69:
+      return 3;
+    case 45:
+      if (t) return 4;
+    case -1:
+      if (t) return 5;
+  }
+  return 0;
+}
+
 let TimerTools = {
   HPTimer: 0,
   GaugeTimer: 0,
@@ -147915,6 +147960,7 @@ let Settings = {
   showFps: true,
   showPing: true,
   JoinLeave: true,
+  DropSword: { k: "KeyV" },
 };
 
 
@@ -147940,7 +147986,7 @@ window.UtilsUI = {
         },
       },
       align: "right",
-      width: 400,
+      width: 500,
       barMode: "none",
       opacity: 0.6,
       root: window.container,
@@ -148000,7 +148046,19 @@ window.UtilsUI = {
     );
     gui.Register(
       [
-
+        {
+          type: "display",
+          label: "DropSword Key:",
+          object: Settings.DropSword,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "Set DropSwrod Key",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("DropSword");
+          },
+        },
       ],
       { folder: "KeyBinds" }
     );
