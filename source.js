@@ -147983,7 +147983,7 @@ window.UtilsUI = {
 };
 UtilsUI.LoadHack();
 
-function AutoFeed() {
+function AutoFood() {
   if (client.socket && client.socket.readyState === 1) {
     client.ping();
     if (user.gauges.h < Settings.AutoFoodRange && !user.craft.crafting) {
@@ -148018,9 +148018,7 @@ function AutoFeed() {
         client.select_inv(INV.CRAB_LOOT, user.inv.find_item(INV.CRAB_LOOT));
       }
       client.ping();
-      workerTimers.setTimeout(() => {
-        AutoFood 
-      }, 300);
+      workerTimers.setTimeout(AutoFood, 300);
     } else {
       window.AutoEatWait = false;
     }
@@ -148082,40 +148080,7 @@ function AutoThings() {
       }
       if (Settings.AutoCraft.e && !user.craft.crafting) {
         if (user.gauges.h < Settings.AutoFoodRange && !window.AutoEatWait) {
-          window.AutoEatWait = true;
-          if (user.inv.n[INV.PLANT]) {
-            client.select_inv(INV.PLANT, user.inv.find_item(INV.PLANT));
-          } else if (user.inv.n[INV.GARLIC]) {
-            client.select_inv(INV.GARLIC, user.inv.find_item(INV.GARLIC));
-          } else if (user.inv.n[INV.CRAB_STICK]) {
-            client.select_inv(INV.CRAB_STICK, user.inv.find_item(INV.CRAB_STICK));
-          } else if (user.inv.n[INV.PUMPKIN]) {
-            client.select_inv(INV.PUMPKIN, user.inv.find_item(INV.PUMPKIN));
-          } else if (user.inv.n[INV.TOMATO]) {
-            client.select_inv(INV.TOMATO, user.inv.find_item(INV.TOMATO));
-          } else if (user.inv.n[INV.CARROT]) {
-            client.select_inv(INV.CARROT, user.inv.find_item(INV.CARROT));
-          } else if (user.inv.n[INV.WATERMELON]) {
-            client.select_inv(INV.WATERMELON, user.inv.find_item(INV.WATERMELON));
-          } else if (user.inv.n[INV.BREAD]) {
-            client.select_inv(INV.BREAD, user.inv.find_item(INV.BREAD));
-          } else if (user.inv.n[INV.COOKED_MEAT]) {
-            client.select_inv(INV.COOKED_MEAT, user.inv.find_item(INV.COOKED_MEAT));
-          } else if (user.inv.n[INV.FOODFISH_COOKED]) {
-            client.select_inv(INV.FOODFISH_COOKED, user.inv.find_item(INV.ODFISH_COOKED));
-          } else if (user.inv.n[INV.COOKIE]) {
-            client.select_inv(INV.COOKIE, user.inv.find_item(INV.COOKIE));
-          } else if (user.inv.n[INV.SANDWICH]) {
-            client.select_inv(INV.SANDWICH, user.inv.find_item(INV.SANDWICH));
-          } else if (user.inv.n[INV.CAKE]) {
-            client.select_inv(INV.CAKE, user.inv.find_item(INV.CAKE));
-          } else if (user.inv.n[INV.CRAB_LOOT]) {
-            client.select_inv(INV.CRAB_LOOT, user.inv.find_item(INV.CRAB_LOOT));
-          }
-          client.ping();
-          workerTimers.setTimeout(() => {
-            window.AutoEatWait = false;
-          }, 500);
+          AutoFood();
         } else if (user.gauges.t < 0.45 && !window.AutoDrinkWait) {
           window.AutoDrinkWait = true;
           if (user.inv.n[INV.BOTTLE_FULL]) {
@@ -148133,40 +148098,7 @@ function AutoThings() {
       }
       if (Settings.AutoRecycle.e && !user.craft.crafting) {
         if (user.gauges.h < Settings.AutoFoodRange && !window.AutoEatWait) {
-          window.AutoEatWait = true;
-          if (user.inv.n[INV.PLANT]) {
-            client.select_inv(INV.PLANT, user.inv.find_item(INV.PLANT));
-          } else if (user.inv.n[INV.GARLIC]) {
-            client.select_inv(INV.GARLIC, user.inv.find_item(INV.GARLIC));
-          } else if (user.inv.n[INV.CRAB_STICK]) {
-            client.select_inv(INV.CRAB_STICK, user.inv.find_item(INV.CRAB_STICK));
-          } else if (user.inv.n[INV.PUMPKIN]) {
-            client.select_inv(INV.PUMPKIN, user.inv.find_item(INV.PUMPKIN));
-          } else if (user.inv.n[INV.TOMATO]) {
-            client.select_inv(INV.TOMATO, user.inv.find_item(INV.TOMATO));
-          } else if (user.inv.n[INV.CARROT]) {
-            client.select_inv(INV.CARROT, user.inv.find_item(INV.CARROT));
-          } else if (user.inv.n[INV.WATERMELON]) {
-            client.select_inv(INV.WATERMELON, user.inv.find_item(INV.WATERMELON));
-          } else if (user.inv.n[INV.BREAD]) {
-            client.select_inv(INV.BREAD, user.inv.find_item(INV.BREAD));
-          } else if (user.inv.n[INV.COOKED_MEAT]) {
-            client.select_inv(INV.COOKED_MEAT, user.inv.find_item(INV.COOKED_MEAT));
-          } else if (user.inv.n[INV.FOODFISH_COOKED]) {
-            client.select_inv(INV.FOODFISH_COOKED, user.inv.find_item(INV.ODFISH_COOKED));
-          } else if (user.inv.n[INV.COOKIE]) {
-            client.select_inv(INV.COOKIE, user.inv.find_item(INV.COOKIE));
-          } else if (user.inv.n[INV.SANDWICH]) {
-            client.select_inv(INV.SANDWICH, user.inv.find_item(INV.SANDWICH));
-          } else if (user.inv.n[INV.CAKE]) {
-            client.select_inv(INV.CAKE, user.inv.find_item(INV.CAKE));
-          } else if (user.inv.n[INV.CRAB_LOOT]) {
-            client.select_inv(INV.CRAB_LOOT, user.inv.find_item(INV.CRAB_LOOT));
-          }
-          client.ping();
-          workerTimers.setTimeout(() => {
-            window.AutoEatWait = false;
-          }, 500);
+          AutoFood();
         } else if (user.gauges.t < 0.45 && !window.AutoDrinkWait) {
           window.AutoDrinkWait = true;
           if (user.inv.n[INV.BOTTLE_FULL]) {
@@ -148201,9 +148133,9 @@ function ShowPing() {
 
 let AutoThingsInterval;
 let ShowPingInterval;
-let AutoFeedInterval;
+let AutoFoodInterval;
 setTimeout(() => {
   AutoThingsInterval = workerTimers.setInterval(AutoThings, 1e3 / 30);
-  AutoFeedInterval = workerTimers.setInterval(AutoFeed, 8e3);
-  ShowPingInterval = workerTimers.setInterval(ShowPing, 1e3);
+  AutoFeedInterval = workerTimers.setInterval(AutoFood, 8e3);
+  ShowPingInterval = workerTimers.setInterval(ShowPing, 2e3);
 }, 5e3);
