@@ -147764,9 +147764,9 @@ window.UtilsUI = {
         },
         {
           type: "checkbox",
-          label: "ListEnableHacks",
+          label: "ListEnabledHacks",
           object: Settings,
-          property: "ListEnableHacks",
+          property: "ListEnabledHacks",
           onChange: (e) => {
             UtilsUI.saveSettings();
           },
