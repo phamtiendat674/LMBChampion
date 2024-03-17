@@ -126778,6 +126778,7 @@ function User() {
       if (Settings.Aimbot.e && Settings.Aimbot.a != null)
       {
         a = Settings.Aimbot.a;
+        t.nangle = Settings.Aimbot.a;
       } else {
         a = Utils.get_std_angle(mouse.pos, e);
       }
@@ -126790,7 +126791,7 @@ function User() {
         this.mouse = 0;
         client.send_attack(a);
       }
-      if (t) {
+      if (t && Settings.Aimbot.a === null) {
         t.angle = a;
         t.nangle = a;
       }
@@ -126800,7 +126801,9 @@ function User() {
           this.timeout = 0;
           if (Math.abs(this.angle - a) > 0.005) {
             client.send_angle(a);
-            this.angle = a;
+            if (Settings.Aimbot.a === null) {
+              this.angle = a;
+            }
           }
         }
       }
