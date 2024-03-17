@@ -147795,7 +147795,18 @@ window.UtilsUI = {
     );
     gui.Register(
       [
-
+        {
+          type: "range",
+          label: "Auto Food Range",
+          min: 0.1,
+          max: 1,
+          step: 0.1,
+          object: Settings,
+          property: "AutoFoodRange",
+          onChange: (e) => {
+            UtilsUI.saveSettings;
+          }
+        }
       ],
       { folder: "Main"}
     );
@@ -147972,6 +147983,47 @@ window.UtilsUI = {
 };
 UtilsUI.LoadHack();
 
+function AutoFeed() {
+  if (client.socket && client.socket.readyState === 1) {
+    client.ping();
+    if (user.gauges.h < Settings.AutoFoodRange && !user.craft.crafting && !window.AutoEatWait) {
+      window.AutoEatWait = true;
+      if (user.inv.n[INV.PLANT]) {
+        client.select_inv(INV.PLANT, user.inv.find_item(INV.PLANT));
+      } else if (user.inv.n[INV.GARLIC]) {
+        client.select_inv(INV.GARLIC, user.inv.find_item(INV.GARLIC));
+      } else if (user.inv.n[INV.CRAB_STICK]) {
+        client.select_inv(INV.CRAB_STICK, user.inv.find_item(INV.CRAB_STICK));
+      } else if (user.inv.n[INV.PUMPKIN]) {
+        client.select_inv(INV.PUMPKIN, user.inv.find_item(INV.PUMPKIN));
+      } else if (user.inv.n[INV.TOMATO]) {
+        client.select_inv(INV.TOMATO, user.inv.find_item(INV.TOMATO));
+      } else if (user.inv.n[INV.CARROT]) {
+        client.select_inv(INV.CARROT, user.inv.find_item(INV.CARROT));
+      } else if (user.inv.n[INV.WATERMELON]) {
+        client.select_inv(INV.WATERMELON, user.inv.find_item(INV.WATERMELON));
+      } else if (user.inv.n[INV.BREAD]) {
+        client.select_inv(INV.BREAD, user.inv.find_item(INV.BREAD));
+      } else if (user.inv.n[INV.COOKED_MEAT]) {
+        client.select_inv(INV.COOKED_MEAT, user.inv.find_item(INV.COOKED_MEAT));
+      } else if (user.inv.n[INV.FOODFISH_COOKED]) {
+        client.select_inv(INV.FOODFISH_COOKED, user.inv.find_item(INV.ODFISH_COOKED));
+      } else if (user.inv.n[INV.COOKIE]) {
+        client.select_inv(INV.COOKIE, user.inv.find_item(INV.COOKIE));
+      } else if (user.inv.n[INV.SANDWICH]) {
+        client.select_inv(INV.SANDWICH, user.inv.find_item(INV.SANDWICH));
+      } else if (user.inv.n[INV.CAKE]) {
+        client.select_inv(INV.CAKE, user.inv.find_item(INV.CAKE));
+      } else if (user.inv.n[INV.CRAB_LOOT]) {
+        client.select_inv(INV.CRAB_LOOT, user.inv.find_item(INV.CRAB_LOOT));
+      }
+      client.ping();
+      workerTimers.setTimeout(() => {
+        window.AutoEatWait = false;
+      }, 500);
+    }
+  }
+}
 function AutoThings() {
   if (client.socket && client.socket.readyState === 1 && user && user.alive) {
     let myPlayer = world.fast_units[user.uid];
@@ -148147,8 +148199,9 @@ function ShowPing() {
 
 let AutoThingsInterval;
 let ShowPingInterval;
-
+let AutoFeedInterval;
 setTimeout(() => {
   AutoThingsInterval = workerTimers.setInterval(AutoThings, 1e3 / 30);
+  AutoFeedInterval = workerTimers.setInterval(AutoFeed, 8e3);
   ShowPingInterval = workerTimers.setInterval(ShowPing, 1e3);
 }, 5e3);
