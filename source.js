@@ -147986,7 +147986,7 @@ UtilsUI.LoadHack();
 function AutoFeed() {
   if (client.socket && client.socket.readyState === 1) {
     client.ping();
-    if (user.gauges.h < Settings.AutoFoodRange && !user.craft.crafting && !window.AutoEatWait) {
+    if (user.gauges.h < Settings.AutoFoodRange && !user.craft.crafting) {
       window.AutoEatWait = true;
       if (user.inv.n[INV.PLANT]) {
         client.select_inv(INV.PLANT, user.inv.find_item(INV.PLANT));
@@ -148019,8 +148019,10 @@ function AutoFeed() {
       }
       client.ping();
       workerTimers.setTimeout(() => {
-        window.AutoEatWait = false;
-      }, 500);
+        AutoFood 
+      }, 300);
+    } else {
+      window.AutoEatWait = false;
     }
   }
 }
