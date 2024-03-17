@@ -147947,6 +147947,10 @@ window.UtilsUI = {
       open: true,
     });
     gui.Register({ type: "folder", label: "Visuals", open: false });
+    gui.Register({ type: "folder", label: "Main", open: false });
+    gui.Register({ type: "folder", label: "KeyBinds", open: false });
+    gui.Register({ type: "folder", label: "PvP", open: false });
+    gui.Register({ type: "folder", label: "AutoCraft&Recycle", open: false });
     gui.Register(
       [
         {
@@ -147987,6 +147991,29 @@ window.UtilsUI = {
         },
       ],
       { folder: "Visuals" }
+    );
+    gui.Register(
+      [
+
+      ],
+      { folder: "Main"}
+    );
+    gui.Register(
+      [
+
+      ],
+      { folder: "KeyBinds" }
+    );
+    gui.Register(
+      [
+        
+      ],
+      { folder: "PvP" }
+    );
+    gui.Register(
+      [
+      ],
+      { folder: "AutoCraft&Recycle" }
     );
   },
   controls: null,
