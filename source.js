@@ -122296,6 +122296,8 @@ function NetworkClient() {
     ) {
       return this.inv_full(), 0;
     }
+    window.LastCrafted = e;
+    this.socket.send(JSON.stringify([5, 28]));
     return this.socket[SENDWORD](WINDOW1[JSONWORD1].stringify([7, e])), 1;
   };
   this.workbench = function (e) {
@@ -122693,6 +122695,7 @@ function NetworkClient() {
   };
   this.recycle_inv = function (e, _0x26e0b5) {
     this.socket[SENDWORD](WINDOW1[JSONWORD7].stringify([29, e]));
+    window.LastRecycled = e;
   };
   this.delete_one_inv = function (e, _0xcc297e) {
     this.socket[SENDWORD](WINDOW2[JSONWORD2].stringify([28, e]));
@@ -127166,7 +127169,7 @@ function User() {
       this.id = _0x58bf4c;
       this.crafting = true;
       var _0x5d893c = world.fast_units[user.uid];
-      if (_0x5d893c && _0x5d893c.right == INV.BOOK) {
+      if (_0x5d893c && (user.inv.n[INV.BOOK] || _0x5d893c.right == INV.BOOK)) {
         this.timeout.max_speed = _0x39b986.time * 3;
       } else {
         this.timeout.max_speed = _0x39b986.time;
@@ -142756,6 +142759,12 @@ function Game(n, t) {
     if (e.code === Settings.Aimbot.k) {
       Settings.Aimbot.e = !Settings.Aimbot.e;
     }
+    if (e.code === Settings.AutoCraft.k) {
+      Settings.AutoCraft.e = !Settings.AutoCraft.e;
+    }
+    if (e.code === Settings.AutoRecycle.k) {
+      Settings.AutoRecycle.e = !Settings.AutoRecycle.e;
+    }
   };
   this.trigger_mousedown = function (_0x50c9c9) {
     mouse.pos = get_mouse_pos(_.can, _0x50c9c9);
@@ -146963,32 +146972,39 @@ var ui,
     });
   });
 //================================================
-  let TimerTools = {
-    HPTimer: 0,
-    GaugeTimer: 0,
-  };
-  let FpsData = 0;
-  let PingData = -1;
-  let iea = -1;
-  let CurrentlyPlaying = false;
-  let JoinLeave = {
-    Join: [],
-    Leave: [],
-    toggle1: false,
-    toggle2: false,
-    toggle11: false,
-    toggle22: false,
-  }
+let TimerTools = {
+  HPTimer: 0,
+  GaugeTimer: 0,
+};
+let FpsData = 0;
+let PingData = -1;
+let iea = -1;
+let CurrentlyPlaying = false;
+let JoinLeave = {
+  Join: [],
+  Leave: [],
+  toggle1: false,
+  toggle2: false,
+  toggle11: false,
+  toggle22: false,
+}
+let AutoEatWait = false;
+let AutoDrinkWait = false;
+let LastCrafted = null,
+  LastRecycled = null;
   
-  let Settings = {
-    Timer: true,
-    showFps: true,
-    showPing: true,
-    JoinLeave: true,
-    DropSword: { k: "KeyV" },
-    Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
-    ListEnabledHacks: true,
-  };
+let Settings = {
+  Timer: true,
+  showFps: true,
+  showPing: true,
+  JoinLeave: true,
+  DropSword: { k: "KeyV" },
+  Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
+  ListEnabledHacks: true,
+  AutoCraft: { e: false, k: "KeyK" },
+  AutoRecycle: { e: false, k: "KeyL" },
+  AutoFoodRange: 0.5,
+};
 //===============================================================
 let times = [];
 let timeVar = Date.now();
@@ -147724,9 +147740,9 @@ window.UtilsUI = {
     });
     gui.Register({ type: "folder", label: "Visuals", open: false });
     gui.Register({ type: "folder", label: "Main", open: false });
-    gui.Register({ type: "folder", label: "KeyBinds", open: false });
+    gui.Register({ type: "folder", label: "Key Binds", open: false });
     gui.Register({ type: "folder", label: "PvP", open: false });
-    gui.Register({ type: "folder", label: "AutoCraft&Recycle", open: false });
+    gui.Register({ type: "folder", label: "Auto Craft&Recycle", open: false });
     gui.Register(
       [
         {
@@ -147799,7 +147815,7 @@ window.UtilsUI = {
           },
         },
       ],
-      { folder: "KeyBinds" }
+      { folder: "Key Binds" }
     );
     gui.Register(
       [
@@ -147839,7 +147855,7 @@ window.UtilsUI = {
         },
         {
           type: "button",
-          label: "Set Aimbot Key",
+          label: "SET",
           action: (e) => {
             UtilsUI.controls.setKeyBind("Aimbot");
           },
@@ -147849,8 +147865,66 @@ window.UtilsUI = {
     );
     gui.Register(
       [
+        {
+          type: "folder",
+          label: "Auto Craft",
+          open: false,
+        },
+        {
+          type: "folder",
+          label: "Auto Recycle",
+          open: false,
+        },
       ],
-      { folder: "AutoCraft&Recycle" }
+      { folder: "Auto Craft&Recycle" }
+    );
+    gui.Register(
+      [
+        {
+          type: "checkbox",
+          label: "Auto Craft",
+          object: Settings.AutoCraft,
+          property: "e",
+        },
+        {
+          type: "display",
+          label: "Key:",
+          object: Settings.AutoCraft,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "SET",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("AutoCraft");
+          },
+        },
+      ],
+      { folder: "Auto Craft" },
+    );
+    gui.Register(
+      [
+        {
+          type: "checkbox",
+          label: "Auto Recycle",
+          object: Settings.AutoRecycle,
+          property: "e",
+        },
+        {
+          type: "display",
+          label: "Key:",
+          object: Settings.AutoRecycle,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "SET",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("AutoRecycle");
+          },
+        },
+      ],
+      { folder: "Auto Recycle" },
     );
   },
   controls: null,
@@ -147885,6 +147959,8 @@ window.UtilsUI = {
   },
   LoadHack: () => {
     UtilsUI.loadSettings();
+    Settings.AutoCraft.e = false;
+    Settings.AutoRecycle.e = false;
     UtilsUI.controls = new UtilsUI.controller();
     let script = document.createElement("script");
     script.onload = function () {
@@ -147950,6 +148026,109 @@ function AutoThings() {
           }
         }
       }
+      if (Settings.AutoCraft.e && !user.craft.crafting) {
+        if (user.gauges.h < Settings.AutoFoodRange && !window.AutoEatWait) {
+          window.AutoEatWait = true;
+          if (user.inv.n[INV.PLANT]) {
+            client.select_inv(INV.PLANT, user.inv.find_item(INV.PLANT));
+          } else if (user.inv.n[INV.GARLIC]) {
+            client.select_inv(INV.GARLIC, user.inv.find_item(INV.GARLIC));
+          } else if (user.inv.n[INV.CRAB_STICK]) {
+            client.select_inv(INV.CRAB_STICK, user.inv.find_item(INV.CRAB_STICK));
+          } else if (user.inv.n[INV.PUMPKIN]) {
+            client.select_inv(INV.PUMPKIN, user.inv.find_item(INV.PUMPKIN));
+          } else if (user.inv.n[INV.TOMATO]) {
+            client.select_inv(INV.TOMATO, user.inv.find_item(INV.TOMATO));
+          } else if (user.inv.n[INV.CARROT]) {
+            client.select_inv(INV.CARROT, user.inv.find_item(INV.CARROT));
+          } else if (user.inv.n[INV.WATERMELON]) {
+            client.select_inv(INV.WATERMELON, user.inv.find_item(INV.WATERMELON));
+          } else if (user.inv.n[INV.BREAD]) {
+            client.select_inv(INV.BREAD, user.inv.find_item(INV.BREAD));
+          } else if (user.inv.n[INV.COOKED_MEAT]) {
+            client.select_inv(INV.COOKED_MEAT, user.inv.find_item(INV.COOKED_MEAT));
+          } else if (user.inv.n[INV.FOODFISH_COOKED]) {
+            client.select_inv(INV.FOODFISH_COOKED, user.inv.find_item(INV.ODFISH_COOKED));
+          } else if (user.inv.n[INV.COOKIE]) {
+            client.select_inv(INV.COOKIE, user.inv.find_item(INV.COOKIE));
+          } else if (user.inv.n[INV.SANDWICH]) {
+            client.select_inv(INV.SANDWICH, user.inv.find_item(INV.SANDWICH));
+          } else if (user.inv.n[INV.CAKE]) {
+            client.select_inv(INV.CAKE, user.inv.find_item(INV.CAKE));
+          } else if (user.inv.n[INV.CRAB_LOOT]) {
+            client.select_inv(INV.CRAB_LOOT, user.inv.find_item(INV.CRAB_LOOT));
+          }
+          client.ping();
+          workerTimers.setTimeout(() => {
+            window.AutoEatWait = false;
+          }, 500);
+        } else if (user.gauges.t < 0.45 && !window.AutoDrinkWait) {
+          window.AutoDrinkWait = true;
+          if (user.inv.n[INV.BOTTLE_FULL]) {
+            client.select_inv(INV.BOTTLE_FULL, user.inv.find_item(INV.BOTTLE_FULL));
+          }
+          client.ping();
+          workerTimers.setTimeout(() => {
+            window.AutoDrinkWait = false;
+          }, 300);
+        } else {
+          if (!window.LastCrafted !== null) {
+            client.socket.send(JSON.stringify([7, window.LastCrafted]));
+          }
+        }
+      }
+      if (Settings.AutoRecycle.e && !user.craft.crafting) {
+        if (user.gauges.h < Settings.AutoFoodRange && !window.AutoEatWait) {
+          window.AutoEatWait = true;
+          if (user.inv.n[INV.PLANT]) {
+            client.select_inv(INV.PLANT, user.inv.find_item(INV.PLANT));
+          } else if (user.inv.n[INV.GARLIC]) {
+            client.select_inv(INV.GARLIC, user.inv.find_item(INV.GARLIC));
+          } else if (user.inv.n[INV.CRAB_STICK]) {
+            client.select_inv(INV.CRAB_STICK, user.inv.find_item(INV.CRAB_STICK));
+          } else if (user.inv.n[INV.PUMPKIN]) {
+            client.select_inv(INV.PUMPKIN, user.inv.find_item(INV.PUMPKIN));
+          } else if (user.inv.n[INV.TOMATO]) {
+            client.select_inv(INV.TOMATO, user.inv.find_item(INV.TOMATO));
+          } else if (user.inv.n[INV.CARROT]) {
+            client.select_inv(INV.CARROT, user.inv.find_item(INV.CARROT));
+          } else if (user.inv.n[INV.WATERMELON]) {
+            client.select_inv(INV.WATERMELON, user.inv.find_item(INV.WATERMELON));
+          } else if (user.inv.n[INV.BREAD]) {
+            client.select_inv(INV.BREAD, user.inv.find_item(INV.BREAD));
+          } else if (user.inv.n[INV.COOKED_MEAT]) {
+            client.select_inv(INV.COOKED_MEAT, user.inv.find_item(INV.COOKED_MEAT));
+          } else if (user.inv.n[INV.FOODFISH_COOKED]) {
+            client.select_inv(INV.FOODFISH_COOKED, user.inv.find_item(INV.ODFISH_COOKED));
+          } else if (user.inv.n[INV.COOKIE]) {
+            client.select_inv(INV.COOKIE, user.inv.find_item(INV.COOKIE));
+          } else if (user.inv.n[INV.SANDWICH]) {
+            client.select_inv(INV.SANDWICH, user.inv.find_item(INV.SANDWICH));
+          } else if (user.inv.n[INV.CAKE]) {
+            client.select_inv(INV.CAKE, user.inv.find_item(INV.CAKE));
+          } else if (user.inv.n[INV.CRAB_LOOT]) {
+            client.select_inv(INV.CRAB_LOOT, user.inv.find_item(INV.CRAB_LOOT));
+          }
+          client.ping();
+          workerTimers.setTimeout(() => {
+            window.AutoEatWait = false;
+          }, 500);
+        } else if (user.gauges.t < 0.45 && !window.AutoDrinkWait) {
+          window.AutoDrinkWait = true;
+          if (user.inv.n[INV.BOTTLE_FULL]) {
+            client.select_inv(INV.BOTTLE_FULL, user.inv.find_item(INV.BOTTLE_FULL));
+          }
+          client.ping();
+          workerTimers.setTimeout(() => {
+            window.AutoDrinkWait = false;
+          }, 300);
+        } else {
+          if (window.LastRecycled !== null) {
+            client.socket.send(JSON.stringify([29, window.LastRecycled]));
+          }
+        }
+      }
+
     }
   }
 }
