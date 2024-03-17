@@ -123793,412 +123793,258 @@ function Item(type, pid, id, x, y, angle, action, info, speed, extra) {
   }
   switch (type) {
     case ITEMS.PLAYERS:
-      (this.player = world.players[this.pid]),
-        (this.skin = this.player.skin),
-        (this.baglook = this.player.baglook),
-        (this.book = this.player.book),
-        (this.accessory = this.player.accessory),
-        (this.dist_forest = -1000000),
-        (this.dist_lava = -1000000),
-        (this.dist_winter = -1000000),
-        (this.dist_desert = -1000000),
-        (this.dist_water = -1000000),
-        (this.dist_sand = -1000000),
-        (this.dist_dragon = -1000000),
-        (this.zombie =
-          world.mode === WORLD.MODE_ZOMBIES && this.skin === WORLD.ZOMBIE_SKIN
-            ? true
-            : false),
-        (this.vampire =
-          world.mode === WORLD.MODE_VAMPIRES && this.skin === WORLD.VAMPIRE_SKIN
-            ? true
-            : false),
-        (this.superzombie =
-          this.zombie && this.player.nickname === "  " ? true : false),
-        (this.foot = []),
-        (this.tower = 0),
-        (this.move_effect = true),
-        (this.id_foot = 0),
-        (this.fly = 0),
-        (this.swim = []),
-        (this.r = {
-          x: x,
-          y: y,
-        }),
-        (this.draw = draw_player),
-        (this.draw_vehicle = draw_vehicle),
-        (this.vehicle_fx1 = 0),
-        (this.vehicle_fx2 = 0),
-        (this.vehicle_fx3 = 0),
-        (this.vehicle_fx4 = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.vehicle_fx5 = 0),
-        (this.tower_fx = 0),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3)),
-        (this.heal = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3)),
-        (this.freeze = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3)),
-        (this.starve = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3)),
-        (this.idle = new Utils.LinearAnimation(true, 0, 2.25, -1.5, 3.75, 7.5)),
-        (this.walk = new Utils.LinearAnimation(true, 0, 7.5, -3, 22.5, 33.75)),
-        (this.attack = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 3,
-          6,
-          9
-        )),
-        (this.slow_attack = 0),
-        (this.web = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 1, 3)),
-        (this.move_head = this.superzombie
-          ? new Utils.LinearAnimation(true, 0, 2.25, -1.5, 2.75, 5.5)
-          : 0),
-        (this.angle_init = 0),
-        (this.text_ease = 0),
-        (this.text_effect = []),
-        (this.text_move = []),
-        (this.text = []),
-        (this.label = []),
-        (this.draw_text = draw_chat),
-        (this.hand = true),
-        (this.right = -1),
-        (this.vehicle = -1),
-        (this.action = STATE.IDLE),
-        (this.collide = false),
-        (this.clothe = 0),
-        (this.ghost = false),
-        (this.bubbles = []),
-        (this.bag = 0),
-        (this.sid = -1),
-        (this.update = function (_0x1703af) {
-          if (this.info & 32768) {
-            this.collide = true;
-            this.info = ~32768 & this.info;
-          } else {
-            this.collide = false;
+      this.player = world.players[this.pid];
+      this.skin = this.player.skin;
+      this.baglook = this.player.baglook;
+      this.book = this.player.book;
+      this.accessory = this.player.accessory;
+      this.dist_forest = -1000000;
+      this.dist_lava = -1000000;
+      this.dist_winter = -1000000;
+      this.dist_desert = -1000000;
+      this.dist_water = -1000000;
+      this.dist_sand = -1000000;
+      this.dist_dragon = -1000000;
+      this.zombie = !!(world.mode === WORLD.MODE_ZOMBIES && this.skin === WORLD.ZOMBIE_SKIN);
+      this.vampire = !!(world.mode === WORLD.MODE_VAMPIRES && this.skin === WORLD.VAMPIRE_SKIN);
+      this.superzombie = !!(this.zombie && this.player.nickname === "  ");
+      this.foot = [];
+      this.tower = 0;
+      this.move_effect = true;
+      this.id_foot = 0;
+      this.fly = 0;
+      this.swim = [];
+      this.r = {
+        x: x,
+        y: y
+      };
+      this.draw = draw_player;
+      this.draw_vehicle = draw_vehicle;
+      this.vehicle_fx1 = 0;
+      this.vehicle_fx2 = 0;
+      this.vehicle_fx3 = 0;
+      this.vehicle_fx4 = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.vehicle_fx5 = 0;
+      this.tower_fx = 0;
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
+      this.heal = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
+      this.freeze = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
+      this.starve = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
+      this.idle = new Utils.LinearAnimation(true, 0, 2.25, -1.5, 3.75, 7.5);
+      this.walk = new Utils.LinearAnimation(true, 0, 7.5, -3, 22.5, 33.75);
+      this.attack = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 3, 6, 9);
+      this.slow_attack = 0;
+      this.web = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 1, 3);
+      this.move_head = this.superzombie ? new Utils.LinearAnimation(true, 0, 2.25, -1.5, 2.75, 5.5) : 0;
+      this.angle_init = 0;
+      this.text_ease = 0;
+      this.text_effect = [];
+      this.text_move = [];
+      this.text = [];
+      this.label = [];
+      this.draw_text = draw_chat;
+      this.hand = true;
+      this.right = -1;
+      this.vehicle = -1;
+      this.action = STATE.IDLE;
+      this.collide = false;
+      this.clothe = 0;
+      this.ghost = false;
+      this.bubbles = [];
+      this.bag = 0;
+      this.sid = -1;
+      this.update = function (_0x1703af) {
+        if (this.info & 32768) {
+          this.collide = true;
+          this.info = -32769 & this.info;
+        } else {
+          this.collide = false;
+        }
+        if (this.info & 16384) {
+          this.info = -16385 & this.info;
+          this.bag = 1;
+        } else {
+          this.bag = 0;
+        }
+        this.clothe = Math.floor(this.info / 128);
+        this.info -= 128 * this.clothe;
+        if (this.info === INV.HAND || this.superzombie) {
+          this.right = -1;
+        } else {
+          this.right = this.info;
+        }
+        this.tower = world.find_tower(Math.floor(this.r.y / 100), Math.floor(this.r.x / 100));
+        this.vehicle = this.extra & 255;
+        if (this.right === WORLD.GHOST) {
+          this.ghost = true;
+        } else {
+          this.ghost = false;
+        }
+        if (SLOW_DOWN[this.right]) {
+          this.weapon = true;
+        } else {
+          this.weapon = false;
+        }
+        if (_0x1703af & STATE.WEB) {
+          this.web.o = false;
+          this.web.v = 0.6;
+        } else {
+          if (_0x1703af & STATE.COLD) {
+            this.freeze.o = false;
+            this.freeze.v = 0.6;
+          } else if (_0x1703af & STATE.HEAL) {
+            this.heal.o = false;
+            this.heal.v = 0.6;
           }
-          if (this.info & 16384) {
-            this.info = ~16384 & this.info;
-            this.bag = 1;
-          } else {
-            this.bag = 0;
+        }
+        if (_0x1703af & STATE.HUNGER) {
+          this.starve.o = false;
+          this.starve.v = 0.6;
+        }
+        if (_0x1703af & STATE.HURT) {
+          this.hit.o = false;
+          this.hit.v = 0.6;
+        }
+        if (_0x1703af & STATE.ATTACK) {
+          this.slow_attack = CLIENT.SLOW_ATTACK;
+          if (audio.run && this.sid !== -1) {
+            audio.players[this.sid].swing(SOUND[this.right]);
           }
-          this.clothe = Math.floor(this.info / 128);
-          this.info -= 128 * this.clothe;
-          if (this.info === INV.HAND || this.superzombie) {
-            this.right = -1;
-          } else {
-            this.right = this.info;
-          }
-          this.tower = world.find_tower(
-            Math.floor(this.r.y / 100),
-            Math.floor(this.r.x / 100)
-          );
-          this.vehicle = this.extra & 255;
-          if (this.right === WORLD.GHOST) {
-            this.ghost = true;
-          } else {
-            this.ghost = false;
-          }
-          if (SLOW_DOWN[this.right]) {
-            this.weapon = true;
-          } else {
-            this.weapon = false;
-          }
-          if (_0x1703af & STATE.WEB) {
-            this.web.o = false;
-            this.web.v = 0.6;
-          } else {
-            if (_0x1703af & STATE.COLD) {
-              this.freeze.o = false;
-              this.freeze.v = 0.6;
-            } else {
-              _0x1703af & STATE.HEAL &&
-                ((this.heal.o = false), (this.heal.v = 0.6));
-            }
-          }
-          _0x1703af & STATE.HUNGER &&
-            ((this.starve.o = false), (this.starve.v = 0.6));
-          _0x1703af & STATE.HURT && ((this.hit.o = false), (this.hit.v = 0.6));
-          if (_0x1703af & STATE.ATTACK) {
-            this.slow_attack = CLIENT.SLOW_ATTACK;
-            if (audio.run && this.sid !== -1) {
-              audio.players[this.sid].swing(SOUND[this.right]);
-            }
-          }
-        }),
-        this.update();
+        }
+      };
+      this.update();
       break;
     case ITEMS.EMERALD_MACHINE:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw_bg = draw_emerald_machine_halo),
-        (this.draw_fg = draw_emerald_machine),
-        (this.halo = new Utils.LinearAnimation(
-          false,
-          1,
-          1.23,
-          1.18,
-          0.01,
-          0.01
-        )),
-        (this.rotate1 = 0),
-        (this.rotate2 = 0),
-        (this.draw_life = draw_life);
+        angle: 0
+      };
+      this.draw_bg = draw_emerald_machine_halo;
+      this.draw_fg = draw_emerald_machine;
+      this.halo = new Utils.LinearAnimation(false, 1, 1.23, 1.18, 0.01, 0.01);
+      this.rotate1 = 0;
+      this.rotate2 = 0;
+      this.draw_life = draw_life;
       break;
     case ITEMS.RESURRECTION:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw_bg = draw_resurrection_halo),
-        (this.draw_fg = draw_resurrection),
-        (this.halo = new Utils.LinearAnimation(
-          false,
-          1,
-          1.23,
-          1.18,
-          0.01,
-          0.01
-        )),
-        (this.rotate1 = 0),
-        (this.rotate2 = 0);
+        angle: 0
+      };
+      this.draw_bg = draw_resurrection_halo;
+      this.draw_fg = draw_resurrection;
+      this.halo = new Utils.LinearAnimation(false, 1, 1.23, 1.18, 0.01, 0.01);
+      this.rotate1 = 0;
+      this.rotate2 = 0;
       break;
     case ITEMS.FIRE:
     case ITEMS.BIG_FIRE:
-      (this.draw_bg = draw_fire_ground),
-        (this.draw_fg = draw_fire_halo),
-        (this.fire = new Utils.LinearAnimation(false, 1, 1.03, 0.98, 0.3, 0.3)),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          1,
-          1.23,
-          1.18,
-          0.01,
-          0.01
-        )),
-        (this.halo = new Utils.LinearAnimation(
-          false,
-          1,
-          1.23,
-          1.18,
-          0.01,
-          0.01
-        )),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw_bg = draw_fire_ground;
+      this.draw_fg = draw_fire_halo;
+      this.fire = new Utils.LinearAnimation(false, 1, 1.03, 0.98, 0.3, 0.3);
+      this.ground = new Utils.LinearAnimation(false, 1, 1.23, 1.18, 0.01, 0.01);
+      this.halo = new Utils.LinearAnimation(false, 1, 1.23, 1.18, 0.01, 0.01);
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.TOMATO_SEED:
-      (this.draw_bg = draw_tomato),
-        (this.draw_fg = draw_tomato_fruit),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.fruits = []);
+      this.draw_bg = draw_tomato;
+      this.draw_fg = draw_tomato_fruit;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.fruits = [];
       for (var _0xde15fc = 0; _0xde15fc < 3; _0xde15fc++) {
         this.fruits.push({
           draw: draw_breath_2,
-          breath: new Utils.LinearAnimation(
-            false,
-            0.9 + Math.random() * 0.15,
-            1.05,
-            0.9,
-            0.2,
-            0.2
-          ),
+          breath: new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2)
         });
       }
-      (this.fruits[0].x = this.x - 16.5),
-        (this.fruits[0].y = this.y - 15.5),
-        (this.fruits[0].angle = this.angle),
-        (this.fruits[1].x = this.x + 36),
-        (this.fruits[1].y = this.y + 17),
-        (this.fruits[1].angle = this.angle),
-        (this.fruits[2].x = this.x - 18.5),
-        (this.fruits[2].y = this.y + 39),
-        (this.fruits[2].angle = this.angle);
+      this.fruits[0].x = this.x - 16.5;
+      this.fruits[0].y = this.y - 15.5;
+      this.fruits[0].angle = this.angle;
+      this.fruits[1].x = this.x + 36;
+      this.fruits[1].y = this.y + 17;
+      this.fruits[1].angle = this.angle;
+      this.fruits[2].x = this.x - 18.5;
+      this.fruits[2].y = this.y + 39;
+      this.fruits[2].angle = this.angle;
       break;
     case ITEMS.SEED:
-      (this.draw_bg = draw_seed),
-        (this.draw_fg = draw_plant),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.fruits = []);
+      this.draw_bg = draw_seed;
+      this.draw_fg = draw_plant;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.fruits = [];
       for (var _0xde15fc = 0; _0xde15fc < 3; _0xde15fc++) {
         this.fruits.push({
           draw: draw_breath,
-          breath: new Utils.LinearAnimation(
-            false,
-            0.9 + Math.random() * 0.15,
-            1.05,
-            0.9,
-            0.2,
-            0.2
-          ),
+          breath: new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2)
         });
       }
-      (this.fruits[0].x = this.x - 16.5),
-        (this.fruits[0].y = this.y - 15.5),
-        (this.fruits[1].x = this.x - 5.5),
-        (this.fruits[1].y = this.y + 7.5),
-        (this.fruits[2].x = this.x + 18),
-        (this.fruits[2].y = this.y - 5);
+      this.fruits[0].x = this.x - 16.5;
+      this.fruits[0].y = this.y - 15.5;
+      this.fruits[1].x = this.x - 5.5;
+      this.fruits[1].y = this.y + 7.5;
+      this.fruits[2].x = this.x + 18;
+      this.fruits[2].y = this.y - 5;
       break;
     case ITEMS.BABY_MAMMOTH:
-      (this.draw = draw_baby_mammoth),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_baby_mammoth;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.BOAR:
-      (this.draw = draw_boar),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_boar;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.CRAB_BOSS:
-      (this.draw = draw_crab_boss),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.breathl = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.breathr = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3)),
-        (this.heal = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_crab_boss;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.breathl = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.breathr = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
+      this.heal = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.CRAB:
-      (this.draw = draw_crab),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.breathl = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.breathr = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3)),
-        (this.heal = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_crab;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.breathl = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.breathr = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
+      this.heal = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.FLAME:
-      (this.draw = draw_simple_mobs_hd),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_simple_mobs_hd;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.FIREFLY:
-      (this.draw = draw_simple_mobs),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.5,
-          0.5
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_simple_mobs;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.5, 0.5);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.SPELL:
-      (this.spell = this.info & 15),
-        (this.fly = this.extra & 1),
-        (this.born = 0),
-        (this.x = this.info),
-        (this.y = this.extra),
-        (this.draw = draw_spell),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.6,
-          0.6
-        ));
+      this.spell = this.info & 15;
+      this.fly = this.extra & 1;
+      this.born = 0;
+      this.x = this.info;
+      this.y = this.extra;
+      this.draw = draw_spell;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.6, 0.6);
       break;
     case ITEMS.RABBIT:
     case ITEMS.WOLF:
@@ -124209,474 +124055,306 @@ function Item(type, pid, id, x, y, angle, action, info, speed, extra) {
     case ITEMS.PIRANHA:
     case ITEMS.KRAKEN:
     case ITEMS.PENGUIN:
-      (this.draw = draw_simple_mobs),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_simple_mobs;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.SIGN:
-      (this.draw = draw_sign),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_sign;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.BREAD_OVEN:
-      (this.draw_fg = draw_bread_oven_smog),
-        (this.draw = draw_bread_oven),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.up = new Utils.LinearAnimation(false, 1, 1.03, 0.98, 0.1, 0.1)),
-        (this.smog = []);
+      this.draw_fg = draw_bread_oven_smog;
+      this.draw = draw_bread_oven;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.up = new Utils.LinearAnimation(false, 1, 1.03, 0.98, 0.1, 0.1);
+      this.smog = [];
       break;
     case ITEMS.GIFT:
-      this.angle = (Math.random() * Math.PI) / 2;
+      this.angle = Math.random() * Math.PI / 2;
     case ITEMS.CRATE:
     case ITEMS.DEAD_BOX:
-      (this.draw = draw_crate),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_crate;
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.TREASURE_CHEST:
-      (this.draw = draw_simple_mobs_2),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.draw = draw_simple_mobs_2;
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.LAVA_DRAGON:
-      (this.scale = 1),
-        (this.draw = draw_lava_dragon),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.rotate = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.scale = 1;
+      this.draw = draw_lava_dragon;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.rotate = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.SAND_WORM:
-      (this.dig = 0),
-        (this.ground = []),
-        (this.groundTimer = 0),
-        (this.draw_ground = draw_sand_worm_ground),
-        (this.draw = draw_sand_worm),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.rotate = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.dig = 0;
+      this.ground = [];
+      this.groundTimer = 0;
+      this.draw_ground = draw_sand_worm_ground;
+      this.draw = draw_sand_worm;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.rotate = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.VULTURE:
-      (this.x = this.info),
-        (this.y = this.extra),
-        (this.scale = 1),
-        (this["_alpha"] = 0),
-        (this.draw = draw_vulture),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.rotate = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.x = this.info;
+      this.y = this.extra;
+      this.scale = 1;
+      this._alpha = 0;
+      this.draw = draw_vulture;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.rotate = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.HAWK:
-      (this.x = this.info),
-        (this.y = this.extra),
-        (this.scale = 1),
-        (this["_alpha"] = 0),
-        (this.draw = draw_hawk),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.rotate = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.x = this.info;
+      this.y = this.extra;
+      this.scale = 1;
+      this._alpha = 0;
+      this.draw = draw_hawk;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.rotate = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.BABY_LAVA:
-      (this.scale = 1),
-        (this.draw = draw_baby_lava),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.rotate = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.scale = 1;
+      this.draw = draw_baby_lava;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.rotate = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.BABY_DRAGON:
-      (this.scale = 1),
-        (this.draw = draw_baby_dragon),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.rotate = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.scale = 1;
+      this.draw = draw_baby_dragon;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.rotate = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.DRAGON:
-      (this.scale = 1),
-        (this.draw = draw_dragon),
-        (this.breath = new Utils.LinearAnimation(
-          false,
-          0.9 + Math.random() * 0.15,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.rotate = new Utils.LinearAnimation(
-          false,
-          0,
-          0,
-          -Math.PI / 6,
-          0.5,
-          1
-        )),
-        (this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3));
+      this.scale = 1;
+      this.draw = draw_dragon;
+      this.breath = new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2);
+      this.rotate = new Utils.LinearAnimation(false, 0, 0, -Math.PI / 6, 0.5, 1);
+      this.hit = new Utils.LinearAnimation(false, 0.6, 0.6, 0, 5, 3);
       break;
     case ITEMS.FRUIT:
       this.fruits = [];
       for (var _0xde15fc = 0; _0xde15fc < 5; _0xde15fc++) {
         this.fruits.push({
           draw: draw_breath,
-          breath: new Utils.LinearAnimation(
-            false,
-            0.9 + Math.random() * 0.15,
-            1.05,
-            0.9,
-            0.2,
-            0.2
-          ),
+          breath: new Utils.LinearAnimation(false, 0.9 + Math.random() * 0.15, 1.05, 0.9, 0.2, 0.2)
         });
       }
       switch (this.id % 3) {
         case 0:
-          (this.fruits[0].x = this.x - 20.5),
-            (this.fruits[0].y = this.y - 22.5),
-            (this.fruits[1].x = this.x - 35.5),
-            (this.fruits[1].y = this.y + 7.5),
-            (this.fruits[2].x = this.x + 7.5),
-            (this.fruits[2].y = this.y - 30),
-            (this.fruits[3].x = this.x + 22.5),
-            (this.fruits[3].y = this.y),
-            (this.fruits[4].x = this.x - 7.5),
-            (this.fruits[4].y = this.y + 14.5);
+          this.fruits[0].x = this.x - 20.5;
+          this.fruits[0].y = this.y - 22.5;
+          this.fruits[1].x = this.x - 35.5;
+          this.fruits[1].y = this.y + 7.5;
+          this.fruits[2].x = this.x + 7.5;
+          this.fruits[2].y = this.y - 30;
+          this.fruits[3].x = this.x + 22.5;
+          this.fruits[3].y = this.y;
+          this.fruits[4].x = this.x - 7.5;
+          this.fruits[4].y = this.y + 14.5;
           break;
         case 1:
-          (this.fruits[0].x = this.x - 30.5),
-            (this.fruits[0].y = this.y - 22.5),
-            (this.fruits[1].x = this.x - 15.5),
-            (this.fruits[1].y = this.y + 7.5),
-            (this.fruits[2].x = this.x + 15.5),
-            (this.fruits[2].y = this.y - 30),
-            (this.fruits[3].x = this.x + 12.5),
-            (this.fruits[3].y = this.y + 5),
-            (this.fruits[4].x = this.x - 40.5),
-            (this.fruits[4].y = this.y + 14.5);
+          this.fruits[0].x = this.x - 30.5;
+          this.fruits[0].y = this.y - 22.5;
+          this.fruits[1].x = this.x - 15.5;
+          this.fruits[1].y = this.y + 7.5;
+          this.fruits[2].x = this.x + 15.5;
+          this.fruits[2].y = this.y - 30;
+          this.fruits[3].x = this.x + 12.5;
+          this.fruits[3].y = this.y + 5;
+          this.fruits[4].x = this.x - 40.5;
+          this.fruits[4].y = this.y + 14.5;
           break;
         case 2:
-          (this.fruits[0].x = this.x - 20.5),
-            (this.fruits[0].y = this.y - 20.5),
-            (this.fruits[1].x = this.x - 35.5),
-            (this.fruits[1].y = this.y + 15.5),
-            (this.fruits[2].x = this.x + 7.5),
-            (this.fruits[2].y = this.y - 17),
-            (this.fruits[3].x = this.x + 22.5),
-            (this.fruits[3].y = this.y + 5),
-            (this.fruits[4].x = this.x - 7.5),
-            (this.fruits[4].y = this.y + 1.5);
+          this.fruits[0].x = this.x - 20.5;
+          this.fruits[0].y = this.y - 20.5;
+          this.fruits[1].x = this.x - 35.5;
+          this.fruits[1].y = this.y + 15.5;
+          this.fruits[2].x = this.x + 7.5;
+          this.fruits[2].y = this.y - 17;
+          this.fruits[3].x = this.x + 22.5;
+          this.fruits[3].y = this.y + 5;
+          this.fruits[4].x = this.x - 7.5;
+          this.fruits[4].y = this.y + 1.5;
           break;
       }
       break;
     case ITEMS.WHEAT_SEED:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw = draw_wheat),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        )),
-        (this.wind = new Utils.LinearAnimation(
-          false,
-          0,
-          Math.PI / 30,
-          -Math.PI / 30,
-          0.06,
-          0.06
-        ));
+        angle: 0
+      };
+      this.draw = draw_wheat;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
+      this.wind = new Utils.LinearAnimation(false, 0, Math.PI / 30, -Math.PI / 30, 0.06, 0.06);
       break;
     case ITEMS.THORNBUSH_SEED:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw = draw_thornbush),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        ));
+        angle: 0
+      };
+      this.draw = draw_thornbush;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
       break;
     case ITEMS.GARLIC_SEED:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw = draw_garlic),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        ));
+        angle: 0
+      };
+      this.draw = draw_garlic;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
       break;
     case ITEMS.CARROT_SEED:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw = draw_carrot),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        ));
+        angle: 0
+      };
+      this.draw = draw_carrot;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
       break;
     case ITEMS.ALOE_VERA_SEED:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw = draw_aloe_vera),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        ));
+        angle: 0
+      };
+      this.draw = draw_aloe_vera;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
       break;
     case ITEMS.WATERMELON_SEED:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw = draw_watermelon),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        ));
+        angle: 0
+      };
+      this.draw = draw_watermelon;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
       break;
     case ITEMS.PUMPKIN_SEED:
-      (this.hit = {
+      this.hit = {
         anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
         update: false,
-        angle: 0,
-      }),
-        (this.draw = draw_pumpkin),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          0.9,
-          1.05,
-          0.9,
-          0.2,
-          0.2
-        ));
+        angle: 0
+      };
+      this.draw = draw_pumpkin;
+      this.ground = new Utils.LinearAnimation(false, 0.9, 1.05, 0.9, 0.2, 0.2);
       break;
     case ITEMS.EXTRACTOR_MACHINE_STONE:
-      (this.draw = draw_extractor_stone),
-        (this.rotate = 0),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_extractor_stone;
+      this.rotate = 0;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.EXTRACTOR_MACHINE_GOLD:
-      (this.draw = draw_extractor_gold),
-        (this.rotate = 0),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_extractor_gold;
+      this.rotate = 0;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.EXTRACTOR_MACHINE_DIAMOND:
-      (this.draw = draw_extractor_diamond),
-        (this.rotate = 0),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_extractor_diamond;
+      this.rotate = 0;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.EXTRACTOR_MACHINE_AMETHYST:
-      (this.draw = draw_extractor_amethyst),
-        (this.rotate = 0),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_extractor_amethyst;
+      this.rotate = 0;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.EXTRACTOR_MACHINE_REIDITE:
-      (this.draw = draw_extractor_reidite),
-        (this.rotate = 0),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_extractor_reidite;
+      this.rotate = 0;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.WINDMILL:
-      (this.draw_bg = draw_windmill_head),
-        (this.draw_fg = draw_windmill_wings),
-        (this.rotate = 0),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw_bg = draw_windmill_head;
+      this.draw_fg = draw_windmill_wings;
+      this.rotate = 0;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.ROOF:
-      (this.draw = draw_roof),
-        (this.j = Math.floor(this.x / 100)),
-        (this.i = Math.floor(this.y / 100)),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.opacity = 1),
-        (this.draw_life = draw_life_small);
+      this.draw = draw_roof;
+      this.j = Math.floor(this.x / 100);
+      this.i = Math.floor(this.y / 100);
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.opacity = 1;
+      this.draw_life = draw_life_small;
       break;
     case ITEMS.GARLAND:
-      (this.draw = draw_garland),
-        (this.halo = new Utils.LinearAnimation(false, 1, 1.15, 1, 0.3, 0.3)),
-        (this.color = 0),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_garland;
+      this.halo = new Utils.LinearAnimation(false, 1, 1.15, 1, 0.3, 0.3);
+      this.color = 0;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.PLOT:
     case ITEMS.WORKBENCH:
     case ITEMS.WOOD_TOWER:
     case ITEMS.WELL:
     case ITEMS.TOTEM:
-      (this.draw = draw_simple_item),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_simple_item;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       break;
     case ITEMS.BRIDGE:
-      (this.draw = draw_simple_item),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.draw_life = draw_life_small);
+      this.draw = draw_simple_item;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.draw_life = draw_life_small;
       break;
     case ITEMS.WALL:
     case ITEMS.STONE_WALL:
@@ -124690,22 +124368,22 @@ function Item(type, pid, id, x, y, angle, action, info, speed, extra) {
     case ITEMS.DIAMOND_SPIKE:
     case ITEMS.AMETHYST_SPIKE:
     case ITEMS.REIDITE_SPIKE:
-      (this.draw = draw_simple_item),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.draw_life = draw_life);
+      this.draw = draw_simple_item;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.draw_life = draw_life;
       break;
     case ITEMS.BED:
-      (this.draw = draw_bed),
-        (this.opacity = 1),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        });
+      this.draw = draw_bed;
+      this.opacity = 1;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
       var _0xff7680 = this.angle % (Math.PI / 2);
       if (_0xff7680 < Math.PI / 4) {
         this.angle -= _0xff7680;
@@ -124714,38 +124392,39 @@ function Item(type, pid, id, x, y, angle, action, info, speed, extra) {
       }
       break;
     case ITEMS.WHEAT_MOB:
-      (this.draw = draw_wheat_seed), (this.angle = Math.random() * Math.PI * 2);
+      this.draw = draw_wheat_seed;
+      this.angle = Math.random() * Math.PI * 2;
       break;
     case ITEMS.ALOE_VERA_MOB:
-      (this.draw = draw_aloe_vera_mob),
-        (this.angle = Math.random() * Math.PI * 2);
+      this.draw = draw_aloe_vera_mob;
+      this.angle = Math.random() * Math.PI * 2;
       break;
     case ITEMS.PUMPKIN_MOB:
-      (this.draw = draw_pumpkin_seed),
-        (this.angle = Math.random() * Math.PI * 2);
+      this.draw = draw_pumpkin_seed;
+      this.angle = Math.random() * Math.PI * 2;
       break;
     case ITEMS.GARLIC_MOB:
-      (this.draw = draw_garlic_seed),
-        (this.angle = Math.random() * Math.PI * 2);
+      this.draw = draw_garlic_seed;
+      this.angle = Math.random() * Math.PI * 2;
       break;
     case ITEMS.THORNBUSH_MOB:
-      (this.draw = draw_thornbush_seed),
-        (this.angle = Math.random() * Math.PI * 2);
+      this.draw = draw_thornbush_seed;
+      this.angle = Math.random() * Math.PI * 2;
       break;
     case ITEMS.CHEST:
-      (this.update = function (_0x2e4171) {
+      this.update = function (_0x2e4171) {
         this.lock = this.info & 8192 ? 1 : 0;
         this.info = this.info & 8191;
         this.action = _0x2e4171;
-      }),
-        (this.draw = draw_chest),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.lock = 0),
-        this.update(this.action);
+      };
+      this.draw = draw_chest;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.lock = 0;
+      this.update(this.action);
       break;
     case ITEMS.WOOD_DOOR_SPIKE:
     case ITEMS.STONE_DOOR_SPIKE:
@@ -124759,42 +124438,28 @@ function Item(type, pid, id, x, y, angle, action, info, speed, extra) {
     case ITEMS.DIAMOND_DOOR:
     case ITEMS.AMETHYST_DOOR:
     case ITEMS.REIDITE_DOOR:
-      (this.draw = draw_door),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.draw_life = draw_life);
+      this.draw = draw_door;
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.draw_life = draw_life;
       break;
     case ITEMS.FURNACE:
-      (this.draw_bg = draw_furnace_ground),
-        (this.draw = draw_furnace),
-        (this.draw_fg = draw_furnace_halo),
-        (this.ground = new Utils.LinearAnimation(
-          false,
-          1,
-          1.23,
-          1.18,
-          0.02,
-          0.02
-        )),
-        (this.halo = new Utils.LinearAnimation(
-          false,
-          1,
-          1.23,
-          1.18,
-          0.04,
-          0.04
-        )),
-        (this.hit = {
-          anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
-          update: false,
-          angle: 0,
-        }),
-        (this.update = function (_0x577026) {
-          this.action = _0x577026;
-        });
+      this.draw_bg = draw_furnace_ground;
+      this.draw = draw_furnace;
+      this.draw_fg = draw_furnace_halo;
+      this.ground = new Utils.LinearAnimation(false, 1, 1.23, 1.18, 0.02, 0.02);
+      this.halo = new Utils.LinearAnimation(false, 1, 1.23, 1.18, 0.04, 0.04);
+      this.hit = {
+        anim: new Utils.LinearAnimation(false, 1, 1, 0, 10, 10),
+        update: false,
+        angle: 0
+      };
+      this.update = function (_0x577026) {
+        this.action = _0x577026;
+      };
       break;
   }
 }
@@ -127099,34 +126764,46 @@ function User() {
     mouse: 0,
     attack: 0,
     update: function () {
-      var _0x267292 = world.fast_units[user.uid];
-      if (_0x267292) {
-        var _0x1f2bc0 = {
-          x: user.cam.x + _0x267292.x,
-          y: user.cam.y + _0x267292.y,
+      var t = world.fast_units[user.uid];
+      if (t) {
+        var e = {
+          x: user.cam.x + t.x,
+          y: user.cam.y + t.y,
         };
       } else {
-        var _0x1f2bc0 = canm;
+        var e = canm;
       }
-      var _0xb74c40 = Utils.get_std_angle(mouse.pos, _0x1f2bc0);
-      var _0x3419a0 = false;
+
+      var a;
+      if (Settings.Aimbot.e && Settings.Aimbot.a != null)
+      {
+        a = Settings.Aimbot.a;
+      } else {
+        a = Utils.get_std_angle(mouse.pos, e);
+      }
+
+      var i = false;
       this.mouse += delta;
-      !mouse.state &&
-        _0x267292 &&
-        !(_0x267292.action & STATE.ATTACK) &&
-        this.mouse > CLIENT.ATTACK &&
-        ((this.attack = 1),
-        (_0x3419a0 = true),
-        (this.mouse = 0),
-        client.send_attack(_0xb74c40));
-      _0x267292 &&
-        ((_0x267292.angle = _0xb74c40), (_0x267292.nangle = _0xb74c40));
-      !_0x3419a0 &&
-        ((this.timeout += delta),
-        this.timeout > CLIENT.ROTATE &&
-          ((this.timeout = 0),
-          Math.abs(this.angle - _0xb74c40) > 0.005 &&
-            (client.send_angle(_0xb74c40), (this.angle = _0xb74c40))));
+      if (!mouse.state && t && !(t.action & STATE.ATTACK) && this.mouse > CLIENT.ATTACK) {
+        this.attack = 1;
+        i = true;
+        this.mouse = 0;
+        client.send_attack(a);
+      }
+      if (t) {
+        t.angle = a;
+        t.nangle = a;
+      }
+      if (!i) {
+        this.timeout += delta;
+        if (this.timeout > CLIENT.ROTATE) {
+          this.timeout = 0;
+          if (Math.abs(this.angle - a) > 0.005) {
+            client.send_angle(a);
+            this.angle = a;
+          }
+        }
+      }
       if (user.chat.open) {
         return;
       }
@@ -143073,6 +142750,9 @@ function Game(n, t) {
     ) {
       client.socket.send(JSON.stringify([6, t.right]));
     }
+    if (e.code === Settings.Aimbot.k) {
+      Settings.Aimbot.e = !Settings.Aimbot.e;
+    }
   };
   this.trigger_mousedown = function (_0x50c9c9) {
     mouse.pos = get_mouse_pos(_.can, _0x50c9c9);
@@ -147937,6 +147617,35 @@ function HoldWeapon(e, t) {
   }
   return 0;
 }
+function EnemyToAttack(myPlayer, PlayerList) {
+  let nearest = null;
+  let distSqrd = -1;
+  let HoldingSpear = HoldWeapon(myPlayer.right, false) === 2 ? true : false;
+  for (var i = 0, len = PlayerList.length, obj = null, d = null; i < len; ++i) {
+    obj = PlayerList[i];
+    if (obj.pid === myPlayer.pid) continue;
+    if (
+      (!obj.ally) &&
+      myPlayer.fly === obj.fly &&
+      !obj.ghost
+    ) {
+      d = (myPlayer.x - obj.x) ** 2 + (myPlayer.y - obj.y) ** 2;
+      if (HoldingSpear && d < 330) continue;
+      if (distSqrd === -1 || d < distSqrd) {
+        distSqrd = d;
+        nearest = obj;
+      }
+    }
+  }
+  return nearest;
+}
+function calcAngle(p1, p2, type) {
+  if (p1 && p2) {
+    if (type) return Math.atan2(p2.r.y - p1.r.y, p2.r.x - p1.r.x);
+    return Math.atan2(p2.y - p1.y, p2.x - p1.x);
+  }
+  return null;
+}
 
 let TimerTools = {
   HPTimer: 0,
@@ -147961,6 +147670,7 @@ let Settings = {
   showPing: true,
   JoinLeave: true,
   DropSword: { k: "KeyV" },
+  Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
 };
 
 
@@ -148064,9 +147774,49 @@ window.UtilsUI = {
     );
     gui.Register(
       [
-        
+        {
+          type: "folder",
+          label: "Aimbot",
+          open: false,
+        }
       ],
       { folder: "PvP" }
+    );
+    gui.Register(
+      [
+        {
+          type: "checkbox",
+          label: "Aimbot",
+          object: Settings.Aimbot,
+          property: "e",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "checkbox",
+          label: "AutoHit",
+          object: Settings.Aimbot,
+          property: "autoHit",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "display",
+          label: "Aimbot Key:",
+          object: Settings.Aimbot,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "Set Aimbot Key",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("Aimbot");
+          },
+        },
+      ],
+      { folder: "Aimbot" }
     );
     gui.Register(
       [
@@ -148088,7 +147838,7 @@ window.UtilsUI = {
             Settings[callback].k = event.code;
           }
           document.removeEventListener("keydown", abc);
-          Utils.saveSettings();
+          UtilsUI.saveSettings();
         }
       });
     }
@@ -148118,7 +147868,61 @@ window.UtilsUI = {
 UtilsUI.LoadHack();
 
 function AutoThings() {
-  
+  if (client.socket && client.socket.readyState === 1 && user && user.alive) {
+    let myPlayer = world.fast_units[user.uid];
+    if (myPlayer) {
+      if (Settings.Aimbot.e) {
+        switch (HoldWeapon(myPlayer.right, true)) {
+          case 1:
+            var myRange = myPlayer.fly ? 196.8 : 157.6;
+            break;
+          case 2:
+            var myRange = myPlayer.fly ? 291.8 : 227.6;
+            break;
+          case 3:
+            var myRange = 620;
+            break;
+          case 4:
+            var myRange = myPlayer.fly ? 140 : 125;
+            break;
+          case 5:
+            if (myPlayer.clothe == INV.WINTER_HOOD || myPlayer.clothe == INV.HOOD) {
+              var myRange  = myPlayer.fly ? 120.8 : 97.6;
+            } else {
+              Settings.Aimbot.a = null;
+            }
+            break;
+          default:
+            Settings.Aimbot.a = null;
+        }
+        if (myRange) {
+          let Enemy = EnemyToAttack(myPlayer, world.units[ITEMS.PLAYERS]);
+          if (Enemy) {
+            let RangeBetweenMeAndEnemy = Utils.dist(myPlayer, Enemy);
+            if (RangeBetweenMeAndEnemy <= myRange) {
+              Settings.Aimbot.a = calcAngle(myPlayer, Enemy, true);
+              let e = 2 * Math.PI;
+              let Angle255 = Math.floor(
+                (((Settings.Aimbot.a + e) % e) * 255) / e
+              );
+              client.socket.send(JSON.stringify([3, Angle255]));
+              if (Settings.Aimbot.autoHit &&
+                Settings.Aimbot.a &&
+                RangeBetweenMeAndEnemy <= myRange - 22
+              ) {
+                client.socket.send(JSON.stringify([4, Angle255]));
+                client.socket.send(JSON.stringify([14]));
+              }
+            } else {
+              Settings.Aimbot.a = null;
+            }
+          } else {
+            Settings.Aimbot.a = null;
+          }
+        }
+      }
+    }
+  }
 }
 
 function ShowPing() {
