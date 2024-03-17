@@ -118722,6 +118722,36 @@ function draw_world() {
     "fod",
     2
   );
+
+  if (Settings.JoinLeave) {
+    let e = 400;
+    if (JoinLeave.toggle11) {
+      ctx.save();
+      ctx.font = "18px Baloo Paaji";
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 7;
+      ctx.fillStyle = "green";
+      for (o = 0; o < JoinLeave.Join.length; o++) {
+        ctx.strokeText(JoinLeave.Join[o], 0, e);
+        ctx.fillText(JoinLeave.Join[o], 0, e);
+        e += 20;
+      }
+      ctx.restore();
+    }
+    if (JoinLeave.toggle22) {
+      ctx.save();
+      ctx.font = "18px Baloo Paaji";
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 7;
+      ctx.fillStyle = "red";
+      for (o = 0; o < JoinLeave.Leave.length; o++) {
+        ctx.strokeText(JoinLeave.Leave[o], 0, e);
+        ctx.fillText(JoinLeave.Leave[o], 0, e);
+        e += 20;
+      }
+      ctx.restore();
+    }
+  }
 }
 function draw_bg_transition(_0x5925ed, _0x1c61ae) {
   if (world.transition) {
@@ -121589,6 +121619,17 @@ function NetworkClient() {
     if (SHOW_ID === 1) {
       p[e].nickname += "|" + e;
     }
+    setTimeout(() => {
+      JoinLeave.Join.unshift(np[2]);
+      if (JoinLeave.Join.length > 5) {
+        JoinLeave.Join.pop();
+      }
+    }, 750);
+    JoinLeave.toggle11 = true;
+    clearTimeout(JoinLeave.toggle1);
+    JoinLeave.toggle1 = setTimeout(() => {
+      JoinLeave.toogle11 = false;
+    }, 10e3);
   };
   this.get_focus = function () {
     this.socket[SENDWORD](WINDOW1[JSONWORD1].stringify([11]));
@@ -121701,6 +121742,15 @@ function NetworkClient() {
       this.new_alert(world.players[e].nickname + LANG[TEXT.DEAD]);
     }
     world.players[e].alive = false;
+    JoinLeave.Leave.unshift(world.players[e].nickname);
+    if (5 < JoinLeave.Leave.length) {
+      JoinLeave.Leave.pop();
+    }
+    JoinLeave.toggle22 = true;
+    clearTimeout(JoinLeave.toggle2);
+    JoinLeave.toggle2 = setTimeout(() => {
+      JoinLeave.toggle22 = false;
+    }, 10e3);
   };
   this.set_cam = function (e) {
     var _0x1a1533 = new Uint16Array(e);
@@ -147851,11 +147901,20 @@ let FpsData = 0;
 let PingData = -1;
 let iea = -1;
 let CurrentlyPlaying = false;
+let JoinLeave = {
+  Join: [],
+  Leave: [],
+  toggle1: false,
+  toggle2: false,
+  toggle11: false,
+  toggle22: false,
+}
 
 let Settings = {
   Timer: true,
   showFps: true,
   showPing: true,
+  JoinLeave: true
 };
 
 
@@ -147916,6 +147975,15 @@ window.UtilsUI = {
           onChange: (e) => {
             UtilsUI.saveSettings();
           }
+        },
+        {
+          type: "checkbox",
+          label: "JoinLeave",
+          object: Settings,
+          property: "JoinLeave",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
         },
       ],
       { folder: "Visuals" }
