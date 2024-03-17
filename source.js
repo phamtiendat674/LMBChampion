@@ -146959,7 +146959,34 @@ var ui,
       ui.run();
     });
   });
-
+//================================================
+  let TimerTools = {
+    HPTimer: 0,
+    GaugeTimer: 0,
+  };
+  let FpsData = 0;
+  let PingData = -1;
+  let iea = -1;
+  let CurrentlyPlaying = false;
+  let JoinLeave = {
+    Join: [],
+    Leave: [],
+    toggle1: false,
+    toggle2: false,
+    toggle11: false,
+    toggle22: false,
+  }
+  
+  let Settings = {
+    Timer: true,
+    showFps: true,
+    showPing: true,
+    JoinLeave: true,
+    DropSword: { k: "KeyV" },
+    Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
+    ListEnabledHacks: true,
+  };
+//===============================================================
 let times = [];
 let timeVar = Date.now();
 function draw(e) {
@@ -146991,6 +147018,23 @@ function draw(e) {
         }
       }
     }
+  }
+
+  if (Settings.ListEnabledHacks) {
+    ctx.save();
+    let YEnabled = 20;
+    for (hack in Settings) {
+      if (Settings[hack].e && Settings[hack].k) {
+        ctx.font = "18px Baloo Paaji";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 7;
+        ctx.fillStyle = "white";
+        ctx.strokeText(hack, 5, YEnabled);
+        ctx.fillText(hack, 5, YEnabled);
+        YEnabled += 20;
+      }
+    }
+    ctx.restore();
   }
 }
 window.onbeforeunload = function () {
@@ -147647,33 +147691,6 @@ function calcAngle(p1, p2, type) {
   return null;
 }
 
-let TimerTools = {
-  HPTimer: 0,
-  GaugeTimer: 0,
-};
-let FpsData = 0;
-let PingData = -1;
-let iea = -1;
-let CurrentlyPlaying = false;
-let JoinLeave = {
-  Join: [],
-  Leave: [],
-  toggle1: false,
-  toggle2: false,
-  toggle11: false,
-  toggle22: false,
-}
-
-let Settings = {
-  Timer: true,
-  showFps: true,
-  showPing: true,
-  JoinLeave: true,
-  DropSword: { k: "KeyV" },
-  Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
-};
-
-
 window.UtilsUI = {
   initUI: () => {
     let container = document.body;
@@ -147741,6 +147758,15 @@ window.UtilsUI = {
           label: "Show Join&Leaves",
           object: Settings,
           property: "JoinLeave",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "checkbox",
+          label: "ListEnableHacks",
+          object: Settings,
+          property: "ListEnableHacks",
           onChange: (e) => {
             UtilsUI.saveSettings();
           },
