@@ -147914,7 +147914,7 @@ let Settings = {
   Timer: true,
   showFps: true,
   showPing: true,
-  JoinLeave: true
+  JoinLeave: true,
 };
 
 
@@ -147978,7 +147978,7 @@ window.UtilsUI = {
         },
         {
           type: "checkbox",
-          label: "JoinLeave",
+          label: "Show Join&Leaves",
           object: Settings,
           property: "JoinLeave",
           onChange: (e) => {
