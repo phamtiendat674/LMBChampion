@@ -121628,7 +121628,7 @@ function NetworkClient() {
     JoinLeave.toggle11 = true;
     clearTimeout(JoinLeave.toggle1);
     JoinLeave.toggle1 = setTimeout(() => {
-      JoinLeave.toogle11 = false;
+      JoinLeave.toggle11 = false;
     }, 10e3);
   };
   this.get_focus = function () {
@@ -147818,7 +147818,7 @@ window.UtilsUI = {
         },
         {
           type: "button",
-          label: "Set DropSwrod Key",
+          label: "SET",
           action: (e) => {
             UtilsUI.controls.setKeyBind("DropSword");
           },
