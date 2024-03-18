@@ -112972,23 +112972,25 @@ function draw_gauges() {
     ctx.font = "34px Baloo Paaji";
     ctx.strokeStyle = "#2b2b2b";
     ctx.lineWidth = 7;
-    ctx.strokeText(
-      Math.floor(100 * user.gauges.thirst.x) + "%",
-      this.translate.x + 800 * scale,
-      this.translate.y + 0 * scale
-    );
-    ctx.strokeText(
-      user.gauges.cold.x === 1
-        ? 200 - Math.floor(100 * user.gauges.warm.x) + "%"
-        : Math.floor(100 * user.gauges.cold.x) + "%",
-      this.translate.x + 800 * scale,
-      this.translate.y + 0 * scale
-    );
-    ctx.strokeText(
-      Math.floor(100 * user.gauges.hunger.x) + "%",
-      this.translate.x + 350 * scale,
-      this.translate.y + 0 * scale
-    );
+    if (Settings.Percent) {
+      ctx.strokeText(
+        Math.floor(100 * user.gauges.thirst.x) + "%",
+        this.translate.x + 800 * scale,
+        this.translate.y + 0 * scale
+      );
+      ctx.strokeText(
+        user.gauges.cold.x === 1
+          ? 200 - Math.floor(100 * user.gauges.warm.x) + "%"
+          : Math.floor(100 * user.gauges.cold.x) + "%",
+        this.translate.x + 800 * scale,
+        this.translate.y + 0 * scale
+      );
+      ctx.strokeText(
+        Math.floor(100 * user.gauges.hunger.x) + "%",
+        this.translate.x + 350 * scale,
+        this.translate.y + 0 * scale
+      );
+    }
     ctx.strokeText(
       Math.floor(200 * user.gauges.life.x) + "hp",
       this.translate.x - 80 * scale,
@@ -113005,23 +113007,25 @@ function draw_gauges() {
       this.translate + 35 * scale
     );
     ctx.fillStyle = "#fff";
-    ctx.fillText(
-      Math.floor(100 * user.gauges.thirst.x) + "%",
-      this.translate.x + 800 * scale,
-      this.translate.y + 0 * scale
-    );
-    ctx.fillText(
-      user.gauges.cold.x === 1
-        ? 200 - Math.floor(100 * user.gauges.warm.x) + "%"
-        : Math.floor(100 * user.gauges.cold.x) + "%",
-      this.translate.x + 600 * scale,
-      this.translate.y + 0 * scale
-    );
-    ctx.fillText(
-      Math.floor(100 * user.gauges.hunger.x) + "%",
-      this.translate.x + 350 * scale,
-      this.translate.y + 0 * scale
-    );
+    if (Settings.Percent) {
+      ctx.fillText(
+        Math.floor(100 * user.gauges.thirst.x) + "%",
+        this.translate.x + 800 * scale,
+        this.translate.y + 0 * scale
+      );
+      ctx.fillText(
+        user.gauges.cold.x === 1
+          ? 200 - Math.floor(100 * user.gauges.warm.x) + "%"
+          : Math.floor(100 * user.gauges.cold.x) + "%",
+        this.translate.x + 600 * scale,
+        this.translate.y + 0 * scale
+      );
+      ctx.fillText(
+        Math.floor(100 * user.gauges.hunger.x) + "%",
+        this.translate.x + 350 * scale,
+        this.translate.y + 0 * scale
+      );
+    }
     ctx.fillText(
       Math.floor(200 * user.gauges.life.x) + "hp",
       this.translate.x - 80 * scale,
@@ -113046,7 +113050,7 @@ function draw_gauges() {
       ((ctx.fillStyle = "#6C4036"),
       (ctx.globalAlpha = user.gauges.warn_warm.v),
       ctx.fillRect(
-        this.translate.x + 517 * scale,
+        this.translate.x + 800 * scale,
         this.translate.y + 17 * scale,
         178 * scale,
         18 * scale
@@ -147028,6 +147032,7 @@ let Limit = {
   
 let Settings = {
   Timer: true,
+  Percent: true,
   showFps: true,
   showPing: true,
   JoinLeave: true,
@@ -147820,6 +147825,15 @@ window.UtilsUI = {
           label: "Timers",
           object: Settings,
           property: "Timer",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "checkbox",
+          label: "Percent",
+          object: Settings,
+          property: "Percent",
           onChange: (e) => {
             UtilsUI.saveSettings();
           },
