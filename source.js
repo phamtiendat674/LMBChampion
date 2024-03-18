@@ -147858,6 +147858,19 @@ window.UtilsUI = {
             UtilsUI.controls.setKeyBind("DropSword");
           },
         },
+        {
+          type: "display",
+          label: "Spectator Key:",
+          object: Settings.Spectator,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "SET",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("Spectator");
+          },
+        },
       ],
       { folder: "Key Binds" }
     );
