@@ -142695,22 +142695,27 @@ function Game(n, t) {
     this.draw_scene();
     this.draw_UI();
   };
-  this.trigger_keyup = function (_0x14e190) {
-    if (user.chat.open && _0x14e190.keyCode === 27) {
+  this.trigger_keyup = function (e) {
+    if (user.chat.open && e.keyCode === 27) {
       user.chat.quit();
     } else {
-      if (user.terminal.open && _0x14e190.keyCode === 27) {
+      if (user.terminal.open && e.keyCode === 27) {
         user.terminal.quit();
       } else {
+        if (!user.chat.open && !user.terminal.open) {
+          if (e.code === Settings.SwordInChest.k) {
+            Settings.SwordInChest.e = false;
+          }
+        }
         if (
           !user.chat.open &&
           !user.terminal.open &&
-          _0x14e190.keyCode == 79 &&
+          e.keyCode == 79 &&
           _0x1dc84b == -1
         ) {
           user.terminal["_open"]();
         } else {
-          if (_0x14e190.keyCode == 13 && _0x1dc84b == -1) {
+          if (e.keyCode == 13 && _0x1dc84b == -1) {
             if (user.terminal.open) {
               user.terminal["_send"]();
             } else {
@@ -142718,29 +142723,29 @@ function Game(n, t) {
             }
           } else {
             if (!user.chat.open && !user.terminal.open) {
-              if (_0x14e190.keyCode === 82) {
+              if (e.keyCode === 82) {
                 user.auto_feed.invert();
               } else {
                 if (
-                  _0x14e190.keyCode === 80 &&
+                  e.keyCode === 80 &&
                   world.mode === WORLD.MODE_HUNGER_GAMES &&
                   !user.spectator
                 ) {
                   user.show_spectators.invert();
                 } else {
-                  if (_0x14e190.keyCode >= 49 && _0x14e190.keyCode <= 57) {
+                  if (e.keyCode >= 49 && e.keyCode <= 57) {
                     if (user.craft.id < 0) {
-                      var _0x7d76a1 = _0x14e190.keyCode - 49,
+                      var _0x7d76a1 = e.keyCode - 49,
                         _0x57d095 = user.inv.can_select[_0x7d76a1];
                       if (_0x57d095) {
                         client.select_inv(_0x57d095.id, _0x7d76a1);
                       }
                     }
                   } else {
-                    if (_0x14e190.keyCode == 89) {
+                    if (e.keyCode == 89) {
                       user.bigmap = !user.bigmap;
                     } else {
-                      if (_0x14e190.keyCode == 71) {
+                      if (e.keyCode == 71) {
                         user.craft.change_mode();
                       }
                     }
@@ -142752,7 +142757,7 @@ function Game(n, t) {
         }
       }
     }
-    keyboard.up(_0x14e190);
+    keyboard.up(e);
   };
   this.trigger_keydown = function (e) {
     keyboard.down(e);
@@ -142784,6 +142789,9 @@ function Game(n, t) {
       }
       if (e.code === Settings.Xray.k) {
         Settings.Xray.e = !Settings.Xray.e;
+      }
+      if (e.code === Settings.SwordInChest.k) {
+        Settings.SwordInChest.e = true;
       }
     }
   };
@@ -147013,6 +147021,10 @@ let AutoEatWait = false;
 let AutoDrinkWait = false;
 let LastCrafted = null,
   LastRecycled = null;
+let Limit = {
+  L: 0,
+  E: true,
+}
   
 let Settings = {
   Timer: true,
@@ -147028,6 +147040,7 @@ let Settings = {
   Spectator: { e: null, k: "KeyP" },
   Roofs: { e: true },
   Xray: { e: false, k: "Backquote", o: 0.5 },
+  SwordInChest: { e: false, k: "KeyE" },
 };
 //===============================================================
 let times = [];
@@ -147753,6 +147766,19 @@ function calcAngle(p1, p2, type) {
   }
   return null;
 }
+function getNearest(us, objects) {
+  let nearest = null;
+  let distSqrd = -1;
+  for (var i = 0, len = objects.length, obj = null, d = null; i < len; ++i) {
+    obj = objects[i];
+    d = (us.x - obj.x) ** 2 + (us.y - obj.y) ** 2;
+    if (distSqrd === -1 || d < distSqrd) {
+      distSqrd = d;
+      nearest = obj;
+    }
+  }
+  return nearest;
+}
 
 window.UtilsUI = {
   initUI: () => {
@@ -147908,6 +147934,19 @@ window.UtilsUI = {
           label: "SET",
           action: (e) => {
             UtilsUI.controls.setKeyBind("Xray");
+          },
+        },
+        {
+          type: "display",
+          label: "SwordInChest Key:",
+          object: Settings.SwordInChest,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "SET",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("SwordInChest");
           },
         },
       ],
@@ -148117,6 +148156,61 @@ function AutoThings() {
       client.socket.send(JSON.stringify([11]));
     }
     if (myPlayer) {
+      if (Settings.SwordInChest.e && HoldWeapon(myPlayer.right, false)) {
+        var l = {
+          A: [],
+          L: [],
+        };
+        let c = world.units[ITEMS.CHEST];
+        for (let i = 0; i < c.length; i++) {
+          if (Utils.dist(myPlayer, c[i]) < 200) {
+            if (!c[i].lock || c[i].ally) {
+              l.A.push({
+                id: c[i].id,
+                placeid: c[i].pid,
+              });
+            } else if (user.inv.n[INV.LOCKPICK]) {
+              l.L.push({
+                id: c[i].id,
+                placeid: c[i].pid,
+                x: c[i].x,
+                y: e[t].y,
+              })
+            }
+          }
+        }
+        if (l.A.length) {
+          for (let i = 0; i < l.A.length; i++) {
+            client.socket.send(
+              JSON.stringify([8, myPlayer.right, 255, l.A[i].placeid, l.A[i].id])
+            );
+            client.socket.send(JSON.stringify([9, l.A[i].placeid, l.A[i].id]));
+          }
+        } else if (user.inv.n[INV.CHEST]) {
+          Limit.E = true;
+          client.socket.send(JSON.stringify([10, INV.CHEST, 35, 0]));
+          client.socket.send(JSON.stringify([10, INV.CHEST, 235, 0]));
+          client.socket.send(JSON.stringify([10, INV.CHEST, 100, 0]));
+          client.socket.send(JSON.stringify([10, INV.CHEST, 169, 0]));
+          for (let i = -15; i < 15; i++) {
+            for (; Limit.L + i < 0; ) {
+              i++;
+            }
+            client.socket.send(
+              JSON.stringify([8, myPlayer.right, 255, user.id, Limit.L + i])
+            );
+            client.socket.send(JSON.stringify([9, user.id, Limit.L + i]));
+          }
+        } else if (!user.build.wait) {
+          if ((I = getNearest(myPlayer, l.L))) {
+            client.socket.send(JSON.stringify([15, I.placeid, I.id]));
+            client.socket.send(
+              JSON.stringify([8, myPlayer.right, 255, I.placeid, I.id])
+            );
+            client.socket.send(JSON.stringify([9, I.placeid, I.id]));
+          }
+        }
+      }
       if (Settings.Aimbot.e) {
         switch (HoldWeapon(myPlayer.right, true)) {
           case 1:
