@@ -121632,7 +121632,9 @@ function NetworkClient() {
     }, 10e3);
   };
   this.get_focus = function () {
-    this.socket[SENDWORD](WINDOW1[JSONWORD1].stringify([11]));
+    if (!Settings.Spectator.e) {
+      this.socket[SENDWORD](WINDOW1[JSONWORD1].stringify([11]));
+    }
   };
   this.empty_res = function () {
     this.new_alert(LANG[TEXT.EMPTY]);
@@ -121753,8 +121755,10 @@ function NetworkClient() {
     }, 10e3);
   };
   this.set_cam = function (e) {
-    var _0x1a1533 = new Uint16Array(e);
-    player.cam.change(_0x1a1533[1], _0x1a1533[2]);
+    if (!Settings.Spectator.e) {
+      var _0x1a1533 = new Uint16Array(e);
+      player.cam.change(_0x1a1533[1], _0x1a1533[2]);
+    }
   };
   this.recover_focus = function (e) {
     var _0x4adb46 = new Uint16Array(e);
@@ -122736,7 +122740,9 @@ function NetworkClient() {
     );
   };
   this.send_move = function (e) {
-    this.socket[SENDWORD](WINDOW12[JSONWORD12].stringify([2, e]));
+    if (!Settings.Spectator.e) {
+      this.socket[SENDWORD](WINDOW12[JSONWORD12].stringify([2, e]));
+    }
   };
   this.send_command = function (e) {
     this.socket[SENDWORD](WINDOW5[JSONWORD5].stringify([36, e]));
@@ -126714,7 +126720,7 @@ function User() {
       return;
     }
     var _0x3f139b = world.fast_units[user.uid];
-    if (_0x3f139b) {
+    if (_0x3f139b && !Settings.Spectator.e) {
       this.delay = 0;
       var _0x93e716 = Math.max(
           Math.min(canw2 - _0x3f139b.x, -2),
@@ -142767,6 +142773,9 @@ function Game(n, t) {
       if (e.code === Settings.AutoRecycle.k) {
         Settings.AutoRecycle.e = !Settings.AutoRecycle.e;
       }
+      if (e.code === Settings.Spectator.k) {
+        Settings.Spectator.e = !Settings.Spectator.e;
+      }
     }
   };
   this.trigger_mousedown = function (_0x50c9c9) {
@@ -147007,6 +147016,7 @@ let Settings = {
   AutoCraft: { e: false, k: "KeyK" },
   AutoRecycle: { e: false, k: "KeyL" },
   AutoFoodRange: 0.5,
+  Spectator: { e: null, k: "KeyP" },
 };
 //===============================================================
 let times = [];
@@ -147058,6 +147068,26 @@ function draw(e) {
     }
     ctx.restore();
   }
+
+  if (Settings.Spectator.e) {
+    if (keyboard.is_bottom()) {
+      user.cam.y -= Math.floor(4e3 / window.FpsData);
+      user.cam.ex -= Math.floor(4e3 / window.FpsData);
+    }
+    if (keyboard.is_top()) {
+      user.cam.y += Math.floor(4e3 / window.FpsData);
+      user.cam.ex += Math.floor(Math.floor(4e3 / window.FpsData));
+    }
+    if (keyboard.is_right()) {
+      user.cam.x -= Math.floor(4e3 / window.FpsData);
+      user.cam.ey += Math.floor(4e3 / window.FpsData);
+    }
+    if (keyboard.is_left()) {
+      user.cam.x += Math.floor(4e3 / window.FpsData);
+      user.cam.ey += Math.floor(4e3 / window.FpsData);
+    }
+  }
+
 }
 window.onbeforeunload = function () {
   if (game.is_run) {
@@ -148030,6 +148060,9 @@ function AutoFood() {
 function AutoThings() {
   if (client.socket && client.socket.readyState === 1 && user && user.alive) {
     let myPlayer = world.fast_units[user.uid];
+    if (!myPlayer && !Settings.Spectator.e && CurrentlyPlaying) {
+      client.socket.send(JSON.stringify([11]));
+    }
     if (myPlayer) {
       if (Settings.Aimbot.e) {
         switch (HoldWeapon(myPlayer.right, true)) {
