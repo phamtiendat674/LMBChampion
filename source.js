@@ -104849,6 +104849,15 @@ function create_images() {
     ])
   );
   sprite[SPRITE.CHEST] = [];
+  sprite[SPRITE.CHEST][2] = CTI(
+    create_chest(
+      0.5,
+      1,
+      "#4d0000 #4d0000 #4d0000 #4d0000 #4d0000 #614627 #614627 #c4a23a #c4a23a #c4a23a".split(
+        " "
+      )
+    )
+  );
   sprite[SPRITE.CHEST][SPRITE.DAY] = CTI(
     create_chest(0.5, true, [
       "#133a2b",
@@ -113139,23 +113148,65 @@ function draw_chest() {
     var _0x35215a = 0,
       _0x417c46 = 0;
   }
-  img = sprite[SPRITE.CHEST][world.time];
+  img = Settings.ChestInfo && this.lock
+    ? sprite[SPRITE.CHEST][2]
+    : sprite[SPRITE.CHEST][world.time];
   w = -img.width;
   h = -img.height;
   ctxDrawImage(ctx, img, -w / 2 + _0x35215a, -h / 2 + _0x417c46, w, h);
-  this.lock &&
-    ((img = sprite[SPRITE.LOCK][world.time]),
-    (w = -img.width),
-    (h = -img.height),
+  if (!Settings.ChestInfo && this.lock) {
+    img = sprite[SPRITE.LOCK][world.time];
+    w = -img.width;
+    h = -img.height;
+  }
+  ctxDrawImage(ctx, img, -w / 2 + _0x35215a, -h / 2 + _0x417c46, w, h);
+  ctx.restore();
+  if (this.action && Settings.ChestInfo) {
+    ctx.save();
+    ctx.globalAlpha = 0.9;
     ctxDrawImage(
       ctx,
-      img,
-      -w / 2 + _0x35215a - 1 * scale,
-      -h / 2 + _0x417c46,
-      w,
-      h
-    ));
-  ctx.restore();
+      game.chest_buttons[this.action / 2 - 1].info.img[0],
+      user.cam.x + this.x + 25,
+      user.cam.y + this.y + 15,
+      w + 25,
+      h + 25
+    );
+    ctx.globalAlpha = 1;
+    ctx.font = "20px Baloo Paaji";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 7;
+    ctx.strokeText(
+      this.action / 2 - 1,
+      user.cam.x + this.x - 32,
+      user.cam.y + this.y - 12
+    );
+    ctx.strokeText(
+      "x" + this.info,
+      user.cam.x + this.x - 32,
+      user.cam.y + this.y + 20
+    );
+    (ctx.fillStyle = "white"),
+    ctx.fillText(
+      this.action / 2 - 1,
+      user.cam.x + this.x - 32,
+      user.cam.y + this.y - 12
+    );
+    ctx.fillText(
+      "x" + this.info,
+      user.cam.x + this.x - 32,
+      user.cam.y + this.y + 20
+    );
+    ctx.restore();
+  }
+  if (this.steal && Settings.ChestInfo) {
+    ctx.save();
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(this.x + user.cam.x, this.y + user.cam.y, 7, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+  }
 }
 function draw_thornbush_seed() {
   ctx.save();
@@ -147046,6 +147097,7 @@ let Settings = {
   Roofs: { e: true },
   Xray: { e: false, k: "Backquote", o: 0.5 },
   SwordInChest: { e: false, k: "KeyE" },
+  ChestInfo: true,
 };
 //===============================================================
 let times = [];
@@ -147858,6 +147910,15 @@ window.UtilsUI = {
         },
         {
           type: "checkbox",
+          label: 'ChestInfo',
+          object: Settings,
+          property: "ChestInfo",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+        {
+          type: "checkbox",
           label: "Show Join&Leaves",
           object: Settings,
           property: "JoinLeave",
@@ -148111,6 +148172,7 @@ window.UtilsUI = {
     Settings.AutoCraft.e = false;
     Settings.AutoRecycle.e = false;
     Settings.Xray.e = false;
+    Settings.Spectator.e = false;
     UtilsUI.controls = new UtilsUI.controller();
     let script = document.createElement("script");
     script.onload = function () {
