@@ -142747,21 +142747,26 @@ function Game(n, t) {
     if (e.keyCode == 8 && !user.chat.open && !user.terminal.open) {
       e.preventDefault();
     }
-    var t;
-    if (e.code === Settings.DropSword.k &&
-      (t = world.fast_units[user.uid]) &&
-      HoldWeapon(t.right)
-    ) {
-      client.socket.send(JSON.stringify([6, t.right]));
-    }
-    if (e.code === Settings.Aimbot.k) {
-      Settings.Aimbot.e = !Settings.Aimbot.e;
-    }
-    if (e.code === Settings.AutoCraft.k) {
-      Settings.AutoCraft.e = !Settings.AutoCraft.e;
-    }
-    if (e.code === Settings.AutoRecycle.k) {
-      Settings.AutoRecycle.e = !Settings.AutoRecycle.e;
+    if (!user.chat.open && !user.terminal.open) {
+      if (!client.socket || client.socket.readyState != 1) {
+        return;
+      }
+      var t;
+      if (e.code === Settings.DropSword.k &&
+        (t = world.fast_units[user.uid]) &&
+        HoldWeapon(t.right)
+      ) {
+        client.socket.send(JSON.stringify([6, t.right]));
+      }
+      if (e.code === Settings.Aimbot.k) {
+        Settings.Aimbot.e = !Settings.Aimbot.e;
+      }
+      if (e.code === Settings.AutoCraft.k) {
+        Settings.AutoCraft.e = !Settings.AutoCraft.e;
+      }
+      if (e.code === Settings.AutoRecycle.k) {
+        Settings.AutoRecycle.e = !Settings.AutoRecycle.e;
+      }
     }
   };
   this.trigger_mousedown = function (_0x50c9c9) {
