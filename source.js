@@ -113274,6 +113274,9 @@ function draw_roof(_0x21b05d) {
   w = -img.width;
   h = -img.height;
   var _0x1623b3 = world.fast_units[user.uid];
+  if (Settings.Roofs.e) {
+    ctx.globalAlpha = 0.3;
+  }
   if (_0x1623b3 && (user.id === this.pid || user.in_team(this.pid))) {
     if (Utils.dist(this, _0x1623b3) < 550) {
       this.opacity = Math.max(this.opacity - delta, 0.3);
@@ -147017,6 +147020,7 @@ let Settings = {
   AutoRecycle: { e: false, k: "KeyL" },
   AutoFoodRange: 0.5,
   Spectator: { e: null, k: "KeyP" },
+  Roofs: { e: true },
 };
 //===============================================================
 let times = [];
@@ -147822,6 +147826,15 @@ window.UtilsUI = {
           onChange: (e) => {
             UtilsUI.saveSettings();
           },
+        },
+        {
+          type: "checkbox",
+          label: "Roofs",
+          object: Settings.Roofs,
+          property: "e",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
         },
       ],
       { folder: "Visuals" }
