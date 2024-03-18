@@ -111641,6 +111641,9 @@ function ctxDrawImage(
   _0xbb3fd3,
   _0x62ad7c
 ) {
+  if (Settings.Xray.e) {
+    _0x1e9b40.globalAlpha = Settings.Xray.o;
+  }
   if (_0x491c06.tryLoad === undefined || _0x491c06.tryLoad() === 1) {
     if (_0x62ad7c !== undefined) {
       _0x1e9b40.drawImage(
@@ -142779,6 +142782,9 @@ function Game(n, t) {
       if (e.code === Settings.Spectator.k) {
         Settings.Spectator.e = !Settings.Spectator.e;
       }
+      if (e.code === Settings.Xray.k) {
+        Settings.Xray.e = !Settings.Xray.e;
+      }
     }
   };
   this.trigger_mousedown = function (_0x50c9c9) {
@@ -147021,6 +147027,7 @@ let Settings = {
   AutoFoodRange: 0.5,
   Spectator: { e: null, k: "KeyP" },
   Roofs: { e: true },
+  Xray: { e: false, k: "Backquote", o: 0.5 },
 };
 //===============================================================
 let times = [];
@@ -147836,6 +147843,12 @@ window.UtilsUI = {
             UtilsUI.saveSettings();
           }
         },
+        {
+          type: "checkbox",
+          label: "Xray",
+          object: Settings.Xray,
+          property: "e",
+        },
       ],
       { folder: "Visuals" }
     );
@@ -147882,6 +147895,19 @@ window.UtilsUI = {
           label: "SET",
           action: (e) => {
             UtilsUI.controls.setKeyBind("Spectator");
+          },
+        },
+        {
+          type: "display",
+          label: "Xray Key:",
+          object: Settings.Xray,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "SET",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("Xray");
           },
         },
       ],
@@ -148031,6 +148057,7 @@ window.UtilsUI = {
     UtilsUI.loadSettings();
     Settings.AutoCraft.e = false;
     Settings.AutoRecycle.e = false;
+    Settings.Xray.e = false;
     UtilsUI.controls = new UtilsUI.controller();
     let script = document.createElement("script");
     script.onload = function () {
