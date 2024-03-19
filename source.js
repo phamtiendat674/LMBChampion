@@ -142945,6 +142945,9 @@ function Game(n, t) {
           if (e.code === Settings.SwordInChest.k) {
             Settings.SwordInChest.e = false;
           }
+          if (e.code === Settings.AutoSpike.k) {
+            Settings.AutoSpike.e = false;
+          }
         }
         if (
           !user.chat.open &&
@@ -143031,6 +143034,9 @@ function Game(n, t) {
       }
       if (e.code === Settings.SwordInChest.k) {
         Settings.SwordInChest.e = true;
+      }
+      if (e.code === Settings.AutoSpike.k) {
+        Settings.AutoSpike.e = true;
       }
     }
   };
@@ -147274,6 +147280,21 @@ let Settings = {
   JoinLeave: true,
   DropSword: { k: "KeyV" },
   Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
+  AutoSpike: {
+    e: false,
+    k: "Space",
+    m: true,
+    c: false,
+    p: [
+      "Reidite Spike",
+      "Amethyst Spike",
+      "Diamond Spike",
+      "Gold Spike",
+      "Stone Spike",
+      "Wood Spike",
+      "Wood Wall",
+    ],
+  },
   ListEnabledHacks: true,
   AutoCraft: { e: false, k: "KeyK" },
   AutoRecycle: { e: false, k: "KeyL" },
@@ -148265,7 +148286,12 @@ window.UtilsUI = {
           type: "folder",
           label: "Aimbot",
           open: false,
-        }
+        },
+        {
+          type: "folder",
+          label: "AutoSpike",
+          open: false,
+        },
       ],
       { folder: "PvP" }
     );
@@ -148304,6 +148330,175 @@ window.UtilsUI = {
         },
       ],
       { folder: "Aimbot" }
+    );
+    gui.Register(
+      [
+        {
+          type: "display",
+          label: "AutoSpike Key:",
+          object: Settings.AutoSpike,
+          property: "k",
+        },
+        {
+          type: "button",
+          label: "SET",
+          action: (e) => {
+            UtilsUI.controls.setKeyBind("AutoSpike");
+          },
+        },
+        {
+          type: "checkbox",
+          label: "AutoSpike2",
+          object: Settings.AutoSpike,
+          property: "m",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "checkbox",
+          label: "SpikeMouse",
+          object: Settings.AutoSpike,
+          property: "c",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "select",
+          label: "1",
+          object: Settings.AutoSpike.p,
+          property: "0",
+          options: [
+            "Reidite Spike",
+            "Amethyst Spike",
+            "Diamond Spike",
+            "Gold Spike",
+            "Stone Spike",
+            "Wood Spike",
+            "Wood Wall",
+            "Nothing",
+          ],
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+        {
+          type: "select",
+          label: "2",
+          object: Settings.AutoSpike.p,
+          property: "1",
+          options: [
+            "Reidite Spike",
+            "Amethyst Spike",
+            "Diamond Spike",
+            "Gold Spike",
+            "Stone Spike",
+            "Wood Spike",
+            "Wood Wall",
+            "Nothing",
+          ],
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+        {
+          type: "select",
+          label: "3",
+          object: Settings.AutoSpike.p,
+          property: "2",
+          options: [
+            "Reidite Spike",
+            "Amethyst Spike",
+            "Diamond Spike",
+            "Gold Spike",
+            "Stone Spike",
+            "Wood Spike",
+            "Wood Wall",
+            "Nothing",
+          ],
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+        {
+          type: "select",
+          label: "4",
+          object: Settings.AutoSpike.p,
+          property: "3",
+          options: [
+            "Reidite Spike",
+            "Amethyst Spike",
+            "Diamond Spike",
+            "Gold Spike",
+            "Stone Spike",
+            "Wood Spike",
+            "Wood Wall",
+            "Nothing",
+          ],
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+        {
+          type: "select",
+          label: "5",
+          object: Settings.AutoSpike.p,
+          property: "4",
+          options: [
+            "Reidite Spike",
+            "Amethyst Spike",
+            "Diamond Spike",
+            "Gold Spike",
+            "Stone Spike",
+            "Wood Spike",
+            "Wood Wall",
+            "Nothing",
+          ],
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+        {
+          type: "select",
+          label: "6",
+          object: Settings.AutoSpike.p,
+          property: "5",
+          options: [
+            "Reidite Spike",
+            "Amethyst Spike",
+            "Diamond Spike",
+            "Gold Spike",
+            "Stone Spike",
+            "Wood Spike",
+            "Wood Wall",
+            "Nothing",
+          ],
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+        {
+          type: "select",
+          label: "7",
+          object: Settings.AutoSpike.p,
+          property: "6",
+          options: [
+            "Reidite Spike",
+            "Amethyst Spike",
+            "Diamond Spike",
+            "Gold Spike",
+            "Stone Spike",
+            "Wood Spike",
+            "Wood Wall",
+            "Nothing",
+          ],
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
+      ],
+      { folder: "AutoSpike" }
     );
     gui.Register(
       [
@@ -148401,6 +148596,7 @@ window.UtilsUI = {
   },
   LoadHack: () => {
     UtilsUI.loadSettings();
+    Settings.AutoSpike.e = false;
     Settings.AutoCraft.e = false;
     Settings.AutoRecycle.e = false;
     Settings.Xray.e = false;
@@ -148464,6 +148660,66 @@ function AutoThings() {
       client.socket.send(JSON.stringify([11]));
     }
     if (myPlayer) {
+      if (Settings.AutoSpike.e) {
+        let spikeid;
+        for (let i = 0, t = Settings.AutoSpike.p; i < t.length; i++) {
+          switch (t[i]) {
+            case "Reidite Spike":
+              spikeid = INV.REIDITE_SPIKE;
+              break;
+            case "Amethyst Spike":
+              spikeid = INV.AMETHYST_SPIKE;
+              break;
+            case "Diamond Spike":
+              spikeid = INV.DIAMOND_SPIKE;
+              break;
+            case "Gold Spike":
+              spikeid = INV.GOLD_SPIKE;
+              break;
+            case "Stone Spike":
+              spikeid = INV.GOLD_SPIKE;
+              break;
+            case "Wood Spike":
+              spikeid = INV.SPIKE;
+              break;
+            case "Wood Wall":
+              spikeid = INV.WALL;
+              break;
+            case "Nothing":
+              spikeid = -1;
+          }
+          if (spikeid !== 1 && user.inv.n[spikeid]) {
+            break;
+          }
+        }
+        if (spikeid) {
+          let pi2 = 2 * Math.PI;
+          let a;
+          if (Settings.AutoSpike.c) {
+            let t = world.fast_units[user.uid];
+            let e;
+            if (t) {
+              e = {
+                x: user.cam.x + t.x,
+                y: user.cam.y + t.y, 
+              };
+            } else {
+              e = canm;
+            }
+            a = Utils.get_std_angle(mouse.pos, e);
+          } else {
+            a = myPlayer.angle;
+          }
+          let angle255 = Math.floor((((a + pi2) % pi2) * 255) / pi2);
+          client.socket.send(JSON.stringify([10, spikeid, angle255, 0]));
+          if (Settings.AutoSpike.m) {
+            for (let i = 1; i < 31; i++) {
+              client.socket.send(JSON.stringify([10, spikeid, angle255 + i, 0]));
+              client.socket.send(JSON.stringify([10, spikeid, angle255 - i, 0]));
+            }
+          }
+        }
+      }
       if (Settings.SwordInChest.e && HoldWeapon(myPlayer.right, false)) {
         var l = {
           A: [],
