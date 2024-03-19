@@ -117810,9 +117810,11 @@ function draw_world() {
   for (var _0x3dedf = 0; _0x3dedf < _0x5d4cd3.length; _0x3dedf++) {
     draw_transition(_0x5d4cd3[_0x3dedf]);
   }
-  var _0x3a97ad = world.units[ITEMS.CRATE];
-  for (var _0x3dedf = 0; _0x3dedf < _0x3a97ad.length; _0x3dedf++) {
-    draw_transition(_0x3a97ad[_0x3dedf], SPRITE.CRATE, SPRITE.HURT_DEAD_BOX);
+  if (!Settings.RenderOnTop.box) {
+    var _0x3a97ad = world.units[ITEMS.CRATE];
+    for (var _0x3dedf = 0; _0x3dedf < _0x3a97ad.length; _0x3dedf++) {
+      draw_transition(_0x3a97ad[_0x3dedf], SPRITE.CRATE, SPRITE.HURT_DEAD_BOX);
+    }
   }
   var _0x2a9011 = world.units[ITEMS.DEAD_BOX];
   for (var _0x3dedf = 0; _0x3dedf < _0x2a9011.length; _0x3dedf++) {
@@ -117916,22 +117918,50 @@ function draw_world() {
       draw_transition(_0x380615[_0x3dedf]);
     }
   }
-  var _0x270927 = world.units[ITEMS.PLAYERS];
-  for (var _0x3dedf = 0; _0x3dedf < _0x270927.length; _0x3dedf++) {
-    var _0x1800c7 = _0x270927[_0x3dedf];
-    if (
-      _0x270927[_0x3dedf].vehicle !== INV.BABY_DRAGON &&
-      _0x270927[_0x3dedf].vehicle !== INV.BABY_LAVA &&
-      _0x270927[_0x3dedf].vehicle !== INV.HAWK &&
-      _0x270927[_0x3dedf].vehicle !== INV.PLANE &&
-      _0x270927[_0x3dedf].vehicle !== INV.NIMBUS
-    ) {
-      if (_0x1800c7.tower === 0) {
-        if (_0x1800c7.tower_fx > 0.001) {
-          _0x1800c7.tower_fx = Utils.lerp(_0x1800c7.tower_fx, 0, 0.018);
-          var _0x3a96d9 =
-            1 + 0.18 * Math.min(1, Math.max(_0x1800c7.tower_fx, 0) / 100);
+  if (!Settings.RenderOnTop.player) {
+    var _0x270927 = world.units[ITEMS.PLAYERS];
+    for (var _0x3dedf = 0; _0x3dedf < _0x270927.length; _0x3dedf++) {
+      var _0x1800c7 = _0x270927[_0x3dedf];
+      if (
+        _0x270927[_0x3dedf].vehicle !== INV.BABY_DRAGON &&
+        _0x270927[_0x3dedf].vehicle !== INV.BABY_LAVA &&
+        _0x270927[_0x3dedf].vehicle !== INV.HAWK &&
+        _0x270927[_0x3dedf].vehicle !== INV.PLANE &&
+        _0x270927[_0x3dedf].vehicle !== INV.NIMBUS
+      ) {
+        if (_0x1800c7.tower === 0) {
+          if (_0x1800c7.tower_fx > 0.001) {
+            _0x1800c7.tower_fx = Utils.lerp(_0x1800c7.tower_fx, 0, 0.018);
+            var _0x3a96d9 =
+              1 + 0.18 * Math.min(1, Math.max(_0x1800c7.tower_fx, 0) / 100);
+            ctx.save();
+            ctx.scale(_0x3a96d9, _0x3a96d9);
+            user.cam.x /= _0x3a96d9;
+            user.cam.y /= _0x3a96d9;
+            _0x1800c7.x /= _0x3a96d9;
+            _0x1800c7.y /= _0x3a96d9;
+            _0x1800c7.r.x /= _0x3a96d9;
+            _0x1800c7.r.y /= _0x3a96d9;
+            _0x1800c7.draw_vehicle();
+            _0x1800c7.draw();
+            user.cam.x *= _0x3a96d9;
+            user.cam.y *= _0x3a96d9;
+            _0x1800c7.x *= _0x3a96d9;
+            _0x1800c7.y *= _0x3a96d9;
+            _0x1800c7.r.x *= _0x3a96d9;
+            _0x1800c7.r.y *= _0x3a96d9;
+            ctx.restore();
+          } else {
+            _0x1800c7.fly = 0;
+            _0x1800c7.draw_vehicle();
+            _0x1800c7.draw();
+          }
+        }
+      } else {
+        if (_0x1800c7.speed <= 180) {
           ctx.save();
+          var _0x3a96d9 =
+            1 + 0.35 * Math.min(1, Math.max(_0x1800c7.vehicle_fx5 - 30, 0) / 180);
           ctx.scale(_0x3a96d9, _0x3a96d9);
           user.cam.x /= _0x3a96d9;
           user.cam.y /= _0x3a96d9;
@@ -117939,6 +117969,7 @@ function draw_world() {
           _0x1800c7.y /= _0x3a96d9;
           _0x1800c7.r.x /= _0x3a96d9;
           _0x1800c7.r.y /= _0x3a96d9;
+          _0x1800c7.fly = 0;
           _0x1800c7.draw_vehicle();
           _0x1800c7.draw();
           user.cam.x *= _0x3a96d9;
@@ -117948,34 +117979,7 @@ function draw_world() {
           _0x1800c7.r.x *= _0x3a96d9;
           _0x1800c7.r.y *= _0x3a96d9;
           ctx.restore();
-        } else {
-          _0x1800c7.fly = 0;
-          _0x1800c7.draw_vehicle();
-          _0x1800c7.draw();
         }
-      }
-    } else {
-      if (_0x1800c7.speed <= 180) {
-        ctx.save();
-        var _0x3a96d9 =
-          1 + 0.35 * Math.min(1, Math.max(_0x1800c7.vehicle_fx5 - 30, 0) / 180);
-        ctx.scale(_0x3a96d9, _0x3a96d9);
-        user.cam.x /= _0x3a96d9;
-        user.cam.y /= _0x3a96d9;
-        _0x1800c7.x /= _0x3a96d9;
-        _0x1800c7.y /= _0x3a96d9;
-        _0x1800c7.r.x /= _0x3a96d9;
-        _0x1800c7.r.y /= _0x3a96d9;
-        _0x1800c7.fly = 0;
-        _0x1800c7.draw_vehicle();
-        _0x1800c7.draw();
-        user.cam.x *= _0x3a96d9;
-        user.cam.y *= _0x3a96d9;
-        _0x1800c7.x *= _0x3a96d9;
-        _0x1800c7.y *= _0x3a96d9;
-        _0x1800c7.r.x *= _0x3a96d9;
-        _0x1800c7.r.y *= _0x3a96d9;
-        ctx.restore();
       }
     }
   }
@@ -118137,9 +118141,11 @@ function draw_world() {
       );
     }
   }
-  var _0x40fffb = world.units[ITEMS.CHEST];
-  for (var _0x3dedf = 0; _0x3dedf < _0x40fffb.length; _0x3dedf++) {
-    draw_transition(_0x40fffb[_0x3dedf]);
+  if (!Settings.RenderOnTop.chest) {
+    var _0x40fffb = world.units[ITEMS.CHEST];
+    for (var _0x3dedf = 0; _0x3dedf < _0x40fffb.length; _0x3dedf++) {
+      draw_transition(_0x40fffb[_0x3dedf]);
+    }
   }
   var _0xa0944 = world.units[ITEMS.WORKBENCH];
   for (var _0x3dedf = 0; _0x3dedf < _0xa0944.length; _0x3dedf++) {
@@ -118684,38 +118690,40 @@ function draw_world() {
   for (var _0x3dedf = 0; _0x3dedf < _0xd48395.length; _0x3dedf++) {
     draw_transition(_0xd48395[_0x3dedf], SPRITE.WOOD_TOWER);
   }
-  var _0x270927 = world.units[ITEMS.PLAYERS];
-  for (var _0x3dedf = 0; _0x3dedf < _0x270927.length; _0x3dedf++) {
-    var _0x1800c7 = _0x270927[_0x3dedf];
-    if (
-      _0x1800c7.tower === 1 &&
-      (_0x1800c7.speed < 180 ||
-        (_0x1800c7.vehicle !== INV.BABY_DRAGON &&
-          _0x1800c7.vehicle !== INV.BABY_LAVA &&
-          _0x1800c7.vehicle !== INV.NIMBUS &&
-          _0x1800c7.vehicle !== INV.HAWK &&
-          _0x1800c7.vehicle !== INV.PLANE))
-    ) {
-      _0x1800c7.tower_fx = Utils.lerp(_0x1800c7.tower_fx, 100, 0.018);
-      var _0x3a96d9 =
-        1 + 0.18 * Math.min(1, Math.max(_0x1800c7.tower_fx, 0) / 100);
-      ctx.save();
-      ctx.scale(_0x3a96d9, _0x3a96d9);
-      user.cam.x /= _0x3a96d9;
-      user.cam.y /= _0x3a96d9;
-      _0x1800c7.x /= _0x3a96d9;
-      _0x1800c7.y /= _0x3a96d9;
-      _0x1800c7.r.x /= _0x3a96d9;
-      _0x1800c7.r.y /= _0x3a96d9;
-      _0x1800c7.draw_vehicle();
-      _0x1800c7.draw();
-      user.cam.x *= _0x3a96d9;
-      user.cam.y *= _0x3a96d9;
-      _0x1800c7.x *= _0x3a96d9;
-      _0x1800c7.y *= _0x3a96d9;
-      _0x1800c7.r.x *= _0x3a96d9;
-      _0x1800c7.r.y *= _0x3a96d9;
-      ctx.restore();
+  if (!Settings.RenderOnTop.player) {
+    var _0x270927 = world.units[ITEMS.PLAYERS];
+    for (var _0x3dedf = 0; _0x3dedf < _0x270927.length; _0x3dedf++) {
+      var _0x1800c7 = _0x270927[_0x3dedf];
+      if (
+        _0x1800c7.tower === 1 &&
+        (_0x1800c7.speed < 180 ||
+          (_0x1800c7.vehicle !== INV.BABY_DRAGON &&
+            _0x1800c7.vehicle !== INV.BABY_LAVA &&
+            _0x1800c7.vehicle !== INV.NIMBUS &&
+            _0x1800c7.vehicle !== INV.HAWK &&
+            _0x1800c7.vehicle !== INV.PLANE))
+      ) {
+        _0x1800c7.tower_fx = Utils.lerp(_0x1800c7.tower_fx, 100, 0.018);
+        var _0x3a96d9 =
+          1 + 0.18 * Math.min(1, Math.max(_0x1800c7.tower_fx, 0) / 100);
+        ctx.save();
+        ctx.scale(_0x3a96d9, _0x3a96d9);
+        user.cam.x /= _0x3a96d9;
+        user.cam.y /= _0x3a96d9;
+        _0x1800c7.x /= _0x3a96d9;
+        _0x1800c7.y /= _0x3a96d9;
+        _0x1800c7.r.x /= _0x3a96d9;
+        _0x1800c7.r.y /= _0x3a96d9;
+        _0x1800c7.draw_vehicle();
+        _0x1800c7.draw();
+        user.cam.x *= _0x3a96d9;
+        user.cam.y *= _0x3a96d9;
+        _0x1800c7.x *= _0x3a96d9;
+        _0x1800c7.y *= _0x3a96d9;
+        _0x1800c7.r.x *= _0x3a96d9;
+        _0x1800c7.r.y *= _0x3a96d9;
+        ctx.restore();
+      }
     }
   }
   var _0x296aaa = world.units[ITEMS.ROOF];
@@ -118731,37 +118739,39 @@ function draw_world() {
   for (var _0x3dedf = 0; _0x3dedf < _0x2d2519.length; _0x3dedf++) {
     draw_transition(_0x2d2519[_0x3dedf], SPRITE.GARLAND);
   }
-  var _0x270927 = world.units[ITEMS.PLAYERS];
-  for (var _0x3dedf = 0; _0x3dedf < _0x270927.length; _0x3dedf++) {
-    var _0x1800c7 = _0x270927[_0x3dedf];
-    if (
-      (_0x1800c7.vehicle === INV.BABY_DRAGON ||
-        _0x1800c7.vehicle === INV.BABY_LAVA ||
-        _0x1800c7.vehicle === INV.NIMBUS ||
-        _0x1800c7.vehicle === INV.HAWK ||
-        _0x1800c7.vehicle === INV.PLANE) &&
-      _0x1800c7.speed > 180
-    ) {
-      _0x1800c7.fly = 1;
-      ctx.save();
-      var _0x3a96d9 =
-        1 + 0.35 * Math.min(1, Math.max(_0x1800c7.vehicle_fx5 - 30, 0) / 180);
-      ctx.scale(_0x3a96d9, _0x3a96d9);
-      user.cam.x /= _0x3a96d9;
-      user.cam.y /= _0x3a96d9;
-      _0x1800c7.x /= _0x3a96d9;
-      _0x1800c7.y /= _0x3a96d9;
-      _0x1800c7.r.x /= _0x3a96d9;
-      _0x1800c7.r.y /= _0x3a96d9;
-      _0x1800c7.draw_vehicle();
-      _0x1800c7.draw();
-      user.cam.x *= _0x3a96d9;
-      user.cam.y *= _0x3a96d9;
-      _0x1800c7.x *= _0x3a96d9;
-      _0x1800c7.y *= _0x3a96d9;
-      _0x1800c7.r.x *= _0x3a96d9;
-      _0x1800c7.r.y *= _0x3a96d9;
-      ctx.restore();
+  if (!Settings.RenderOnTop.player) {
+    var _0x270927 = world.units[ITEMS.PLAYERS];
+    for (var _0x3dedf = 0; _0x3dedf < _0x270927.length; _0x3dedf++) {
+      var _0x1800c7 = _0x270927[_0x3dedf];
+      if (
+        (_0x1800c7.vehicle === INV.BABY_DRAGON ||
+          _0x1800c7.vehicle === INV.BABY_LAVA ||
+          _0x1800c7.vehicle === INV.NIMBUS ||
+          _0x1800c7.vehicle === INV.HAWK ||
+          _0x1800c7.vehicle === INV.PLANE) &&
+        _0x1800c7.speed > 180
+      ) {
+        _0x1800c7.fly = 1;
+        ctx.save();
+        var _0x3a96d9 =
+          1 + 0.35 * Math.min(1, Math.max(_0x1800c7.vehicle_fx5 - 30, 0) / 180);
+        ctx.scale(_0x3a96d9, _0x3a96d9);
+        user.cam.x /= _0x3a96d9;
+        user.cam.y /= _0x3a96d9;
+        _0x1800c7.x /= _0x3a96d9;
+        _0x1800c7.y /= _0x3a96d9;
+        _0x1800c7.r.x /= _0x3a96d9;
+        _0x1800c7.r.y /= _0x3a96d9;
+        _0x1800c7.draw_vehicle();
+        _0x1800c7.draw();
+        user.cam.x *= _0x3a96d9;
+        user.cam.y *= _0x3a96d9;
+        _0x1800c7.x *= _0x3a96d9;
+        _0x1800c7.y *= _0x3a96d9;
+        _0x1800c7.r.x *= _0x3a96d9;
+        _0x1800c7.r.y *= _0x3a96d9;
+        ctx.restore();
+      }
     }
   }
   var _0x380615 = world.units[ITEMS.SPELL];
@@ -118794,6 +118804,12 @@ function draw_world() {
   for (var _0x3dedf = 0; _0x3dedf < _0xe2edcc.length; _0x3dedf++) {
     draw_transition(_0xe2edcc[_0x3dedf], SPRITE.VULTURE, SPRITE.HURT_VULTURE);
   }
+  if (Settings.RenderOnTop.chest) {
+    var _0x40fffb = world.units[ITEMS.CHEST];
+    for (var _0x3dedf = 0; _0x3dedf < _0x40fffb.length; _0x3dedf++) {
+      draw_transition(_0x40fffb[_0x3dedf]);
+    }
+  }
   __effect += delta * 15;
   if (__effect > 60) {
     __effect -= 60;
@@ -118818,6 +118834,136 @@ function draw_world() {
     "fod",
     2
   );
+  if (Settings.RenderOnTop.player) {
+    var _0x270927 = world.units[ITEMS.PLAYERS];
+    for (var _0x3dedf = 0; _0x3dedf < _0x270927.length; _0x3dedf++) {
+      var _0x1800c7 = _0x270927[_0x3dedf];
+      if (
+        _0x270927[_0x3dedf].vehicle !== INV.BABY_DRAGON &&
+        _0x270927[_0x3dedf].vehicle !== INV.BABY_LAVA &&
+        _0x270927[_0x3dedf].vehicle !== INV.HAWK &&
+        _0x270927[_0x3dedf].vehicle !== INV.PLANE &&
+        _0x270927[_0x3dedf].vehicle !== INV.NIMBUS
+      ) {
+        if (_0x1800c7.tower === 0) {
+          if (_0x1800c7.tower_fx > 0.001) {
+            _0x1800c7.tower_fx = Utils.lerp(_0x1800c7.tower_fx, 0, 0.018);
+            var _0x3a96d9 =
+              1 + 0.18 * Math.min(1, Math.max(_0x1800c7.tower_fx, 0) / 100);
+            ctx.save();
+            ctx.scale(_0x3a96d9, _0x3a96d9);
+            user.cam.x /= _0x3a96d9;
+            user.cam.y /= _0x3a96d9;
+            _0x1800c7.x /= _0x3a96d9;
+            _0x1800c7.y /= _0x3a96d9;
+            _0x1800c7.r.x /= _0x3a96d9;
+            _0x1800c7.r.y /= _0x3a96d9;
+            _0x1800c7.draw_vehicle();
+            _0x1800c7.draw();
+            user.cam.x *= _0x3a96d9;
+            user.cam.y *= _0x3a96d9;
+            _0x1800c7.x *= _0x3a96d9;
+            _0x1800c7.y *= _0x3a96d9;
+            _0x1800c7.r.x *= _0x3a96d9;
+            _0x1800c7.r.y *= _0x3a96d9;
+            ctx.restore();
+          } else {
+            _0x1800c7.fly = 0;
+            _0x1800c7.draw_vehicle();
+            _0x1800c7.draw();
+          }
+        }
+      } else {
+        if (_0x1800c7.speed <= 180) {
+          ctx.save();
+          var _0x3a96d9 =
+            1 + 0.35 * Math.min(1, Math.max(_0x1800c7.vehicle_fx5 - 30, 0) / 180);
+          ctx.scale(_0x3a96d9, _0x3a96d9);
+          user.cam.x /= _0x3a96d9;
+          user.cam.y /= _0x3a96d9;
+          _0x1800c7.x /= _0x3a96d9;
+          _0x1800c7.y /= _0x3a96d9;
+          _0x1800c7.r.x /= _0x3a96d9;
+          _0x1800c7.r.y /= _0x3a96d9;
+          _0x1800c7.fly = 0;
+          _0x1800c7.draw_vehicle();
+          _0x1800c7.draw();
+          user.cam.x *= _0x3a96d9;
+          user.cam.y *= _0x3a96d9;
+          _0x1800c7.x *= _0x3a96d9;
+          _0x1800c7.y *= _0x3a96d9;
+          _0x1800c7.r.x *= _0x3a96d9;
+          _0x1800c7.r.y *= _0x3a96d9;
+          ctx.restore();
+        }
+      }
+      if (
+        _0x1800c7.tower === 1 &&
+        (_0x1800c7.speed < 180 ||
+          (_0x1800c7.vehicle !== INV.BABY_DRAGON &&
+            _0x1800c7.vehicle !== INV.BABY_LAVA &&
+            _0x1800c7.vehicle !== INV.NIMBUS &&
+            _0x1800c7.vehicle !== INV.HAWK &&
+            _0x1800c7.vehicle !== INV.PLANE))
+      ) {
+        _0x1800c7.tower_fx = Utils.lerp(_0x1800c7.tower_fx, 100, 0.018);
+        var _0x3a96d9 =
+          1 + 0.18 * Math.min(1, Math.max(_0x1800c7.tower_fx, 0) / 100);
+        ctx.save();
+        ctx.scale(_0x3a96d9, _0x3a96d9);
+        user.cam.x /= _0x3a96d9;
+        user.cam.y /= _0x3a96d9;
+        _0x1800c7.x /= _0x3a96d9;
+        _0x1800c7.y /= _0x3a96d9;
+        _0x1800c7.r.x /= _0x3a96d9;
+        _0x1800c7.r.y /= _0x3a96d9;
+        _0x1800c7.draw_vehicle();
+        _0x1800c7.draw();
+        user.cam.x *= _0x3a96d9;
+        user.cam.y *= _0x3a96d9;
+        _0x1800c7.x *= _0x3a96d9;
+        _0x1800c7.y *= _0x3a96d9;
+        _0x1800c7.r.x *= _0x3a96d9;
+        _0x1800c7.r.y *= _0x3a96d9;
+        ctx.restore();
+      }
+      if (
+        (_0x1800c7.vehicle === INV.BABY_DRAGON ||
+          _0x1800c7.vehicle === INV.BABY_LAVA ||
+          _0x1800c7.vehicle === INV.NIMBUS ||
+          _0x1800c7.vehicle === INV.HAWK ||
+          _0x1800c7.vehicle === INV.PLANE) &&
+        _0x1800c7.speed > 180
+      ) {
+        _0x1800c7.fly = 1;
+        ctx.save();
+        var _0x3a96d9 =
+          1 + 0.35 * Math.min(1, Math.max(_0x1800c7.vehicle_fx5 - 30, 0) / 180);
+        ctx.scale(_0x3a96d9, _0x3a96d9);
+        user.cam.x /= _0x3a96d9;
+        user.cam.y /= _0x3a96d9;
+        _0x1800c7.x /= _0x3a96d9;
+        _0x1800c7.y /= _0x3a96d9;
+        _0x1800c7.r.x /= _0x3a96d9;
+        _0x1800c7.r.y /= _0x3a96d9;
+        _0x1800c7.draw_vehicle();
+        _0x1800c7.draw();
+        user.cam.x *= _0x3a96d9;
+        user.cam.y *= _0x3a96d9;
+        _0x1800c7.x *= _0x3a96d9;
+        _0x1800c7.y *= _0x3a96d9;
+        _0x1800c7.r.x *= _0x3a96d9;
+        _0x1800c7.r.y *= _0x3a96d9;
+        ctx.restore();
+      }
+    }
+  }
+  if (Settings.RenderOnTop.box) {
+    var _0x3a97ad = world.units[ITEMS.CRATE];
+    for (var _0x3dedf = 0; _0x3dedf < _0x3a97ad.length; _0x3dedf++) {
+      draw_transition(_0x3a97ad[_0x3dedf], SPRITE.CRATE, SPRITE.HURT_DEAD_BOX);
+    }
+  }
 
   if (Settings.JoinLeave) {
     let e = 400;
@@ -147137,6 +147283,7 @@ let Settings = {
   Xray: { e: false, k: "Backquote", o: 0.5 },
   SwordInChest: { e: false, k: "KeyE" },
   ChestInfo: true,
+  RenderOnTop: { box: true, player: true, chest: true },
 };
 //===============================================================
 let times = [];
@@ -147990,6 +148137,11 @@ window.UtilsUI = {
           property: "e",
         },
         {
+          type: "folder",
+          label: "RenderOnTop",
+          open: false,
+        },
+        {
           type: "checkbox",
           label: "Show ID",
           object: Settings,
@@ -148000,6 +148152,38 @@ window.UtilsUI = {
         },
       ],
       { folder: "Visuals" }
+    );
+    gui.Register(
+      [
+        {
+          type: "checkbox",
+          label: "Box",
+          object: Settings.RenderOnTop,
+          property: "box",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "checkbox",
+          label: "Player",
+          object: Settings.RenderOnTop,
+          property: "player",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+        {
+          type: "checkbox",
+          label: "Chest",
+          object: Settings.RenderOnTop,
+          property: "chest",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          },
+        },
+      ],
+      { folder: "RenderOnTop" }
     );
     gui.Register(
       [
@@ -148206,12 +148390,12 @@ window.UtilsUI = {
   },
   saveSettings: () => {
     for (let HACK in Settings) {
-      localStorage.setItem(HACK + "lmb2", JSON.stringify(Settings[HACK]));
+      localStorage.setItem(HACK + "lmb3", JSON.stringify(Settings[HACK]));
     }
   },
   loadSettings: () => {
     for (let HACK in Settings) {
-      let data = localStorage.getItem(HACK + "lmb2");
+      let data = localStorage.getItem(HACK + "lmb3");
       if (data) Settings[HACK] = JSON.parse(data);
     }
   },
