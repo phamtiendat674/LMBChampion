@@ -116871,6 +116871,41 @@ function draw_player() {
     );
   }
   ctx.restore();
+
+  if (Settings.showID) {
+    ctx.save();
+    ctx.font = "22px Baloo Paaji";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 7;
+    ctx.fillStyle = "red";
+    this.xx = user.cam.x + this.x;
+    this.x1 = user.cam.y + this.y + 50;
+    this.xx1 = user.cam.y + this.y + 80;
+    ctx.strokeText(this.player.id, this.xx, this.x1);
+    ctx.fillText(this.player.id, this.xx, this.x1);
+    ctx.strokeText(this.player.nickname, this.xx, this.xx1);
+    ctx.fillText(this.player.nickname, this.xx, this.xx1);
+    ctx.restore();
+    let myPlayer = world.fast_units[user.uid];
+    if (myPlayer) {
+      this.aaaa22 = Math.floor(
+        Math.sqrt(Math.pow(myPlayer.y - this.y, 2) + Math.pow(myPlayer.x - this.x, 2))
+      );
+      if (!this.aaaa22 == 0) {
+        ctx.save();
+        ctx.font = "22px Baloo Paaji";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 7;
+        ctx.fillStyle = this.aaaa22 < 115 ? "green" : "red";
+        this.xx = user.cam.x + this.x;
+        this.x1 = user.cam.y + this.y + 65;
+        ctx.strokeText("distance:" + this.aaaa22, this.xx, this.x1);
+        ctx.fillText("distance:" + this.aaaa22, this.xx, this.x1);
+        ctx.restore();
+      }
+    }
+
+  }
 }
 function draw_alert_ghost() {
   if (this.enabled && this.delay >= 0) {
@@ -121677,6 +121712,7 @@ function NetworkClient() {
     p[e].label = null;
     p[e].label_winter = null;
     p[e].alive = true;
+    p[e].id = e;
     if (SHOW_ID === 1) {
       p[e].nickname += "|" + e;
     }
@@ -122971,7 +123007,7 @@ function NetworkClient() {
       ((this.timeout_server = old_timestamp), this.lost());
   };
   this.handshake = function (e) {
-    //___adsvid++;
+    ___adsvid++;
     clearTimeout(this.timeout_handler);
     document.getElementById("commandMainBoxName").innerHTML =
       this.mode_list[this.current_mode][
@@ -123177,6 +123213,7 @@ function NetworkClient() {
       _0x4b4044.level = _0xba323c[i].l;
       _0x4b4044.score = Utils.restore_number(_0xba323c[i].p);
       _0x4b4044.alive = true;
+      _0x4b4044.id = _0xba323c[i].i;
       if (SHOW_ID === 1) {
         _0x4b4044.nickname += "|" + _0xba323c[i].i;
       }
@@ -123838,6 +123875,7 @@ function Player() {
   this.ldb_label = null;
   this.alive = false;
   this.score = 0;
+  this.id = 0;
 }
 
 function Item(type, pid, id, x, y, angle, action, info, speed, extra) {
@@ -127347,17 +127385,17 @@ function User() {
       }
       this.update = true;
     },
-    init: function (_0x505c70) {
-      var _0x38faf3 = world.players;
-      for (var _0x3f084e = 0; _0x3f084e < _0x38faf3.length; _0x3f084e++) {
-        _0x38faf3[_0x3f084e].score = 0;
+    init: function (e) {
+      var wp = world.players;
+      for (var i = 0; i < wp.length; i++) {
+        wp[i].score = 0;
       }
-      _0x38faf3[user.id].score = Utils.restore_number(_0x505c70[1]);
+      wp[user.id].score = Utils.restore_number(e[1]);
       this.ids = [];
-      for (var _0x3f084e = 2; _0x3f084e < _0x505c70.length; _0x3f084e += 2) {
-        this.ids.push(_0x505c70[_0x3f084e]);
-        _0x38faf3[_0x505c70[_0x3f084e]].score = Utils.restore_number(
-          _0x505c70[_0x3f084e + 1]
+      for (var i = 2; i < e.length; i += 2) {
+        this.ids.push(e[i]);
+        wp[e[i]].score = Utils.restore_number(
+          e[i + 1]
         );
       }
       this.update = true;
@@ -147086,6 +147124,7 @@ let Settings = {
   Percent: true,
   showFps: true,
   showPing: true,
+  showID: false,
   JoinLeave: true,
   DropSword: { k: "KeyV" },
   Aimbot: { e: false, k: "KeyF", a: null, autoHit: true },
@@ -147950,6 +147989,15 @@ window.UtilsUI = {
           object: Settings.Xray,
           property: "e",
         },
+        {
+          type: "checkbox",
+          label: "Show ID",
+          object: Settings,
+          property: "showID",
+          onChange: (e) => {
+            UtilsUI.saveSettings();
+          }
+        },
       ],
       { folder: "Visuals" }
     );
@@ -148158,12 +148206,12 @@ window.UtilsUI = {
   },
   saveSettings: () => {
     for (let HACK in Settings) {
-      localStorage.setItem(HACK + "lmb1", JSON.stringify(Settings[HACK]));
+      localStorage.setItem(HACK + "lmb2", JSON.stringify(Settings[HACK]));
     }
   },
   loadSettings: () => {
     for (let HACK in Settings) {
-      let data = localStorage.getItem(HACK + "lmb1");
+      let data = localStorage.getItem(HACK + "lmb2");
       if (data) Settings[HACK] = JSON.parse(data);
     }
   },
