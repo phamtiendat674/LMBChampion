@@ -2009,7 +2009,8 @@ window.abcd = [
   " ",
   "unnamed",
   "meomeo",
-  "(っ °Д °;)っ"
+  "(っ °Д °;)っ",
+  "hi"
 ]
 window.client = {};
 window.user = {};
@@ -57101,14 +57102,14 @@ function Dj(a, f) {
 }
 function Kj(a, g) {
   var t = this;
-  this.VQ = a;
-  this.v = g;
+  this.can = a;
+  this.ctx = g;
   -1 < window.navigator.userAgent.indexOf("Edge")
     ? ((this.vuV = "default"), (this.oUu = "pointer"))
     : ((this.vuV = "url('img/cursor0.png'), default"),
       (this.oUu = "url('img/cursor1.png'), pointer"));
   this.uWQ = this.WOo = this.wQW$w = this.UUU = 1;
-  this.Uow_u = {
+  this.team_box = {
     id: document.getElementById("team_box"),
     style: document.getElementById("team_box").style,
     update: function () {
@@ -59907,7 +59908,7 @@ function Kj(a, g) {
     t.v_V.open = !1;
     K = a;
     t.QWoUo();
-    t.VQ.style.w_U = t.vuV;
+    t.can.style.w_U = t.vuV;
     T.vwo();
     N = -1;
     P();
@@ -59982,7 +59983,7 @@ function Kj(a, g) {
     Dg();
     m.QO_.update();
     m.uWv.update();
-    this.Uow_u.update();
+    this.team_box.update();
     this.wUo.u$uwW.update();
     this.wUo.list.update();
     this.UV_.update();
@@ -62165,29 +62166,29 @@ function Kj(a, g) {
     }
   };
   this.v0w = function (a) {
-    X.WW = Fc(t.VQ, a);
+    X.WW = Fc(t.can, a);
     a = !1;
     if (0 > m.ww.Ww0) t.UWW.focus(X.WW);
     var c = m.WV;
     0 > m.ww.id &&
       0 <= c.id &&
       ((m.WV.lock && m.WV.VOo !== m.id) ||
-        (a |= t.VO[m.WV.id].$Qv(t.VQ, X.WW, 1)));
+        (a |= t.VO[m.WV.id].$Qv(t.can, X.WW, 1)));
     var d = m.o_W;
-    d.open && 0 < d.u$_ && (a |= t.Vvu.$Qv(t.VQ, X.WW, 1));
+    d.open && 0 < d.u$_ && (a |= t.Vvu.$Qv(t.can, X.WW, 1));
     d = m.OUu;
     d.open &&
       0 < d.VU_ &&
-      ((a |= t.uQU.$Qv(t.VQ, X.WW, 1)),
-      (a |= t.Q$v.$Qv(t.VQ, X.WW, 1)),
-      (a |= t.__$.$Qv(t.VQ, X.WW, 1)),
-      (a |= t.vo$.$Qv(t.VQ, X.WW, 1)),
-      (a |= t.wvu.$Qv(t.VQ, X.WW, 1)));
+      ((a |= t.uQU.$Qv(t.can, X.WW, 1)),
+      (a |= t.Q$v.$Qv(t.can, X.WW, 1)),
+      (a |= t.__$.$Qv(t.can, X.WW, 1)),
+      (a |= t.vo$.$Qv(t.can, X.WW, 1)),
+      (a |= t.wvu.$Qv(t.can, X.WW, 1)));
     d = m.$v$;
-    d.open && 0 < d.uoV && (a |= t.$vo.$Qv(t.VQ, X.WW, 1));
-    m.sign.open && (a |= t.sign.button.$Qv(t.VQ, X.WW, 1));
-    m.WV.lock || (m.WV.oO$ && (a |= t.Uuo.$Qv(t.VQ, X.WW, 1)));
-    m.WV.Q$W && (a |= t.OQU.$Qv(t.VQ, X.WW, 1));
+    d.open && 0 < d.uoV && (a |= t.$vo.$Qv(t.can, X.WW, 1));
+    m.sign.open && (a |= t.sign.button.$Qv(t.can, X.WW, 1));
+    m.WV.lock || (m.WV.oO$ && (a |= t.Uuo.$Qv(t.can, X.WW, 1)));
+    m.WV.Q$W && (a |= t.OQU.$Qv(t.can, X.WW, 1));
     if (
       0 > m.ww.id &&
       !t.wUo.open &&
@@ -62198,7 +62199,7 @@ function Kj(a, g) {
       !t.$Vv.open
     )
       for (var d = m.UQ.VVo, e = 0; e < d.length; e++) {
-        var g = d[e].$Qv(t.VQ, X.WW, 1);
+        var g = d[e].$Qv(t.can, X.WW, 1);
         a |= g;
         if (g) m.UQ.wWo.start(e, X.WW);
         if (
@@ -62209,11 +62210,11 @@ function Kj(a, g) {
           (m.o_W.open && d[e].id === f.$oQ) ||
           (m.OUu.open && d[e].id === f.uV)
         )
-          a |= t.$vQ[d[e].id].$Qv(t.VQ, X.WW, 1);
+          a |= t.$vQ[d[e].id].$Qv(t.can, X.WW, 1);
       }
-    m.$WW.open && (a |= t.$WW.$Qv(t.VQ, X.WW, 1));
+    m.$WW.open && (a |= t.$WW.$Qv(t.can, X.WW, 1));
     if (-1 != t.OQu) {
-      if ((a |= t.uQ_[t.OQu].button.$Qv(t.VQ, X.WW, 1))) var h = !0;
+      if ((a |= t.uQ_[t.OQu].button.$Qv(t.can, X.WW, 1))) var h = !0;
     } else h = !1;
     if (
       !(
@@ -62227,7 +62228,7 @@ function Kj(a, g) {
         m.V$w
       )
     )
-      for (d = m.ww.QoW, e = 0; e < d.length; e++) a |= d[e].$Qv(t.VQ, X.WW, 1);
+      for (d = m.ww.QoW, e = 0; e < d.length; e++) a |= d[e].$Qv(t.can, X.WW, 1);
     !(0 > m.ww.id && 0 > m.ww.Ww0 && m.WuQ.open) ||
       t.wUo.open ||
       t.UV_.open ||
@@ -62235,28 +62236,28 @@ function Kj(a, g) {
       t.w_0.open ||
       t.v_V.open ||
       t.$Vv.open ||
-      (a |= t.WuQ.button.$Qv(t.VQ, X.WW, 1));
+      (a |= t.WuQ.button.$Qv(t.can, X.WW, 1));
     !(0 > m.ww.Ww0) ||
       t.UV_.open ||
       t.options.open ||
       t.w_0.open ||
       t.v_V.open ||
       t.$Vv.open ||
-      (a |= t.wUo.button.$Qv(t.VQ, X.WW, 1));
+      (a |= t.wUo.button.$Qv(t.can, X.WW, 1));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.UV_.open ||
       t.w_0.open ||
       t.v_V.open ||
       t.$Vv.open ||
-      (a |= t.options.button.$Qv(t.VQ, X.WW, 1));
+      (a |= t.options.button.$Qv(t.can, X.WW, 1));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.UV_.open ||
       t.w_0.open ||
       t.v_V.open ||
       t.options.open ||
-      (a |= t.$Vv.button.$Qv(t.VQ, X.WW, 1));
+      (a |= t.$Vv.button.$Qv(t.can, X.WW, 1));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.UV_.open ||
@@ -62265,8 +62266,8 @@ function Kj(a, g) {
       t.options.open ||
       t.$Vv.open ||
       (a = T.ow0
-        ? a | t.QQW.Q_o.$Qv(t.VQ, X.WW, 1)
-        : a | t.QQW.Qw_.$Qv(t.VQ, X.WW, 1));
+        ? a | t.QQW.Q_o.$Qv(t.can, X.WW, 1)
+        : a | t.QQW.Qw_.$Qv(t.can, X.WW, 1));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.$Vv.open ||
@@ -62276,7 +62277,7 @@ function Kj(a, g) {
       p.mode === D.w$w ||
       p.mode === D.V_U ||
       p.mode === D.vw_ ||
-      (a |= t.v_V.button.$Qv(t.VQ, X.WW, 1));
+      (a |= t.v_V.button.$Qv(t.can, X.WW, 1));
     a ||
       t.wUo.open ||
       t.UV_.open ||
@@ -62288,7 +62289,7 @@ function Kj(a, g) {
       (0 <= m.ww.Ww0 ? vw.voowW() : h || X.uv_());
   };
   this.Q00 = function (a) {
-    X.WW = Fc(t.VQ, a);
+    X.WW = Fc(t.can, a);
     X._VV();
     if (!m.UQ.wWo.release()) {
       var c = m.WV,
@@ -62299,7 +62300,7 @@ function Kj(a, g) {
         k = m.$v$;
       m.control.attack && ((m.control.attack = 0), vw.$U$uO());
       if (-1 != t.OQu) {
-        var l = t.uQ_[t.OQu].button.$Qv(t.VQ, X.WW, 2),
+        var l = t.uQ_[t.OQu].button.$Qv(t.can, X.WW, 2),
           g = document.getElementById("team_box").style;
         if (l && "inline-block" == g.display) {
           g.display = "none";
@@ -62310,88 +62311,88 @@ function Kj(a, g) {
       !(0 > m.ww.id && 0 <= c.id) ||
         t.UV_.open ||
         (m.WV.lock && m.WV.VOo !== m.id) ||
-        ((l = t.VO[m.WV.id].$Qv(t.VQ, X.WW, 2)) && vw.vv_vo(c));
+        ((l = t.VO[m.WV.id].$Qv(t.can, X.WW, 2)) && vw.vv_vo(c));
       g = m.o_W;
       g.open &&
         0 < g.u$_ &&
         !t.UV_.open &&
-        (l = t.Vvu.$Qv(t.VQ, X.WW, 2)) &&
+        (l = t.Vvu.$Qv(t.can, X.WW, 2)) &&
         vw.woVov(g);
       h = m.OUu;
       if (h.open && 0 < h.VU_ && !t.UV_.open)
         switch (h.type) {
           case u.Wvv:
-            (l = t.uQU.$Qv(t.VQ, X.WW, 2)) && vw.v$U(h);
+            (l = t.uQU.$Qv(t.can, X.WW, 2)) && vw.v$U(h);
             break;
           case u.$Q0:
-            (l = t.Q$v.$Qv(t.VQ, X.WW, 2)) && vw.v$U(h);
+            (l = t.Q$v.$Qv(t.can, X.WW, 2)) && vw.v$U(h);
             break;
           case u.UWw:
-            (l = t.__$.$Qv(t.VQ, X.WW, 2)) && vw.v$U(h);
+            (l = t.__$.$Qv(t.can, X.WW, 2)) && vw.v$U(h);
             break;
           case u.V$$:
-            (l = t.vo$.$Qv(t.VQ, X.WW, 2)) && vw.v$U(h);
+            (l = t.vo$.$Qv(t.can, X.WW, 2)) && vw.v$U(h);
             break;
           case u.U$U:
-            (l = t.wvu.$Qv(t.VQ, X.WW, 2)) && vw.v$U(h);
+            (l = t.wvu.$Qv(t.can, X.WW, 2)) && vw.v$U(h);
         }
       k = m.$v$;
       k.open &&
         0 < k.uoV &&
         !t.UV_.open &&
-        (l = t.$vo.$Qv(t.VQ, X.WW, 2)) &&
+        (l = t.$vo.$Qv(t.can, X.WW, 2)) &&
         vw.oOOWv(k);
-      if (m.sign.open && !t.UV_.open && (l = t.sign.button.$Qv(t.VQ, X.WW, 2)))
+      if (m.sign.open && !t.UV_.open && (l = t.sign.button.$Qv(t.can, X.WW, 2)))
         t.sign.select();
       m.WV.lock ||
         t.UV_.open ||
         !m.WV.oO$ ||
-        ((l = t.Uuo.$Qv(t.VQ, X.WW, 2)) && vw.wuwwo(c));
+        ((l = t.Uuo.$Qv(t.can, X.WW, 2)) && vw.wuwwo(c));
       m.WV.Q$W &&
         !t.UV_.open &&
-        (l = t.OQU.$Qv(t.VQ, X.WW, 2)) &&
+        (l = t.OQU.$Qv(t.can, X.WW, 2)) &&
         (vw.u_VuO(c), ga && ga("send", "event", "Game", "lockpick"));
       m.$WW.open &&
-        (l = t.$WW.$Qv(t.VQ, X.WW, 2)) &&
+        (l = t.$WW.$Qv(t.can, X.WW, 2)) &&
         (vw.$WW(), ga && ga("send", "event", "Game", "resurrection"));
       if (0 > m.ww.id && !t.UV_.open)
         for (var n = m.UQ.VVo, q = 0; q < n.length; q++)
-          (l = n[q].$Qv(t.VQ, X.WW, 2))
+          (l = n[q].$Qv(t.can, X.WW, 2))
             ? 1 != a.which || a.shiftKey
               ? ((1 == a.which && a.shiftKey) || 3 == a.which) &&
                 0 > m.ww.Ww0 &&
                 t.UV_.oOOwO(n[q].id)
               : vw._$0(n[q].id, q)
             : c.open && (0 > c.id || c.id === n[q].id)
-            ? (l = t.$vQ[n[q].id].$Qv(t.VQ, X.WW, 2)) &&
+            ? (l = t.$vQ[n[q].id].$Qv(t.can, X.WW, 2)) &&
               0 > m.ww.Ww0 &&
               vw.OOW0w(c, n[q].id, a.shiftKey ? Settings.PutInChest : 1)
             : e.open && n[q].id === f._oU
-            ? (l = t.$vQ[n[q].id].$Qv(t.VQ, X.WW, 2)) &&
+            ? (l = t.$vQ[n[q].id].$Qv(t.can, X.WW, 2)) &&
               0 > m.ww.Ww0 &&
               vw.OWV$$(e)
             : d.open && n[q].id === f.uV
-            ? (l = t.$vQ[n[q].id].$Qv(t.VQ, X.WW, 2)) &&
+            ? (l = t.$vQ[n[q].id].$Qv(t.can, X.WW, 2)) &&
               0 > m.ww.Ww0 &&
               vw.voVv$(d, a.shiftKey ? 10 : 1)
             : g.open && n[q].id === f.$oQ
-            ? (l = t.$vQ[n[q].id].$Qv(t.VQ, X.WW, 2)) &&
+            ? (l = t.$vQ[n[q].id].$Qv(t.can, X.WW, 2)) &&
               0 > m.ww.Ww0 &&
               vw.uuVuW(g, a.shiftKey ? 10 : 1)
             : h.open && n[q].id === f.uV
-            ? (l = t.$vQ[n[q].id].$Qv(t.VQ, X.WW, 2)) &&
+            ? (l = t.$vQ[n[q].id].$Qv(t.can, X.WW, 2)) &&
               0 > m.ww.Ww0 &&
               vw.UuU_v(h, a.shiftKey ? 10 : 1)
             : !k.open ||
               (n[q].id !== f.uV && n[q].id !== f.Voo) ||
-              ((l = t.$vQ[n[q].id].$Qv(t.VQ, X.WW, 2)) &&
+              ((l = t.$vQ[n[q].id].$Qv(t.can, X.WW, 2)) &&
                 0 > m.ww.Ww0 &&
                 (n[q].id === f.uV
                   ? vw.QO$Ov(k, a.shiftKey ? 10 : 1, 0)
                   : vw.QO$Ov(k, 0, a.shiftKey ? 10 : 1)));
       if (0 > m.ww.id && 0 > m.ww.Ww0 && !t.UV_.open && !m.V$w)
         for (n = m.ww.QoW, q = 0; q < n.length; q++)
-          (l = n[q].$Qv(t.VQ, X.WW, 2)) &&
+          (l = n[q].$Qv(t.can, X.WW, 2)) &&
             (oV$ = vw.$_WUu(n[q].id)) &&
             ga &&
             ga("send", "event", "Game", "craft", B[Ma[n[q].id].OW].name);
@@ -62405,7 +62406,7 @@ function Kj(a, g) {
         !t.options.open &&
         !t.w_0.open &&
         !t.v_V.open &&
-        (l = t.WuQ.button.$Qv(t.VQ, X.WW, 0))
+        (l = t.WuQ.button.$Qv(t.can, X.WW, 0))
       )
         A.WuQ.select();
       if (
@@ -62418,9 +62419,9 @@ function Kj(a, g) {
         !t.options.open
       )
         if (T.ow0) {
-          if ((l = t.QQW.Q_o.$Qv(t.VQ, X.WW, 2)))
+          if ((l = t.QQW.Q_o.$Qv(t.can, X.WW, 2)))
             T.select(), ga && ga("send", "event", "Game", "sound on");
-        } else if ((l = t.QQW.Qw_.$Qv(t.VQ, X.WW, 2)))
+        } else if ((l = t.QQW.Qw_.$Qv(t.can, X.WW, 2)))
           T.select(), ga && ga("send", "event", "Game", "sound off");
       !(0 > m.ww.Ww0) ||
         t.wUo.open ||
@@ -62428,7 +62429,7 @@ function Kj(a, g) {
         t.w_0.open ||
         t.v_V.open ||
         t.$Vv.open ||
-        !(l = t.options.button.$Qv(t.VQ, X.WW, 2)) ||
+        !(l = t.options.button.$Qv(t.can, X.WW, 2)) ||
         (t.options.QQUOO(), ga && ga("send", "event", "Game", "options"));
       !(0 > m.ww.Ww0) ||
         t.wUo.open ||
@@ -62437,7 +62438,7 @@ function Kj(a, g) {
         t.v_V.open ||
         t.options.open ||
         1 !== t.W$$0U ||
-        !(l = t.$Vv.button.$Qv(t.VQ, X.WW, 2)) ||
+        !(l = t.$Vv.button.$Qv(t.can, X.WW, 2)) ||
         (t.$Vv.select(), ga && ga("send", "event", "Game", "market"));
       !(0 > m.ww.Ww0) ||
         t.UV_.open ||
@@ -62446,7 +62447,7 @@ function Kj(a, g) {
         t.w_0.open ||
         t.v_V.open ||
         1 !== t.WOo ||
-        !(l = t.wUo.button.$Qv(t.VQ, X.WW, 2)) ||
+        !(l = t.wUo.button.$Qv(t.can, X.WW, 2)) ||
         (t.wUo.uUWv$(), ga && ga("send", "event", "Game", "recipe"));
       !(0 > m.ww.Ww0) ||
         t.wUo.open ||
@@ -62458,42 +62459,42 @@ function Kj(a, g) {
         p.mode === D.V_U ||
         p.mode === D.vw_ ||
         1 !== t.uWQ ||
-        !(l = t.v_V.button.$Qv(t.VQ, X.WW, 2)) ||
+        !(l = t.v_V.button.$Qv(t.can, X.WW, 2)) ||
         (t.v_V.select(), ga && ga("send", "event", "Game", "quests"));
       m.ww._Uo && 3 == a.which && t.w_0.oOOwO();
     }
   };
   this.$vV = !1;
   this.$Q$ = function (c) {
-    X.WW = Fc(t.VQ, c);
+    X.WW = Fc(t.can, c);
     c = !1;
     A.o_O.display = 0;
     m.UQ.wWo.Q$$(X.WW);
-    -1 != t.OQu && (c |= t.uQ_[t.OQu].button.$Qv(t.VQ, X.WW, 0));
+    -1 != t.OQu && (c |= t.uQ_[t.OQu].button.$Qv(t.can, X.WW, 0));
     var d = m.o_W;
-    d.open && 0 < d.u$_ && (c |= t.Vvu.$Qv(t.VQ, X.WW, 0));
+    d.open && 0 < d.u$_ && (c |= t.Vvu.$Qv(t.can, X.WW, 0));
     d = m.OUu;
     d.open &&
       0 < d.VU_ &&
-      ((c |= t.uQU.$Qv(t.VQ, X.WW, 0)),
-      (c |= t.Q$v.$Qv(t.VQ, X.WW, 0)),
-      (c |= t.__$.$Qv(t.VQ, X.WW, 0)),
-      (c |= t.vo$.$Qv(t.VQ, X.WW, 0)),
-      (c |= t.wvu.$Qv(t.VQ, X.WW, 0)));
+      ((c |= t.uQU.$Qv(t.can, X.WW, 0)),
+      (c |= t.Q$v.$Qv(t.can, X.WW, 0)),
+      (c |= t.__$.$Qv(t.can, X.WW, 0)),
+      (c |= t.vo$.$Qv(t.can, X.WW, 0)),
+      (c |= t.wvu.$Qv(t.can, X.WW, 0)));
     d = m.$v$;
-    d.open && 0 < d.uoV && (c |= t.$vo.$Qv(t.VQ, X.WW, 0));
-    m.sign.open && (c |= t.sign.button.$Qv(t.VQ, X.WW, 0));
+    d.open && 0 < d.uoV && (c |= t.$vo.$Qv(t.can, X.WW, 0));
+    m.sign.open && (c |= t.sign.button.$Qv(t.can, X.WW, 0));
     d = m.WV;
     0 > m.ww.id &&
       0 <= d.id &&
       ((m.WV.lock && m.WV.VOo !== m.id) ||
-        (c |= t.VO[d.id].$Qv(t.VQ, X.WW, 0)));
-    m.$WW.open && (c |= t.$WW.$Qv(t.VQ, X.WW, 0));
-    m.WV.lock || (m.WV.oO$ && (c |= t.Uuo.$Qv(t.VQ, X.WW, 0)));
-    m.WV.Q$W && (c |= t.OQU.$Qv(t.VQ, X.WW, 0));
+        (c |= t.VO[d.id].$Qv(t.can, X.WW, 0)));
+    m.$WW.open && (c |= t.$WW.$Qv(t.can, X.WW, 0));
+    m.WV.lock || (m.WV.oO$ && (c |= t.Uuo.$Qv(t.can, X.WW, 0)));
+    m.WV.Q$W && (c |= t.OQU.$Qv(t.can, X.WW, 0));
     if (0 > m.ww.id)
       for (var e = m.UQ.VVo, g = 0; g < e.length; g++) {
-        var h = e[g].$Qv(t.VQ, X.WW, 0);
+        var h = e[g].$Qv(t.can, X.WW, 0);
         c |= A.o_O.$Qv(h, e[g], 0);
         if (
           (d.open && (0 > d.id || d.id == e[g].id)) ||
@@ -62503,11 +62504,11 @@ function Kj(a, g) {
           (m.o_W.open && e[g].id == f.$oQ) ||
           (m.OUu.open && e[g].id == f.uV)
         )
-          c |= t.$vQ[e[g].id].$Qv(t.VQ, X.WW, 0);
+          c |= t.$vQ[e[g].id].$Qv(t.can, X.WW, 0);
       }
     if (0 > m.ww.id && 0 > m.ww.Ww0 && !m.V$w)
       for (e = m.ww.QoW, g = 0; g < e.length; g++)
-        (h = e[g].$Qv(t.VQ, X.WW, 0)), (c |= A.o_O.$Qv(h, e[g], 1));
+        (h = e[g].$Qv(t.can, X.WW, 0)), (c |= A.o_O.$Qv(h, e[g], 1));
     !(0 > m.ww.id && 0 > m.ww.Ww0 && m.WuQ.open) ||
       t.wUo.open ||
       t.UV_.open ||
@@ -62515,7 +62516,7 @@ function Kj(a, g) {
       t.w_0.open ||
       t.v_V.open ||
       t.$Vv.open ||
-      (c |= t.WuQ.button.$Qv(t.VQ, X.WW, 0));
+      (c |= t.WuQ.button.$Qv(t.can, X.WW, 0));
     !(0 > m.ww.Ww0) ||
       t.UV_.open ||
       t.options.open ||
@@ -62523,14 +62524,14 @@ function Kj(a, g) {
       t.v_V.open ||
       t.$Vv.open ||
       1 !== t.WOo ||
-      (c |= t.wUo.button.$Qv(t.VQ, X.WW, 0));
+      (c |= t.wUo.button.$Qv(t.can, X.WW, 0));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.UV_.open ||
       t.w_0.open ||
       t.v_V.open ||
       t.$Vv.open ||
-      (c |= t.options.button.$Qv(t.VQ, X.WW, 0));
+      (c |= t.options.button.$Qv(t.can, X.WW, 0));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.UV_.open ||
@@ -62538,7 +62539,7 @@ function Kj(a, g) {
       t.v_V.open ||
       t.options.open ||
       1 !== t.W$$0U ||
-      (c |= t.$Vv.button.$Qv(t.VQ, X.WW, 0));
+      (c |= t.$Vv.button.$Qv(t.can, X.WW, 0));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.UV_.open ||
@@ -62547,8 +62548,8 @@ function Kj(a, g) {
       t.options.open ||
       t.$Vv.open ||
       (c = T.ow0
-        ? c | t.QQW.Q_o.$Qv(t.VQ, X.WW, 0)
-        : c | t.QQW.Qw_.$Qv(t.VQ, X.WW, 0));
+        ? c | t.QQW.Q_o.$Qv(t.can, X.WW, 0)
+        : c | t.QQW.Qw_.$Qv(t.can, X.WW, 0));
     !(0 > m.ww.Ww0) ||
       t.wUo.open ||
       t.UV_.open ||
@@ -62559,7 +62560,7 @@ function Kj(a, g) {
       p.mode === D.V_U ||
       p.mode === D.u$w_U ||
       1 !== t.uWQ ||
-      (c |= t.v_V.button.$Qv(t.VQ, X.WW, 0));
+      (c |= t.v_V.button.$Qv(t.can, X.WW, 0));
     t.$vV !== c && ((t.$vV = c), (a.style.cursor = c ? t.oUu : t.vuV));
   };
   this.W$_w$ = function () {
