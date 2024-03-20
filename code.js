@@ -2012,6 +2012,7 @@ window.abcd = [
   "(っ °Д °;)っ",
   "hi",
   "nguyen tat tay",
+  "Đatcute<3",
 ]
 window.client = {};
 window.user = {};
